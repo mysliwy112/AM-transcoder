@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Anndrzem" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Anndrzem" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="E:\Cplusplus\Anndrzem\bin\Release\kura1.ann -l" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Anndrzem" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="E:\Cplusplus\Anndrzem\bin\Release\kura1.ann" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++14" />
+			<Add option="-fexceptions" />
+			<Add directory="E:/lib/asd" />
+			<Add directory="E:/lib/zlib" />
+		</Compiler>
+		<Linker>
+			<Add library="E:/lib/asd/libpng.a" />
+			<Add library="E:/lib/zlib/libz.a" />
+			<Add directory="E:/lib/2/lpng1636" />
+			<Add directory="E:/lib/zlib" />
+		</Linker>
+		<Unit filename="include/ANN.h" />
+		<Unit filename="include/CLZW.h" />
+		<Unit filename="include/CRLE.h" />
+		<Unit filename="include/PNGformat.h" />
+		<Unit filename="include/filesys.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/PNGformat.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
