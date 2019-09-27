@@ -10,31 +10,57 @@
 using namespace std;
 
 
-string out_directory;
-bool name_dir=true;
 bool local=false;
 bool logg=false;
+bool to_raw=false;
+
+bool name_dir=false;
+string out_directory;
+
+bool seqence=false;
+string event_name;
 
 void help_page(){
     cout<<"Dekoduje >ANN<"<<endl<<endl;
-    cout<<"anndrzem [file paths][-h][-f directory path][-l][-o]"<<endl<<endl;
+    cout<<"anndrzem [file paths][-h][-f directory path][-l][-o][-s event name]"<<endl<<endl;
     cout<<"-h\tShows help message."<<endl;
     cout<<"-f\tSet output directory."<<endl;
     cout<<"-l\tSome random console output."<<endl;
     cout<<"-o\tDon't create new directory for images."<<endl;
+    cout<<"-s\tCreates event sequence (type \"id:\" to name by id)(events names can be specified on runtime)."<<endl;
+    cout<<"-e\tExtract raw decompressed bitmap in RGBA(8,8,8,8)."<<endl;
+
+    cout<<endl;
 }
 
-void parse_commandline(char command[2]){
+int parse_commandline(char *command[],int arg,int maxi){
     vector<string> files;
-            if(command[1]=='h'){
-                help_page();
-            }else if(command[1]=='l'){
-                logg=true;
-            }else if(command[1]=='f'){
-                name_dir=false;
-            }else if(command[1]=='o'){
-                local=true;
-            }
+    if(command[arg][1]=='h'){
+        help_page();
+    }else if(command[arg][1]=='l'){
+        logg=true;
+        return 0;
+    }else if(command[arg][1]=='f'){
+        name_dir=true;
+        out_directory=command[arg+1];
+        return 1;
+    }else if(command[arg][1]=='o'){
+        local=true;
+        return 0;
+    }else if(command[arg][1]=='s'){
+        seqence=true;
+        if(arg+1>=maxi)
+            return 0;
+        if(command[arg+1][0]=='-'||command[arg+1][0]=='/'){
+            return 0;
+        }else{
+            event_name=command[arg+1];
+            return 1;
+        }
+    }else if(command[arg][1]=='e'){
+        seqence=true;
+        return 0;
+    }
 
 }
 
@@ -44,29 +70,31 @@ int main(int argc, char *argv[])
     int files=0;
     bool f_count=0;
 
-
     if(argc>1){
         for(int arg=1;arg<argc;arg++){
             if(argv[arg][0]=='-'||argv[arg][0]=='/'){
-                parse_commandline(argv[arg]);
+                arg+=parse_commandline(argv,arg,argc);
                 f_count=true;
             }else{
                 if(f_count==false)
                     files++;
-                else if(name_dir==false&&out_directory.size()==0)
-                    out_directory=argv[arg];
             }
         }
 
         for(int i=1;i<=files;i++){
-            ANN ann;
-            string filename(argv[i]);
-            //try{
-                ann.log=logg;
+            try{
+                ANN ann;
+                string filename(argv[i]);
+
+                ann.set_log(logg);
+                ann.set_raw(to_raw);
+                if(seqence)
+                    ann.set_sequence(seqence,event_name);
+
                 ann.load_ann(filename);
 
                 string dir;
-                if(name_dir==true){
+                if(name_dir==false){
                     dir=get_directory(argv[0]);
                 }else{
                     dir=out_directory;
@@ -77,9 +105,9 @@ int main(int argc, char *argv[])
                 }
                 create_directory(dir);
                 ann.extract_ANN(dir);
-            //}catch(...){
-
-           // }
+            }catch(...){
+                cout<<"Can't process ann file, moving to the next file."<<endl;
+            }
         }
 
         delete_file("~send.send");

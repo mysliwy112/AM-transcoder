@@ -81,12 +81,26 @@ class ANN
         vector<event> events;
         vector<image> images;
 
+        bool is_seqence=false;
+        string seqence_name;
+
+        bool to_raw=false;
+
         bool log=false;
 
         bool is_bigfile=false;
 
+        void set_raw(bool a){
+            to_raw=a;
+        }
+
         void set_log(bool a){
             log=a;
+        }
+
+        void set_sequence(bool is, string s={}){
+            is_seqence=is;
+            seqence_name=s;
         }
 
         void load_ann(string filename){
@@ -96,6 +110,7 @@ class ANN
                 try{
                     file=read_file(filename);
                 }catch(const invalid_argument& e){
+                    cout<<e.what()<<endl;
                     throw;
                 }catch(const length_error& e){
                     is_bigfile=true;
@@ -155,8 +170,6 @@ class ANN
 
                     if(is_bigfile)
                         file=read_file(bigfile,0x43);
-
-                    cout<<offset<<endl;
 
                     events[ev].name=string((char*)file.data()+offset);
                     events[ev].frames_number=combine(file.data()+offset+0x20,0x2);
@@ -291,13 +304,42 @@ class ANN
         }
 
         void extract_ANN(string directory){
-            for(int im=0;im<head.images_number;im++){
-                decodeImage(images[im]);
-                string filename;
-                filename=directory+name+string("_")+images[im].name+string("-")+to_string(im)+string(".png");
-                extract_to_png(images[im],filename.c_str());
-                //extract_to_file(images[im].decode_data,filename);
+            if(log){
+                cout<<"I'm extracting"<<endl;
             }
+            if(is_seqence){
+                int ev_id;
+                try{
+                    ev_id=get_event_id(seqence_name);
+                }catch(invalid_argument &e){
+                    cout<<e.what()<<endl;
+                    throw;
+                }
+
+                for(int fr=0;fr<events[ev_id].frames_number;fr++){
+                    int im=events[ev_id].frames[fr].image_ref;
+                    decodeImage(images[im]);
+                    string filename;
+                    filename=directory+name+string("_")+events[ev_id].name+string("_")+to_string(fr)+string(".png");
+                    if(to_raw)
+                        extract_to_file(images[im].decode_data,filename);
+                    else
+                        extract_to_png(images[im],filename.c_str());
+                }
+
+
+            }else{
+                for(int im=0;im<head.images_number;im++){
+                    decodeImage(images[im]);
+                    string filename;
+                    filename=directory+name+string("_")+images[im].name+string("_")+to_string(im)+string(".png");
+                    if(to_raw)
+                        extract_to_file(images[im].decode_data,filename);
+                    else
+                        extract_to_png(images[im],filename.c_str());
+                }
+            }
+
         }
 
 
@@ -396,6 +438,29 @@ class ANN
                     counter+=3;
             }
             return n;
+        }
+
+        int get_event_id(string name){
+            if(name.size()==0){
+                cout<<endl;
+                for(int ev=0;ev<head.events_number;ev++){
+                    cout<<ev+1<<".\t"<<events[ev].name<<endl;
+                }
+                cout<<"Choose event name: (type \"id:\") to get by id"<<endl;
+                cin>>name;
+            }
+            if(name.compare(0,3,"id:")==0){
+                return stoi(name.substr(3))-1;
+            }else{
+                for(int ev=0;ev<head.events_number;ev++){
+                    if(name.compare(events[ev].name)==0){
+                        return ev;
+                    }
+                }
+            }
+
+            throw invalid_argument(string("Can't find event with name: ")+name);
+
         }
     private:
 };
