@@ -1,7 +1,8 @@
 ### ANN-decoder
 Decode .ann files from Piklib and Bloomoo games.
 
-### [Release](https://github.com/mysliwy112/ANN-decoder/releases)
+### Release
+[Get it here](https://github.com/mysliwy112/ANN-decoder/releases)
 
 ### Instruction
 Soon...
