@@ -84,11 +84,18 @@ class ANN
         bool is_seqence=false;
         string seqence_name;
 
+        bool align=false;
+
         bool to_raw=false;
 
         bool log=false;
 
+
         bool is_bigfile=false;
+
+        void set_align(bool a){
+            align=a;
+        }
 
         void set_raw(bool a){
             to_raw=a;
@@ -307,6 +314,10 @@ class ANN
             if(log){
                 cout<<"I'm extracting"<<endl;
             }
+            //for images aligning
+            int max_x=0;
+            int max_y=0;
+
             if(is_seqence){
                 int ev_id;
                 try{
@@ -315,12 +326,42 @@ class ANN
                     cout<<e.what()<<endl;
                     throw;
                 }
+                if(align){
+                    for(int fr=0;fr<events[ev_id].frames_number;fr++){
+                        int im=events[ev_id].frames[fr].image_ref;
+                        if(images[im].decode_data.size()==0){
+                            decodeImage(images[im]);
+
+                            //cout<<im<<endl;
+
+                            if(images[im].position_x+images[im].width>max_x){
+                                max_x=images[im].position_x+images[im].width;
+                            }
+                            if(images[im].position_y+images[im].height>max_y){
+                                max_y=images[im].position_y+images[im].height;
+                            }
+                        }
+                    }
+                }
+
+                int dig=pad_int(events[ev_id].frames_number);
+
 
                 for(int fr=0;fr<events[ev_id].frames_number;fr++){
                     int im=events[ev_id].frames[fr].image_ref;
-                    decodeImage(images[im]);
+
+                    if(align){
+                        if(images[im].decode_data.size()<max_x*max_y*4)
+                            align_image(images[im],max_x,max_y);
+                    }else{
+                        if(images[im].decode_data.size()==0)
+                            decodeImage(images[im]);
+                    }
+
+                    int fr_dig=pad_int(fr);
+
                     string filename;
-                    filename=directory+name+string("_")+events[ev_id].name+string("_")+to_string(fr)+string(".png");
+                    filename=directory+name+string("_")+events[ev_id].name+string("_")+string(dig-fr_dig,'0')+to_string(fr)+string(".png");
                     if(to_raw)
                         extract_to_file(images[im].decode_data,filename);
                     else
@@ -329,9 +370,26 @@ class ANN
 
 
             }else{
+                if(align){
+                    for(int im=0;im<head.images_number;im++){
+                        decodeImage(images[im]);
+                        if(images[im].position_x+images[im].width>max_x){
+                            max_x=images[im].position_x+images[im].width;
+                        }
+                        if(images[im].position_y+images[im].height>max_y){
+                            max_y=images[im].position_y+images[im].height;
+                        }
+                    }
+                }
+
                 for(int im=0;im<head.images_number;im++){
-                    decodeImage(images[im]);
+
+                    if(align)
+                        align_image(images[im],max_x,max_y);
+                    else
+                        decodeImage(images[im]);
                     string filename;
+
                     filename=directory+name+string("_")+images[im].name+string("_")+to_string(im)+string(".png");
                     if(to_raw)
                         extract_to_file(images[im].decode_data,filename);
@@ -342,6 +400,32 @@ class ANN
 
         }
 
+        int pad_int(int number){
+            int digits = 0;
+            if (number < 0) digits = 1;
+            if(number==0) return 1;
+            while (number) {
+                number /= 10;
+                digits++;
+            }
+            return digits;
+        }
+
+        void align_image(image& img, int max_x, int max_y, int bpp=4){
+            int pos=0;
+            int end_add=max_x-img.position_x-img.width;
+            img.decode_data.insert(img.decode_data.begin(),img.position_y*max_x*4,0);
+            pos+=img.position_y*max_x*4;
+            while(pos<img.decode_data.size()){
+                img.decode_data.insert(img.decode_data.begin()+pos,img.position_x*bpp,0);
+                pos+=img.position_x*bpp+img.width*bpp;
+                img.decode_data.insert(img.decode_data.begin()+pos,end_add*bpp,0);
+                pos+=end_add*bpp;
+            }
+            img.decode_data.insert(img.decode_data.end(),(max_y-img.position_y-img.height)*max_x*bpp,0);
+            img.width=max_x;
+            img.height=max_y;
+        }
 
         void decodeImage(image &img){
             vector<unsigned char> color;

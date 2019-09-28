@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="E:\Cplusplus\Anndrzem\bin\Release\kura1.ann -l" />
+				<Option parameters="E:\Cplusplus\ANN-decoder\bin\Release\reksio.ann -l -s ROZGLADA -n" />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />

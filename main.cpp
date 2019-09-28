@@ -13,6 +13,7 @@ using namespace std;
 bool local=false;
 bool logg=false;
 bool to_raw=false;
+bool lining=false;
 
 bool name_dir=false;
 string out_directory;
@@ -29,6 +30,7 @@ void help_page(){
     cout<<"-o\tDon't create new directory for images."<<endl;
     cout<<"-s\tCreates event sequence (type \"id:\" to name by id)(events names can be specified on runtime)."<<endl;
     cout<<"-e\tExtract raw decompressed bitmap in RGBA(8,8,8,8)."<<endl;
+    cout<<"-n\tAlign image sizes."<<endl;
 
     cout<<endl;
 }
@@ -60,6 +62,9 @@ int parse_commandline(char *command[],int arg,int maxi){
     }else if(command[arg][1]=='e'){
         seqence=true;
         return 0;
+    }else if(command[arg][1]=='n'){
+        lining=true;
+        return 0;
     }
 
 }
@@ -82,12 +87,13 @@ int main(int argc, char *argv[])
         }
 
         for(int i=1;i<=files;i++){
-            try{
+            //try{
                 ANN ann;
                 string filename(argv[i]);
 
                 ann.set_log(logg);
                 ann.set_raw(to_raw);
+                ann.set_align(lining);
                 if(seqence)
                     ann.set_sequence(seqence,event_name);
 
@@ -105,9 +111,9 @@ int main(int argc, char *argv[])
                 }
                 create_directory(dir);
                 ann.extract_ANN(dir);
-            }catch(...){
-                cout<<"Can't process ann file, moving to the next file."<<endl;
-            }
+            //}catch(...){
+            //    cout<<"Can't process ann file, moving to the next file."<<endl;
+            //}
         }
 
         delete_file("~send.send");
