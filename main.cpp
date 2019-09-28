@@ -23,7 +23,7 @@ string event_name;
 
 void help_page(){
     cout<<"Dekoduje >ANN<"<<endl<<endl;
-    cout<<"anndrzem [file paths][-h][-f directory path][-l][-o][-s event name]"<<endl<<endl;
+    cout<<"anndrzem [file paths][-h][-f directory path][-l][-o][-s event name][-e][-n]"<<endl<<endl;
     cout<<"-h\tShows help message."<<endl;
     cout<<"-f\tSet output directory."<<endl;
     cout<<"-l\tSome random console output."<<endl;
@@ -73,20 +73,37 @@ int parse_commandline(char *command[],int arg,int maxi){
 int main(int argc, char *argv[])
 {
     int files=0;
-    bool f_count=0;
+    int f_file=0;
+    bool f_count=false;
 
     if(argc>1){
-        for(int arg=1;arg<argc;arg++){
-            if(argv[arg][0]=='-'||argv[arg][0]=='/'){
-                arg+=parse_commandline(argv,arg,argc);
-                f_count=true;
-            }else{
-                if(f_count==false)
-                    files++;
+        try{
+            for(int arg=1;arg<argc;arg++){
+                if(argv[arg][0]=='-'||argv[arg][0]=='/'){
+                    arg+=parse_commandline(argv,arg,argc);
+                    if(files>0){
+                        f_count=true;
+                    }
+
+                }else{
+                    if(f_count==true){
+                        throw invalid_argument("Bad commandline parameters.");
+                    }
+                    if(files==0){
+                        f_file=arg;
+                    }
+                    if(f_count==false){
+                        files++;
+                    }
+                }
+
             }
+        }catch(invalid_argument&e){
+            cout<<e.what()<<endl;
+            return 0;
         }
 
-        for(int i=1;i<=files;i++){
+        for(int i=f_file;i<files+f_file;i++){
             //try{
                 ANN ann;
                 string filename(argv[i]);
