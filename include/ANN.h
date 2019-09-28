@@ -317,6 +317,8 @@ class ANN
             //for images aligning
             int max_x=0;
             int max_y=0;
+            int min_x=0;
+            int min_y=0;
 
             if(is_seqence){
                 int ev_id;
@@ -340,6 +342,16 @@ class ANN
                             if(images[im].position_y+images[im].height>max_y){
                                 max_y=images[im].position_y+images[im].height;
                             }
+                            if(images[im].position_x<0){
+                                if(images[im].position_x*-1>min_x){
+                                    min_x=images[im].position_x*-1;
+                                }
+                            }
+                            if(images[im].position_y<0){
+                                if(images[im].position_y*-1>min_y){
+                                    min_y=images[im].position_y*-1;
+                                }
+                            }
                         }
                     }
                 }
@@ -352,7 +364,7 @@ class ANN
 
                     if(align){
                         if(images[im].decode_data.size()<max_x*max_y*4)
-                            align_image(images[im],max_x,max_y);
+                            align_image(images[im],max_x,max_y,min_x,min_y);
                     }else{
                         if(images[im].decode_data.size()==0)
                             decodeImage(images[im]);
@@ -379,13 +391,23 @@ class ANN
                         if(images[im].position_y+images[im].height>max_y){
                             max_y=images[im].position_y+images[im].height;
                         }
+                        if(images[im].position_x<0){
+                            if(images[im].position_x*-1>min_x){
+                                min_x=images[im].position_x*-1;
+                            }
+                        }
+                        if(images[im].position_y<0){
+                            if(images[im].position_y*-1>min_y){
+                                min_y=images[im].position_y*-1;
+                            }
+                        }
                     }
                 }
 
                 for(int im=0;im<head.images_number;im++){
 
                     if(align)
-                        align_image(images[im],max_x,max_y);
+                        align_image(images[im],max_x,max_y,min_x,min_y);
                     else
                         decodeImage(images[im]);
                     string filename;
@@ -411,14 +433,14 @@ class ANN
             return digits;
         }
 
-        void align_image(image& img, int max_x, int max_y, int bpp=4){
+        void align_image(image& img, int max_x, int max_y, int min_x, int min_y, int bpp=4){
             int pos=0;
             int end_add=max_x-img.position_x-img.width;
-            img.decode_data.insert(img.decode_data.begin(),img.position_y*max_x*4,0);
-            pos+=img.position_y*max_x*4;
+            img.decode_data.insert(img.decode_data.begin(),(img.position_y+min_y)*max_x*4,0);
+            pos+=(img.position_y+min_y)*max_x*4;
             while(pos<img.decode_data.size()){
-                img.decode_data.insert(img.decode_data.begin()+pos,img.position_x*bpp,0);
-                pos+=img.position_x*bpp+img.width*bpp;
+                img.decode_data.insert(img.decode_data.begin()+pos,(img.position_x+min_x)*bpp,0);
+                pos+=(img.position_x+min_x)*bpp+img.width*bpp;
                 img.decode_data.insert(img.decode_data.begin()+pos,end_add*bpp,0);
                 pos+=end_add*bpp;
             }
