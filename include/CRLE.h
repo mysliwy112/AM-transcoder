@@ -5,9 +5,9 @@
 
 using namespace std;
 
-vector<unsigned char> decodeCRLE(vector<unsigned char> data,int bulk=1){
+vector<unsigned char> decodeCRLE(vector<unsigned char> data,unsigned int bulk=1){
     vector<unsigned char> n;
-    int i=0;
+    unsigned int i=0;
     while(i<data.size()){
         if(data[i]<128){
             n.insert(n.end(),data.begin()+i+1,data.begin()+i+data[i]*bulk+1);
@@ -16,7 +16,7 @@ vector<unsigned char> decodeCRLE(vector<unsigned char> data,int bulk=1){
             data[i]-=128;
             int var=n.size();
             n.resize(n.size()+data[i]*bulk);
-            for(int k=0;k<data[i];k++){
+            for(unsigned int k=0;k<data[i];k++){
                 for(int l=0;l<bulk;l++){
                     n[var+k*bulk+l]=data[i+l+1];
                 }
@@ -27,4 +27,4 @@ vector<unsigned char> decodeCRLE(vector<unsigned char> data,int bulk=1){
     return n;
 }
 
-#endif CRLE_H
+#endif // CRLE_H

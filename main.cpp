@@ -28,7 +28,7 @@ void help_page(){
     cout<<"-f\tSet output directory."<<endl;
     cout<<"-l\tSome random console output."<<endl;
     cout<<"-o\tDon't create new directory for images."<<endl;
-    cout<<"-s\tCreates event sequence (type \"id:\" to name by id)(events names can be specified on runtime)."<<endl;
+    cout<<"-s\tCreates event sequence (type \"id:\" to name by id)(events names are going to be listed on runtime)."<<endl;
     cout<<"-e\tExtract raw decompressed bitmap in RGBA(8,8,8,8)."<<endl;
     cout<<"-n\tAlign image sizes."<<endl;
 
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
         }
 
         for(int i=f_file;i<files+f_file;i++){
-            //try{
+            try{
                 ANN ann;
                 string filename(argv[i]);
 
@@ -128,9 +128,9 @@ int main(int argc, char *argv[])
                 }
                 create_directory(dir);
                 ann.extract_ANN(dir);
-            //}catch(...){
-            //    cout<<"Can't process ann file, moving to the next file."<<endl;
-            //}
+            }catch(...){
+                cout<<"Can't process ann file, moving to the next file."<<endl;
+            }
         }
 
         delete_file("~send.send");

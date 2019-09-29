@@ -45,6 +45,9 @@
 			<Add directory="E:/lib/2/lpng1636" />
 			<Add directory="E:/lib/zlib" />
 		</Linker>
+		<Unit filename="icon.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="include/ANN.h" />
 		<Unit filename="include/CLZW.h" />
 		<Unit filename="include/CRLE.h" />

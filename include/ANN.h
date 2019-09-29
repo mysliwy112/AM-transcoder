@@ -289,7 +289,7 @@ class ANN
                         cout<<"\tNumber of frames: "<<events[ev].frames_number<<endl;
                         for(int fr=0;fr<events[ev].frames_number;fr++){
                             cout<<"\tFRAME:"<<endl;
-                            cout<<"\t\Frame name: "<<events[ev].frames[fr].name<<endl;
+                            cout<<"\tFrame name: "<<events[ev].frames[fr].name<<endl;
                             cout<<"\t\tImage number: "<<events[ev].frames[fr].image_ref<<endl;
                         }
                     }
@@ -452,6 +452,10 @@ class ANN
         void decodeImage(image &img){
             vector<unsigned char> color;
             vector<unsigned char> alpha;
+
+            if(log){
+                cout<<"I'm decoding"<<endl;
+            }
 
             if(img.compression==4){
                 color=decodeCRLE(img.image_data,2);
