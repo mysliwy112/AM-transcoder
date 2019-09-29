@@ -103,6 +103,7 @@ int main(int argc, char *argv[])
             return 0;
         }
 
+        cout<<"Extraction in progress..."<<endl;
         for(int i=f_file;i<files+f_file;i++){
             try{
                 ANN ann;
@@ -132,7 +133,7 @@ int main(int argc, char *argv[])
                 cout<<"Can't process ann file, moving to the next file."<<endl;
             }
         }
-
+        cout<<"No more files to decode. Ann extracted."<<endl;
         delete_file("~send.send");
         delete_file("~send.send.dek");
     }else{
