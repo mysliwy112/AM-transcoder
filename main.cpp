@@ -28,7 +28,7 @@ void help_page(){
     cout<<"-f\tSet output directory."<<endl;
     cout<<"-l\tSome random console output."<<endl;
     cout<<"-o\tDon't create new directory for images."<<endl;
-    cout<<"-s\tCreates event sequence (type \"id:\" to name by id)(events names are going to be listed on runtime)."<<endl;
+    cout<<"-s\tCreates event sequence (type \"id:\" to name by id)(events names are going to be listed and can be chosen from on runtime)."<<endl;
     cout<<"-e\tExtract raw decompressed bitmap in RGBA(8,8,8,8)."<<endl;
     cout<<"-n\tAlign image sizes."<<endl;
 

@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="E:\Cplusplus\ANN-decoder\bin\Release\swiatla.ann -l -n" />
+				<Option parameters=' -l -n &quot;E:\AidemMedia\ORIG\CzaroDemo O\dane\game\przygoda\demo_credits\fotki.ann&quot;' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
