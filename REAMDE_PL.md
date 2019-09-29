@@ -1,7 +1,8 @@
 ### ANN-decoder
-Dekoduje pliki .ann(imacji) z gier na silniku Piklib oraz Bloomoo.
+Dekoduje pliki .ann(imacji) z gier na silniku Piklib oraz Bloomoo zrobionych przez Aidem Media.
 
-### [Najnowsza wersja](https://github.com/mysliwy112/ANN-decoder/releases)
+### Najnowsza wersja
+[Tu](https://github.com/mysliwy112/ANN-decoder/releases)
 
 ### Instrukcja
 Jak na razie trzeba używać parametru -h. 
