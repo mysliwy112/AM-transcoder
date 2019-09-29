@@ -36,3 +36,7 @@
 
 # Ann files
 *.ann
+
+# Output Folders
+bin/
+obj/
