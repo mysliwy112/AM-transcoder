@@ -380,8 +380,8 @@ void ANN::decodeImage(image &img){
 
     if(log){
         cout<<"I'm decoding"<<endl;
+        cout<<"Compression type: "+img.compression<<endl;
     }
-    cout<<img.compression<<endl;
     if(img.compression==0){
         color=img.image_data;
         alpha=img.alpha_data;
