@@ -26,3 +26,8 @@ In case of breaching a contract, producer is going to exercise the right and cla
 litigation processes will take place in Producer's local Court.
 
 You've been warned.
+
+### Compilation
+Program was created in codeblocks, so it uses it's project system.
+
+To decode infinitely big files, define BIGFILE at compilation.
