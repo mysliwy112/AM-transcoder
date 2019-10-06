@@ -54,14 +54,13 @@ vector<unsigned char> decodeCLZW(vector<unsigned char> code, string filename="~s
     file.seekg (0, ios::end);
     int f_size=file.tellg();
     file.seekg (0, ios::beg);
-    char buffer[f_size];
-    file.read(buffer,f_size);
+
+    vector<unsigned char>data(f_size);
+
+    file.read((char*)(&data[0]),f_size);
     file.close();
 
-
-
-    vector<unsigned char>ala (buffer,f_size+buffer);
-    return vector<unsigned char>(buffer,f_size+buffer);
+    return data;
 }
 
 

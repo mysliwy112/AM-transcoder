@@ -60,9 +60,8 @@
 
 1569353025 e:\cplusplus\ann-decoder\include\pngformat.h
 
-1570367445 source:e:\cplusplus\ann-decoder\main.cpp
+1570367936 source:e:\cplusplus\ann-decoder\main.cpp
 	<iostream>
-	<fstream>
 	<string>
 	<vector>
 	"PNGformat.h"
@@ -74,7 +73,7 @@
 	<vector>
 	<fstream>
 
-1570367794 e:\cplusplus\ann-decoder\include\clzw.h
+1570369451 e:\cplusplus\ann-decoder\include\clzw.h
 	<vector>
 	<fstream>
 	<windows.h>
@@ -87,7 +86,7 @@
 
 1569705700 source:e:\cplusplus\ann-decoder\icon.rc
 
-1570367001 source:e:\cplusplus\ann-decoder\src\ann.cpp
+1570369348 source:e:\cplusplus\ann-decoder\src\ann.cpp
 	"ANN.h"
 	<iostream>
 	<string>

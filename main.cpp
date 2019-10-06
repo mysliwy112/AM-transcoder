@@ -21,7 +21,13 @@ bool seqence=false;
 string event_name;
 
 void help_page(){
-    cout<<"Dekoduje >ANN<"<<endl<<endl;
+    cout<<"Decode >ANN<";
+
+    #if BIGFILE
+        cout<<" (BIGFILE enabled)";
+    #endif // BIGFILE
+
+    cout<<endl<<endl;
     cout<<"anndrzem [file paths][-h][-f directory path][-l][-o][-s event name][-e][-n]"<<endl<<endl;
     cout<<"-h\tShows help message."<<endl;
     cout<<"-f\tSet output directory."<<endl;

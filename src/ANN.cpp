@@ -36,30 +36,27 @@ void ANN::set_sequence(bool is, string s){
 void ANN::load_ann(string filename){
         vector<unsigned char> file;
 
-        #if BIGFILE
-        ifstream bigfile;
-
-        try{
-            file=read_file(filename);
-        }catch(const invalid_argument& e){
-            cout<<e.what()<<endl;
-            throw;
-        }
-
-        if(file.size()==0){
-            is_bigfile=true;
-            if(log){
-                cout<<"BIGFILE it is"<<endl;
+        #ifdef BIGFILE
+            ifstream bigfile;
+        #else
+            try{
+                file=read_file(filename);
+            }catch(const invalid_argument& e){
+                cout<<e.what()<<endl;
+                throw;
+            }catch(const length_error& e){
+                cout<<e.what()<<endl;
+                throw;
             }
-        }
+        #endif // BIGFILE
 
-        if(is_bigfile){
+        #ifdef BIGFILE
             bigfile.open(filename,ios::binary);
-        }
+        #endif // BIGFILE
 
-        if(is_bigfile){
+        #ifdef BIGFILE
             file=read_file(bigfile,0x30);
-        }
+        #endif // BIGFILE
 
         head.check.assign((char*)file.data(),3);
         if(head.check.compare("NVP")==0){
@@ -86,24 +83,26 @@ void ANN::load_ann(string filename){
         //head.dump.assign((char*)file.data()+0x13,0x9);
         head.caption_size=combine(file.data()+0x2C,0x4);
 
-        if(is_bigfile){
-
+        #ifdef BIGFILE
             file=read_file(bigfile,head.caption_size+0x4);
             head.caption.assign((char*)file.data(),head.caption_size);
-        }else{
+        #else
             head.caption.assign((char*)file.data()+0x30,head.caption_size);
-        }
+        #endif // BIGFILE
+
         events.resize(head.events_number);
         unsigned long long offset=0;
 
-        if(!is_bigfile)
+        #ifndef BIGFILE
             offset=0x34+head.caption_size;
+        #endif // BIGFILE
 
 
         for(int ev=0;ev<head.events_number;ev++){
 
-            if(is_bigfile)
+            #ifdef BIGFILE
                 file=read_file(bigfile,0x43);
+            #endif // BIGFILE
 
             events[ev].name=string((char*)file.data()+offset);
             events[ev].frames_number=combine(file.data()+offset+0x20,0x2);
@@ -111,10 +110,11 @@ void ANN::load_ann(string filename){
             events[ev].transparency=combine(file.data()+offset+0x36,0x1);
             events[ev].frames.resize(events[ev].frames_number);
 
-            if(is_bigfile)
+            #ifdef BIGFILE
                 file=read_file(bigfile,events[ev].frames_number*2);
-            else
+            #else
                 offset+=0x43;
+            #endif // BIGFILE
 
             for(unsigned int fr=0;fr<events[ev].frames_number;fr++){
                 events[ev].frames[fr].image_ref=combine(file.data()+offset,0x2);
@@ -125,10 +125,10 @@ void ANN::load_ann(string filename){
 
             for(unsigned int fr=0;fr<events[ev].frames_number;fr++){
 
-                if(is_bigfile){
+                #ifdef BIGFILE
                     offset=0;
                     file=read_file(bigfile,0x22);
-                }
+                #endif // BIGFILE
 
                 events[ev].frames[fr].check.assign((char*)file.data()+offset,0x4);
                 events[ev].frames[fr].position_x=combine(file.data()+offset+0x8,0x2);
@@ -136,27 +136,25 @@ void ANN::load_ann(string filename){
                 events[ev].frames[fr].sfx_switch=combine(file.data()+offset+0x10,0x4);
                 events[ev].frames[fr].transparency=combine(file.data()+offset+0x18,0x1);
 
-                if(is_bigfile){
+                #ifdef BIGFILE
                     int nam_size=combine(file.data()+offset+0x1E,0x4);
                     file=read_file(bigfile,nam_size);
                     events[ev].frames[fr].name.assign((char*)file.data(),nam_size);
-                }else{
+                #else
                     events[ev].frames[fr].name.assign((char*)file.data()+offset+0x22,combine(file.data()+offset+0x1E,0x4));
                     offset+=0x22+events[ev].frames[fr].name.size();
-                }
-
-
+                #endif // BIGFILE
 
                 if(events[ev].frames[fr].sfx_switch!=0){
-                    if(is_bigfile){
+                    #ifdef BIGFILE
                         file=read_file(bigfile,0x4);
                         int nam_size=combine(file.data(),0x4);
                         file=read_file(bigfile,nam_size);
                         events[ev].frames[fr].sounds.assign((char*)file.data(),nam_size);
-                    }else{
+                    #else
                         events[ev].frames[fr].sounds.assign((char*)file.data()+offset+0x4,combine(file.data()+offset,0x4));
                         offset+=0x4+events[ev].frames[fr].sounds.size();
-                    }
+                    #endif // BIGFILE
                 }
             }
         }
@@ -167,10 +165,10 @@ void ANN::load_ann(string filename){
 
         for(int im=0;im<head.images_number;im++){
 
-            if(is_bigfile){
+            #ifdef BIGFILE
                 offset=0;
                 file=read_file(bigfile,0x34);
-            }
+            #endif // BIGFILE
 
             images[im].width=combine(file.data()+offset,0x2);
             images[im].height=combine(file.data()+offset+0x2,0x2);
@@ -180,29 +178,30 @@ void ANN::load_ann(string filename){
             images[im].image_size=combine(file.data()+offset+0xA,0x4);
             images[im].alpha_size=combine(file.data()+offset+0x1C,0x4);
             images[im].name=string((char*)file.data()+offset+0x20);
-            if(!is_bigfile)
+            #ifndef BIGFILE
                 offset+=0x34;
+            #endif // BIGFILE
         }
 
 
         for(int im=0;im<head.images_number;im++){
-            if(is_bigfile){
-
+            #ifdef BIGFILE
                 file=read_file(bigfile,images[im].image_size);
-            }
+            #endif // BIGFILE
 
             images[im].image_data.assign(file.begin()+offset,file.begin()+offset+images[im].image_size);
 
-            if(is_bigfile){
+            #ifdef BIGFILE
                 file=read_file(bigfile,images[im].alpha_size);
-            }else{
+            #else
                 offset+=images[im].image_size;
-            }
+            #endif // BIGFILE
 
             images[im].alpha_data.assign(file.begin()+offset,file.begin()+offset+images[im].alpha_size);
-            if(!is_bigfile){
+
+            #ifndef BIGFILE
                 offset+=images[im].alpha_size;
-            }
+            #endif // BIGFILE
         }
 
         if(log==1){
@@ -429,9 +428,9 @@ vector<unsigned char> ANN::read_file(string filename){
 }
 
 vector<unsigned char> ANN::read_file(ifstream &file, long long f_size){
-    char buffer[f_size];
-    file.read(buffer,f_size);
-    return vector<unsigned char>(buffer,f_size+buffer);
+    vector<unsigned char>data(f_size);
+    file.read((char*)(&data[0]),f_size);
+    return data;
 }
 
 unsigned long long ANN::combine(unsigned char* value,int number){
