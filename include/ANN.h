@@ -114,12 +114,15 @@ class ANN
                 vector<unsigned char> file;
 
                 ifstream bigfile;
+
                 try{
                     file=read_file(filename);
                 }catch(const invalid_argument& e){
                     cout<<e.what()<<endl;
                     throw;
-                }catch(const length_error& e){
+                }
+
+                if(file.size()==0){
                     is_bigfile=true;
                     if(log){
                         cout<<"BIGFILE it is"<<endl;
@@ -493,7 +496,7 @@ class ANN
             file.seekg (0, ios::beg);
             if(f_size>2000000){
                 file.close();
-                throw length_error("Bigfile help us");
+                return vector<unsigned char>(0);
             }
             char buffer[f_size];
 

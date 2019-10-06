@@ -24,7 +24,7 @@
 				<Option compiler="gcc" />
 				<Option parameters="E:\Cplusplus\Anndrzem\bin\Release\kura1.ann" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-O3" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
