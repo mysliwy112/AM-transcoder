@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=' -l &quot;E:\Cplusplus\ANN-decoder\bin\Release\rex25.ann&quot;' />
+				<Option parameters=' -l &quot;E:\Cplusplus\ANN-decoder\bin\Release\reksio21.ann&quot;' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
@@ -50,6 +50,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O3" />
+					<Add option="-DBIGFILE" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>

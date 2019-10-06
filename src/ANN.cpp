@@ -235,28 +235,78 @@ void ANN::extract_ANN(string directory){
     if(log){
         cout<<"I'm extracting"<<endl;
     }
-    //for images aligning
-    int max_x=0;
-    int max_y=0;
-    int min_x=0;
-    int min_y=0;
+    try{
+        //for images aligning
+        int max_x=0;
+        int max_y=0;
+        int min_x=0;
+        int min_y=0;
 
-    if(is_seqence){
-        int ev_id;
-        try{
-            ev_id=get_event_id(seqence_name);
-        }catch(invalid_argument &e){
-            cout<<e.what()<<endl;
-            throw;
-        }
-        if(align){
+        if(is_seqence){
+            int ev_id;
+            try{
+                ev_id=get_event_id(seqence_name);
+            }catch(invalid_argument &e){
+                cout<<e.what()<<endl;
+                throw;
+            }
+            if(align){
+                for(int fr=0;fr<events[ev_id].frames_number;fr++){
+                    int im=events[ev_id].frames[fr].image_ref;
+                    if(images[im].decode_data.size()==0){
+                        decodeImage(images[im]);
+
+                        //cout<<im<<endl;
+
+                        if(images[im].position_x+images[im].width>max_x){
+                            max_x=images[im].position_x+images[im].width;
+                        }
+                        if(images[im].position_y+images[im].height>max_y){
+                            max_y=images[im].position_y+images[im].height;
+                        }
+                        if(images[im].position_x<0){
+                            if(images[im].position_x*-1>min_x){
+                                min_x=images[im].position_x*-1;
+                            }
+                        }
+                        if(images[im].position_y<0){
+                            if(images[im].position_y*-1>min_y){
+                                min_y=images[im].position_y*-1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            int dig=pad_int(events[ev_id].frames_number);
+
+
             for(int fr=0;fr<events[ev_id].frames_number;fr++){
                 int im=events[ev_id].frames[fr].image_ref;
-                if(images[im].decode_data.size()==0){
+
+                if(align){
+                    if(images[im].decode_data.size()<max_x*max_y*4)
+                        align_image(images[im],max_x,max_y,min_x,min_y);
+                }else{
+                    if(images[im].decode_data.size()==0)
+                        decodeImage(images[im]);
+                }
+
+                int fr_dig=pad_int(fr);
+
+                string filename;
+                filename=directory+name+string("_")+events[ev_id].name+string("_")+string(dig-fr_dig,'0')+to_string(fr)+string(".png");
+                if(to_raw)
+                    extract_to_file(images[im].decode_data,filename);
+                else
+                    extract_to_png(images[im],filename.c_str());
+            }
+
+
+        }else{
+            if(align){
+                for(int im=0;im<head.images_number;im++){
                     decodeImage(images[im]);
-
-                    //cout<<im<<endl;
-
                     if(images[im].position_x+images[im].width>max_x){
                         max_x=images[im].position_x+images[im].width;
                     }
@@ -275,72 +325,26 @@ void ANN::extract_ANN(string directory){
                     }
                 }
             }
-        }
 
-        int dig=pad_int(events[ev_id].frames_number);
-
-
-        for(int fr=0;fr<events[ev_id].frames_number;fr++){
-            int im=events[ev_id].frames[fr].image_ref;
-
-            if(align){
-                if(images[im].decode_data.size()<max_x*max_y*4)
-                    align_image(images[im],max_x,max_y,min_x,min_y);
-            }else{
-                if(images[im].decode_data.size()==0)
-                    decodeImage(images[im]);
-            }
-
-            int fr_dig=pad_int(fr);
-
-            string filename;
-            filename=directory+name+string("_")+events[ev_id].name+string("_")+string(dig-fr_dig,'0')+to_string(fr)+string(".png");
-            if(to_raw)
-                extract_to_file(images[im].decode_data,filename);
-            else
-                extract_to_png(images[im],filename.c_str());
-        }
-
-
-    }else{
-        if(align){
             for(int im=0;im<head.images_number;im++){
-                decodeImage(images[im]);
-                if(images[im].position_x+images[im].width>max_x){
-                    max_x=images[im].position_x+images[im].width;
-                }
-                if(images[im].position_y+images[im].height>max_y){
-                    max_y=images[im].position_y+images[im].height;
-                }
-                if(images[im].position_x<0){
-                    if(images[im].position_x*-1>min_x){
-                        min_x=images[im].position_x*-1;
-                    }
-                }
-                if(images[im].position_y<0){
-                    if(images[im].position_y*-1>min_y){
-                        min_y=images[im].position_y*-1;
-                    }
-                }
+
+                if(align)
+                    align_image(images[im],max_x,max_y,min_x,min_y);
+                else
+                    decodeImage(images[im]);
+                string filename;
+
+                filename=directory+name+string("_")+images[im].name+string("_")+to_string(im)+string(".png");
+                if(to_raw)
+                    extract_to_file(images[im].decode_data,filename);
+                else
+                    extract_to_png(images[im],filename.c_str());
             }
         }
-
-        for(int im=0;im<head.images_number;im++){
-
-            if(align)
-                align_image(images[im],max_x,max_y,min_x,min_y);
-            else
-                decodeImage(images[im]);
-            string filename;
-
-            filename=directory+name+string("_")+images[im].name+string("_")+to_string(im)+string(".png");
-            if(to_raw)
-                extract_to_file(images[im].decode_data,filename);
-            else
-                extract_to_png(images[im],filename.c_str());
-        }
+    }catch(const invalid_argument&e){
+        cout<<e.what()<<endl;
+        throw;
     }
-
 }
 
 int ANN::pad_int(int number){
@@ -377,18 +381,29 @@ void ANN::decodeImage(image &img){
     if(log){
         cout<<"I'm decoding"<<endl;
     }
-
-    if(img.compression==4){
+    cout<<img.compression<<endl;
+    if(img.compression==0){
+        color=img.image_data;
+        alpha=img.alpha_data;
+    }else if(img.compression==4){
         color=decodeCRLE(img.image_data,2);
         alpha=decodeCRLE(img.alpha_data,1);
-    }
-    if(img.compression==3){
+    }else if(img.compression==3){
         color=decodeCLZW(img.image_data);
         alpha=decodeCLZW(img.alpha_data);
         color=decodeCRLE(color,2);
         alpha=decodeCRLE(alpha,1);
+    }else{
+        throw invalid_argument(string("Unknown compression: ")+to_string(img.compression));
     }
     color=to_24bpp(color);
+    if(log){
+        if(color.size()==alpha.size()*3)
+            cout<<"Size of color: "<<color.size()<<endl;
+        else
+            cout<<"Size of file and data doesn't match: color->"<<color.size()<<" <> "<<alpha.size()<<"<-alpha"<<endl;
+    }
+
     img.decode_data=link(color, alpha);
 
 }
