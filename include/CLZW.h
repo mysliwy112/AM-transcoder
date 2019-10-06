@@ -1,9 +1,9 @@
 #ifndef CLZW_H
 #define CLZW_H
 
-#include<vector>
-#include<fstream>
-#include<windows.h>
+#include <vector>
+#include <fstream>
+#include <windows.h>
 
 using namespace std;
 

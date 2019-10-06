@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=' -l -n &quot;E:\AidemMedia\ORIG\CzaroDemo O\dane\game\przygoda\demo_credits\fotki.ann&quot;' />
+				<Option parameters=' -l &quot;E:\Cplusplus\ANN-decoder\bin\Release\rex25.ann&quot;' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
@@ -22,7 +22,6 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="E:\Cplusplus\Anndrzem\bin\Release\kura1.ann" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add directory="include" />
@@ -54,7 +53,9 @@
 		<Unit filename="include/PNGformat.h" />
 		<Unit filename="include/filesys.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/ANN.cpp" />
 		<Unit filename="src/PNGformat.cpp" />
+		<Unit filename="src/filesys.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

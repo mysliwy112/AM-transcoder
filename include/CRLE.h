@@ -1,7 +1,7 @@
 #ifndef CRLE_H
 #define CRLE_H
 
-#include<vector>
+#include <vector>
 
 using namespace std;
 

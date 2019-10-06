@@ -1,11 +1,10 @@
 #include <iostream>
-#include <fstream>
 #include <string>
 #include <vector>
 
-#include<PNGformat.h>
-#include<ANN.h>
-#include<filesys.h>
+#include "PNGformat.h"
+#include "ANN.h"
+#include "filesys.h"
 
 using namespace std;
 
@@ -66,7 +65,8 @@ int parse_commandline(char *command[],int arg,int maxi){
         lining=true;
         return 0;
     }
-
+    cout<<"Bad parameter, skipping..."<<endl;
+    return 0;
 }
 
 
