@@ -53,14 +53,14 @@
 	<stdexcept>
 	<string>
 
-1569439904 source:e:\cplusplus\ann-decoder\src\pngformat.cpp
+1569436304 source:e:\cplusplus\ann-decoder\src\pngformat.cpp
 	"PNGformat.h"
 	<png.h>
 	<stdexcept>
 
-1569353025 e:\cplusplus\ann-decoder\include\pngformat.h
+1569349425 e:\cplusplus\ann-decoder\include\pngformat.h
 
-1570369637 source:e:\cplusplus\ann-decoder\main.cpp
+1570366037 source:e:\cplusplus\ann-decoder\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -68,25 +68,26 @@
 	"ANN.h"
 	"filesys.h"
 
-1570367843 e:\cplusplus\ann-decoder\include\ann.h
+1570364243 e:\cplusplus\ann-decoder\include\ann.h
 	<string>
 	<vector>
 	<fstream>
 
-1570369451 e:\cplusplus\ann-decoder\include\clzw.h
+1581355877 e:\cplusplus\ann-decoder\include\clzw.h
 	<vector>
 	<fstream>
-	<windows.h>
+	<iostream>
+	"piklib8_shim.h"
 
-1570367797 e:\cplusplus\ann-decoder\include\crle.h
+1581352617 e:\cplusplus\ann-decoder\include\crle.h
 	<vector>
 
-1570367703 e:\cplusplus\ann-decoder\include\filesys.h
+1570364103 e:\cplusplus\ann-decoder\include\filesys.h
 	<string>
 
-1569705700 source:e:\cplusplus\ann-decoder\icon.rc
+1569702100 source:e:\cplusplus\ann-decoder\icon.rc
 
-1570379814 source:e:\cplusplus\ann-decoder\src\ann.cpp
+1581352707 source:e:\cplusplus\ann-decoder\src\ann.cpp
 	"ANN.h"
 	<iostream>
 	<string>
@@ -99,8 +100,10 @@
 	"CRLE.h"
 	"filesys.h"
 
-1570367673 source:e:\cplusplus\ann-decoder\src\filesys.cpp
+1570364073 source:e:\cplusplus\ann-decoder\src\filesys.cpp
 	"filesys.h"
 	<windows.h>
 	<string>
+
+1578165263 e:\cplusplus\ann-decoder\include\piklib8_shim.h
 

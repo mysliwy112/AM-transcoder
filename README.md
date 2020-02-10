@@ -1,5 +1,5 @@
 ### ANN-decoder
-Is CLI program for decoding .ann files from Piklib and Bloomoo games developed by Aidem Media
+Is a CLI program for decoding .ann files from Piklib and Bloomoo games developed by Aidem Media
 
 ### Release
 [Get it here](https://github.com/mysliwy112/ANN-decoder/releases)
@@ -9,8 +9,6 @@ Use -h parameter for now.
 
 
 I've stolen this section from sister project [dePIKczer](https://github.com/Dove6/dePIKczer/raw/master/Release/dePIKczer.exe) for decoding .img files.
-
-Oh Bosch... Why I have decided to write this in English ;-;
 
 ### Warning
 Using this program or making changes to any of Aidem Media's products is contrary to licence agreement according to point number 2:

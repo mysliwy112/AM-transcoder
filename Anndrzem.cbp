@@ -22,6 +22,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters='&quot;E:\AidemMedia\ORIG\Reksio i Ufo\DANE\ReksioUfo\PRZYGODA\16_SpaceInvaders\REKSIO.ANN&quot;' />
 				<Compiler>
 					<Add option="-O3" />
 					<Add directory="include" />
@@ -64,12 +65,15 @@
 			<Add option="-fexceptions" />
 			<Add directory="E:/lib/asd" />
 			<Add directory="E:/lib/zlib" />
+			<Add directory="include" />
 		</Compiler>
 		<Linker>
+			<Add option="-lpiklib8_shim" />
 			<Add library="E:/lib/asd/libpng.a" />
 			<Add library="E:/lib/zlib/libz.a" />
 			<Add directory="E:/lib/2/lpng1636" />
 			<Add directory="E:/lib/zlib" />
+			<Add directory="." />
 		</Linker>
 		<Unit filename="icon.rc">
 			<Option compilerVar="WINDRES" />
@@ -79,6 +83,7 @@
 		<Unit filename="include/CRLE.h" />
 		<Unit filename="include/PNGformat.h" />
 		<Unit filename="include/filesys.h" />
+		<Unit filename="include/piklib8_shim.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/ANN.cpp" />
 		<Unit filename="src/PNGformat.cpp" />

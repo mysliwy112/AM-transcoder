@@ -17,7 +17,7 @@ vector<unsigned char> decodeCRLE(vector<unsigned char> data,unsigned int bulk=1)
             int var=n.size();
             n.resize(n.size()+data[i]*bulk);
             for(unsigned int k=0;k<data[i];k++){
-                for(int l=0;l<bulk;l++){
+                for(unsigned int l=0;l<bulk;l++){
                     n[var+k*bulk+l]=data[i+l+1];
                 }
             }

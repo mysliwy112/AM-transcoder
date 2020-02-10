@@ -2,64 +2,21 @@
 #define CLZW_H
 
 #include <vector>
-#include <fstream>
-#include <windows.h>
+#include <iostream>
+#include <algorithm>
+
+#include "piklib8_shim.h"
 
 using namespace std;
 
-void startup(char* a)
-{
-    //LPCTSTR lpApplicationName=a;
-    // additional information
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
+vector<unsigned char> decodeCLZW(vector<unsigned char> code){
+    long long out_size=code[0]+code[1]*0x100+code[2]*0x10000+code[3]*0x1000000;
+    char *output;
+    output = piklib_CLZWCompression2_decompress(reinterpret_cast<char*>(code.data()), code.size());
+    vector<unsigned char> data(out_size);
+    copy(reinterpret_cast<char*>(output), reinterpret_cast<char*>(output)+out_size, data.begin());
 
-    // set the size of the structures
-    ZeroMemory( &si, sizeof(si) );
-    si.cb = sizeof(si);
-    ZeroMemory( &pi, sizeof(pi) );
-
-    // start the program up
-    CreateProcess( NULL,   // the path
-    a,        // Command line
-    NULL,           // Process handle not inheritable
-    NULL,           // Thread handle not inheritable
-    FALSE,          // Set handle inheritance to FALSE
-    0,              // No creation flags
-    NULL,           // Use parent's environment block
-    NULL,           // Use parent's starting directory
-    &si,            // Pointer to STARTUPINFO structure
-    &pi             // Pointer to PROCESS_INFORMATION structure (removed extra parentheses)
-    );
-    // Close process and thread handles.
-    WaitForSingleObject(pi.hProcess,INFINITE);
-    CloseHandle( pi.hProcess );
-    CloseHandle( pi.hThread );
-}
-
-vector<unsigned char> decodeCLZW(vector<unsigned char> code, string filename="~send.send"){
-
-    fstream file(filename,ios::out|ios::binary|ios::trunc);
-
-    file.write((char*)code.data(),code.size());
-    file.close();
-
-    string arg="in_out_CLZW2.exe /d ";
-    arg+=filename;
-
-    startup(const_cast<char*>(arg.c_str()));
-
-    file.open(filename+".dek",ios::in|ios::binary);
-
-    file.seekg (0, ios::end);
-    int f_size=file.tellg();
-    file.seekg (0, ios::beg);
-
-    vector<unsigned char>data(f_size);
-
-    file.read((char*)(&data[0]),f_size);
-    file.close();
-
+    delete[] output;
     return data;
 }
 

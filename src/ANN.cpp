@@ -380,7 +380,7 @@ void ANN::decodeImage(image &img){
 
     if(log){
         cout<<"I'm decoding"<<endl;
-        cout<<"Compression type: "+img.compression<<endl;
+        cout<<"Compression type: "<<img.compression<<endl;
     }
     if(img.compression==0){
         color=img.image_data;
@@ -427,7 +427,7 @@ vector<unsigned char> ANN::read_file(string filename){
     }
 
     file.seekg (0, ios::end);
-    int f_size=file.tellg();
+    unsigned int f_size=file.tellg();
     file.seekg (0, ios::beg);
     if(f_size>=data.max_size()){
         file.close();
@@ -464,7 +464,7 @@ vector<unsigned char> ANN::link(vector<unsigned char> color, vector<unsigned cha
     //cout<<float(data.size())/4<<endl;
     int al=0;
     int da=0;
-    for(int i=0;i<data.size();i+=4){
+    for(unsigned int i=0;i<data.size();i+=4){
         data[i]=color[da];
         data[i+1]=color[da+1];
         data[i+2]=color[da+2];
@@ -478,7 +478,7 @@ vector<unsigned char> ANN::to_24bpp(vector<unsigned char> color){
     vector<unsigned char> n(color.size()/2*3);
     int temp;
     int counter=0;
-    for(int i=0;i<color.size();i+=2){
+    for(unsigned int i=0;i<color.size();i+=2){
             temp=color[i]+color[i+1]*256;
             n[counter+2]=(temp%32)*256/32;
             temp=(temp-temp%32)/32;
