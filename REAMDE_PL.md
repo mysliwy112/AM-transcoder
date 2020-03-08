@@ -22,7 +22,7 @@ np. ```anndrzem -h``` wypisuje instrukcje
 
 Po argumentach można podać nazwy plików do wyekstraktowania np.:
 
-```anndrzem -n -s PLAY ".\Przygoda\Cat\buty.ann```
+```anndrzem -n -s PLAY ".\Przygoda\Cat\buty.ann"```
 
 Ekstraktuje do folderu buty, obrazy tworzące animację PLAY w pliku buty.ann, przystosowując je do złożenia w animację.
 
