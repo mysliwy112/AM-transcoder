@@ -256,8 +256,6 @@ void ANN::extract_ANN(string directory){
                     if(images[im].decode_data.size()==0){
                         decodeImage(images[im]);
 
-                        //cout<<im<<endl;
-
                         if(images[im].position_x+images[im].width>max_x){
                             max_x=images[im].position_x+images[im].width;
                         }
@@ -293,9 +291,14 @@ void ANN::extract_ANN(string directory){
                 }
 
                 int fr_dig=pad_int(fr);
-
                 string filename;
-                filename=directory+name+string("_")+events[ev_id].name+string("_")+string(dig-fr_dig,'0')+to_string(fr)+string(".png");
+                filename=directory+validate_filename(name+string("_")+events[ev_id].name+string("_")+string(dig-fr_dig,'0')+to_string(fr))+string(".png");
+                if(log){
+                    if(!testpath(filename)){
+                        throw "Can't access file";
+                    }
+                }
+
                 if(to_raw)
                     extract_to_file(images[im].decode_data,filename);
                 else
@@ -327,14 +330,20 @@ void ANN::extract_ANN(string directory){
             }
 
             for(int im=0;im<head.images_number;im++){
-
                 if(align)
                     align_image(images[im],max_x,max_y,min_x,min_y);
                 else
                     decodeImage(images[im]);
                 string filename;
+                filename=directory+validate_filename(name+string("_")+images[im].name+string("_")+to_string(im))+string(".png");
+                if(log){
+                    if(!testpath(filename)){
+                        if(!testpath(filename)){
+                            throw "Can't access file";
+                        }
+                    }
+                }
 
-                filename=directory+name+string("_")+images[im].name+string("_")+to_string(im)+string(".png");
                 if(to_raw)
                     extract_to_file(images[im].decode_data,filename);
                 else
@@ -386,13 +395,23 @@ void ANN::decodeImage(image &img){
         color=img.image_data;
         alpha=img.alpha_data;
     }else if(img.compression==4){
-        color=decodeCRLE(img.image_data,2);
-        alpha=decodeCRLE(img.alpha_data,1);
+         try{
+            color=decodeCRLE(img.image_data,2);
+            alpha=decodeCRLE(img.alpha_data,1);
+        }catch(...){
+            cout<<"Can't decode image"<<endl;
+            throw"File decode problem";
+        }
     }else if(img.compression==3){
-        color=decodeCLZW(img.image_data);
-        alpha=decodeCLZW(img.alpha_data);
-        color=decodeCRLE(color,2);
-        alpha=decodeCRLE(alpha,1);
+        try{
+            color=decodeCLZW(img.image_data);
+            alpha=decodeCLZW(img.alpha_data);
+            color=decodeCRLE(color,2);
+            alpha=decodeCRLE(alpha,1);
+        }catch(...){
+            cout<<"Can't decode image"<<endl;
+            throw"File decode problem";
+        }
     }else{
         throw invalid_argument(string("Unknown compression: ")+to_string(img.compression));
     }
@@ -401,7 +420,7 @@ void ANN::decodeImage(image &img){
         if(color.size()==alpha.size()*3)
             cout<<"Size of color: "<<color.size()<<endl;
         else
-            cout<<"Size of file and data doesn't match: color->"<<color.size()<<" <> "<<alpha.size()<<"<-alpha"<<endl;
+            cout<<"Size of color and alpha doesn't match: color->"<<color.size()<<" <> "<<alpha.size()*3<<"<-alpha*3"<<endl;
     }
 
     img.decode_data=link(color, alpha);
@@ -448,10 +467,37 @@ vector<unsigned char> ANN::read_file(ifstream &file, long long f_size){
     return data;
 }
 
-unsigned long long ANN::combine(unsigned char* value,int number){
+string ANN::validate_filename(string filename){
+    int i=0;
+    while(i<filename.size()){
+        i=filename.find_first_of("<>:\"/\\|?*",i);
+        if(i==string::npos){
+            break;
+        }
+        filename.replace(i,1,"+");
+        i++;
+    }
+    return filename;
+}
+
+bool ANN::testpath(string filename){
+    ofstream test(filename);
+    if(!test.good()){
+        cout<<"Can't save file: "<<filename<<endl;
+        test.close();
+        return 0;
+    }
+    if(log){
+        cout<<"Saving to: "<<filename<<endl;
+    }
+    test.close();
+    return 1;
+}
+
+unsigned long long ANN::combine(unsigned char* value,int siz){
     unsigned long long out=0;
     unsigned long long mult=1;
-    for(int i=0;i<number;i++){
+    for(int i=0;i<siz;i++){
         out+=(unsigned long long)value[i]*mult;
         mult*=256;
     }
@@ -460,8 +506,6 @@ unsigned long long ANN::combine(unsigned char* value,int number){
 
 vector<unsigned char> ANN::link(vector<unsigned char> color, vector<unsigned char> alpha){
     vector<unsigned char> data(color.size()+alpha.size(),0);
-    //cout<<data.size()<<endl;
-    //cout<<float(data.size())/4<<endl;
     int al=0;
     int da=0;
     for(unsigned int i=0;i<data.size();i+=4){

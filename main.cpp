@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
 
         cout<<"Extraction in progress..."<<endl;
         for(int i=f_file;i<files+f_file;i++){
-            try{
+            //try{
                 ANN ann;
                 string filename(argv[i]);
 
@@ -130,18 +130,16 @@ int main(int argc, char *argv[])
                     dir=out_directory;
                 }
                 if(local==false){
-                    dir+=get_file_name(filename)+string("\\");
+                    dir+=string("\\")+get_file_name(filename)+string("\\");
 
                 }
                 create_directory(dir);
                 ann.extract_ANN(dir);
-            }catch(...){
-                cout<<"Can't process ann file, moving to the next file."<<endl;
-            }
+            //}catch(...){
+                //cout<<"Can't process ann file, moving to the next file."<<endl;
+            //}
         }
-        cout<<"No more files to decode. Ann extracted."<<endl;
-        delete_file("~send.send");
-        delete_file("~send.send.dek");
+        cout<<"No more files to decode."<<endl;
     }else{
         help_page();
     }

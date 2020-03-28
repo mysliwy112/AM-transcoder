@@ -3,12 +3,10 @@
 
 #include <string>
 
-using namespace std;
-
-void create_directory(string dir);
-void delete_file(string fil);
-string get_directory(string filename);
-string get_file_name(string filename);
+void create_directory(std::string dir);
+void delete_file(std::string fil);
+std::string get_directory(std::string filename);
+std::string get_file_name(std::string filename);
 
 
 #endif // FILESYS_H

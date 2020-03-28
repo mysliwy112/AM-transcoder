@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=' -l &quot;E:\Cplusplus\ANN-decoder\bin\Release\reksio21.ann&quot;' />
+				<Option parameters='&quot;./bin/Release/napisy.ann&quot; -l' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
@@ -22,7 +22,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;E:\AidemMedia\ORIG\Reksio i Ufo\DANE\ReksioUfo\PRZYGODA\16_SpaceInvaders\REKSIO.ANN&quot;' />
+				<Option parameters='&quot;./bin/Release/napisy.ann&quot; -l' />
 				<Compiler>
 					<Add option="-O3" />
 					<Add directory="include" />

@@ -3,10 +3,8 @@
 
 #include <vector>
 
-using namespace std;
-
-vector<unsigned char> decodeCRLE(vector<unsigned char> data,unsigned int bulk=1){
-    vector<unsigned char> n;
+std::vector<unsigned char> decodeCRLE(std::vector<unsigned char> data,unsigned int bulk=1/*how many bytes decode as one element*/){
+    std::vector<unsigned char> n;
     unsigned int i=0;
     while(i<data.size()){
         if(data[i]<128){
