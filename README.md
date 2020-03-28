@@ -22,7 +22,7 @@ ex. ```anndrzem -h``` shows instruction page.
 	
 After arguments it is possible to add names of files to extract ex.:
 
-```anndrzem -n -s PLAY ".\Przygoda\Cat\buty.ann```
+```anndrzem -n -s PLAY ".\Przygoda\Cat\buty.ann"```
 
 Extracts to folder buty images that formed animation PLAY in file buty.ann, allowing to recreate animation in normal file format.
 
