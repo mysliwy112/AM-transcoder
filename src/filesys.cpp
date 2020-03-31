@@ -22,7 +22,6 @@ string get_directory(string filename){
 }
 
 string get_file_name(string filename){
-    cout<<filename<<endl;
     if(filename.find_last_of("\\/")==string::npos)
         return filename.substr(0,filename.find_last_of('.'));
     else if(filename.find_last_of("\\/")<filename.find_last_of('.'))
