@@ -109,7 +109,7 @@
 
 1569705700 source:e:\aidemmedia\ann-decoder\icon.rc
 
-1585436371 source:e:\aidemmedia\ann-decoder\main.cpp
+1588868224 source:e:\aidemmedia\ann-decoder\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -127,7 +127,7 @@
 1585421185 e:\aidemmedia\ann-decoder\include\filesys.h
 	<string>
 
-1585436058 source:e:\aidemmedia\ann-decoder\src\filesys.cpp
+1588867726 source:e:\aidemmedia\ann-decoder\src\filesys.cpp
 	"filesys.h"
 	<windows.h>
 	<string>
@@ -138,7 +138,7 @@
 	<png.h>
 	<stdexcept>
 
-1585436493 source:e:\aidemmedia\ann-decoder\src\ann.cpp
+1588859670 source:e:\aidemmedia\ann-decoder\src\ann.cpp
 	"ANN.h"
 	<iostream>
 	<string>
@@ -161,4 +161,17 @@
 
 1585420812 e:\aidemmedia\ann-decoder\include\crle.h
 	<vector>
+
+1543656960 e:\lib\2\lpng1636\png.h
+	"pnglibconf.h"
+	"pngconf.h"
+
+1544736414 e:\lib\2\lpng1636\pnglibconf.h
+
+1543656960 e:\lib\2\lpng1636\pngconf.h
+	<limits.h>
+	<stddef.h>
+	<stdio.h>
+	<setjmp.h>
+	<time.h>
 

@@ -412,6 +412,14 @@ void ANN::decodeImage(image &img){
             cout<<"Can't decode image"<<endl;
             throw"File decode problem";
         }
+    }else if(img.compression==2){
+        try{
+            color=decodeCLZW(img.image_data);
+            alpha=decodeCLZW(img.alpha_data);
+        }catch(...){
+            cout<<"Can't decode image"<<endl;
+            throw"File decode problem";
+        }
     }else{
         throw invalid_argument(string("Unknown compression: ")+to_string(img.compression));
     }

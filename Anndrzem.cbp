@@ -25,8 +25,10 @@
 				<Option parameters='&quot;./bin/Release/napisy.ann&quot; -l' />
 				<Compiler>
 					<Add option="-O3" />
-					<Add directory="include" />
 				</Compiler>
+				<ResourceCompiler>
+					<Add option="pei-x86-64" />
+				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
@@ -35,7 +37,7 @@
 				<Option output="bin/Releasex64/Anndrzem" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Releasex64/" />
 				<Option type="1" />
-				<Option compiler="gcc_mingw64" />
+				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add directory="include" />
@@ -63,7 +65,7 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++14" />
 			<Add option="-fexceptions" />
-			<Add directory="E:/lib/asd" />
+			<Add directory="E:/lib/2/lpng1636" />
 			<Add directory="E:/lib/zlib" />
 			<Add directory="include" />
 		</Compiler>
@@ -71,13 +73,10 @@
 			<Add option="-lpiklib8_shim" />
 			<Add library="E:/lib/asd/libpng.a" />
 			<Add library="E:/lib/zlib/libz.a" />
-			<Add directory="E:/lib/2/lpng1636" />
+			<Add directory="E:/lib/asd" />
 			<Add directory="E:/lib/zlib" />
-			<Add directory="." />
+			<Add directory="lib" />
 		</Linker>
-		<Unit filename="icon.rc">
-			<Option compilerVar="WINDRES" />
-		</Unit>
 		<Unit filename="include/ANN.h" />
 		<Unit filename="include/CLZW.h" />
 		<Unit filename="include/CRLE.h" />
@@ -89,9 +88,6 @@
 		<Unit filename="src/PNGformat.cpp" />
 		<Unit filename="src/filesys.cpp" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>

@@ -125,13 +125,16 @@ int main(int argc, char *argv[])
 
                 string dir;
                 if(name_dir==false){
-                    dir=get_directory(argv[0]);
+                    dir=get_directory(argv[0])+string("\\");
                 }else{
                     dir=out_directory;
+                    if(dir.back()!='\\'&&dir.back()!='/'){
+                        dir+=string("\\");
+                    }
                 }
-                if(local==false){
-                    dir+=string("\\")+get_file_name(filename)+string("\\");
 
+                if(local==false){
+                    dir+=get_file_name(filename)+string("\\");
                 }
                 create_directory(dir);
                 ann.extract_ANN(dir);

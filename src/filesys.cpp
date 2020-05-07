@@ -16,7 +16,7 @@ void delete_file(string fil){
 
 string get_directory(string filename){
     if(filename.find_last_of("\\/")==string::npos)
-        return ".\\";
+        return ".";
     else
         return filename.substr(0,filename.find_last_of("\\/"));
 }
