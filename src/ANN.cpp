@@ -548,11 +548,11 @@ int ANN::get_event_id(string name){
         for(int ev=0;ev<head.events_number;ev++){
             cout<<ev+1<<".\t"<<events[ev].name<<endl;
         }
-        cout<<"Choose event name: (type \"id:\") to get by id"<<endl;
+        cout<<"Choose event name: (type \":\") to get sequence by numer"<<endl;
         cin>>name;
     }
-    if(name.compare(0,3,"id:")==0){
-        return stoi(name.substr(3))-1;
+    if(name.compare(0,1,":")==0){
+        return stoi(name.substr(1))-1;
     }else{
         for(int ev=0;ev<head.events_number;ev++){
             if(name.compare(events[ev].name)==0){
