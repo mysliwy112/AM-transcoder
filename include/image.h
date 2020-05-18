@@ -32,8 +32,6 @@ namespace am{
             unsigned int width;
             unsigned int height;
 
-            bool log=true;
-
             int position_x;
             int position_y;
 

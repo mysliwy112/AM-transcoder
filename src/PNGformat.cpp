@@ -10,6 +10,7 @@
 using namespace std;
 
 void write_PNG(std::vector<unsigned char> &data, unsigned long long width, unsigned long long height, int bpp, std::string &filename){
+
     png_bytep row_pointers[height];
     for(int i=0;i<height;i++){
         row_pointers[i]=data.data()+width*4*i;

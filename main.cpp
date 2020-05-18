@@ -23,7 +23,7 @@ struct Both{
     bool local=false;//creates directory for unpacked ann, same as input file's name
     string out_directory;//specifies output directory
 
-    bool pad=false;
+    bool pad=false;//add leading zeros to output filename
     int pad_number=0;
 
     bool log=true;
@@ -68,26 +68,27 @@ int get_mode(am::bytes data){
 
 
 int get_event_id(am::ANN &ann){
-    if(decode.event_name.size()==0){
+    string event_name=decode.event_name;
+    if(event_name.size()==0){
         cout<<endl;
         for(int ev=0;ev<ann.events.size();ev++){
             cout<<ev<<".\t"<<ann.events[ev].name<<endl;
         }
         cout<<"Choose event name: (type \":\") to get sequence by numer"<<endl;
-        cin>>decode.event_name;
+        cin>>event_name;
     }
 
-    if(decode.event_name.compare(0,1,":")==0){
-        return stoi(decode.event_name.substr(1));
+    if(event_name.compare(0,1,":")==0){
+        return stoi(event_name.substr(1));
     }else{
         for(int ev=0;ev<ann.events.size();ev++){
-            if(decode.event_name.compare(ann.events[ev].name)==0){
+            if(event_name.compare(ann.events[ev].name)==0){
                 return ev;
             }
         }
     }
 
-    throw invalid_argument(string("Can't find event with name: ")+decode.event_name);
+    throw invalid_argument(string("Can't find event with name |")+event_name+"|");
 }
 
 void help_page(){
@@ -122,8 +123,12 @@ void get_flag(char option,bool last,char *command[],int &arg,int maxi){
             both.out_directory=get_arg(command,arg,maxi);//check for "-*"!!!!
         break;
     case 'p':
-        if(last)
-            both.pad_number=stoi(get_arg(command,arg,maxi));
+        both.pad=true;
+        if(last){
+            string str=get_arg(command,arg,maxi);
+            if(str.size()>0)
+                both.pad_number=stoi(str);
+        }
         break;
 
     case 's':
@@ -158,7 +163,7 @@ string get_arg(char *command[],int &arg,int maxi){
     if(str[0]=='/'||str[0]=='-'){
         bool last=false;
         for(int ar=1;ar<str.size();ar++){
-            if(ar=str.size()-1) last=true;
+            if(ar==str.size()-1) last=true;
             get_flag(str[ar],last,command,arg,maxi);
         }
         return "";
@@ -166,7 +171,6 @@ string get_arg(char *command[],int &arg,int maxi){
 
     return str;
 }
-
 
 
 void parse_commandline(char *command[],int maxi){
@@ -201,12 +205,18 @@ void align_sequence(int event_id, am::ANN &ann){
         ann.images[ann.events[event_id].frames[fr].image_ref].align();
     }
 }
-
-
-
+int get_pad_len(int size){
+    int pad_len;
+    if(both.pad_number>=len_int(size))
+        pad_len=both.pad_number;
+    else
+        pad_len=len_int(size);
+    return pad_len;
+}
 
 int main(int argc, char *argv[])
 {
+    cout<<argv[0]<<endl;
     if(argc>1){
         parse_commandline(argv,argc);
 
@@ -219,7 +229,7 @@ int main(int argc, char *argv[])
             }else if(both.out_directory.size()>0){
                 out_dir=both.out_directory;
             }else{
-                out_dir="./";
+                out_dir=get_directory(argv[0]);
             }
 
             if(!both.local){
@@ -228,7 +238,7 @@ int main(int argc, char *argv[])
             }
 
             if(both.log)
-                cout<<out_dir<<endl;
+                cout<<"Out directory: "<<out_dir<<endl;
 
             int what=get_mode(read_file(filename,4));
             if(both.log)
@@ -239,58 +249,69 @@ int main(int argc, char *argv[])
                 ann.read_any(filename);
 
                 if(decode.align&&!decode.sequence){
+                    if(both.log)
+                        cout<<"File align"<<endl;
                     for(am::Image &image:ann.images){
                         image.align();
                     }
+                    if(both.log)
+                        cout<<"completed"<<endl;
                 }
 
                 if(decode.metafile){
                     ann.write_mann(out_dir);
                 }else if(decode.sequence){
                     int event_id=get_event_id(ann);
+                    if(decode.align)
+                        align_sequence(event_id,ann);
 
-                    align_sequence(event_id,ann);
-
-
-                    int pad_len;
-                    if(both.pad_number>=len_int(ann.events[event_id].frames.size()))
-                        pad_len=both.pad_number;
-                    else
-                        pad_len=len_int(ann.events[event_id].frames.size());
+                    int pad_len=get_pad_len(ann.events[event_id].frames.size());
 
                     for(int fr=0;fr<ann.events[event_id].frames.size();fr++){
+
                         string number;
                         if(both.pad)
                             number=pad_int(fr,pad_len);
                         else
                             number=to_string(fr);
 
-                        ann.images[ann.events[event_id].frames[fr].image_ref].write_png(ann.events[event_id].name+"_"+number+string(".png"));
+                        ann.images[ann.events[event_id].frames[fr].image_ref].write_png(out_dir+ann.events[event_id].name+"_"+number+".png");
                     }
                 }else{
+
+                    int pad_len=get_pad_len(ann.images.size());
+
                     for(int im=0;im<ann.images.size();im++){
-                        ann.images[im].write_png(out_dir+to_string(im)+string("_")+ann.images[im].name+string(".png"));
+
+                        string number;
+                        if(both.pad)
+                            number=pad_int(im,pad_len);
+                        else
+                            number=to_string(im);
+
+                        ann.images[im].write_png(out_dir+number+"_"+ann.images[im].name+".png");
                     }
                 }
             }else if(what==code_ann){
                 am::ANN ann;
                 ann.read_any(filename);
-                ann.write_ann(out_dir+get_file_name(filename)+string(".ann"));
+                ann.write_ann(out_dir+get_file_name(filename)+".ann");
             }else if(what==decode_img){
                 am::Image image;
                 image.read_img(filename);
                 if(decode.align){
                     image.align();
                 }
-                image.write_png(out_dir+get_file_name(filename)+string(".png"));
+                image.write_png(out_dir+get_file_name(filename)+".png");
             }else if(what==code_img){
                 am::Image image;
                 image.read_png(filename);
-                image.write_img(out_dir+get_file_name(filename)+string(".img"));
+                image.write_img(out_dir+get_file_name(filename)+".img");
             }
 
         }
     }
+
     return 0;
 }
 

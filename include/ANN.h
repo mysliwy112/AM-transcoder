@@ -22,8 +22,6 @@ namespace am{
         public:
             ANN(std::string name="no_name");
 
-            bool log=true;
-
             std::string name;
             std::string author;
             int bpp;

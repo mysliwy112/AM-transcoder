@@ -216,6 +216,8 @@ namespace am{
     }
 
     void Image::align(){
+        if(log)
+            cout<<"Aligning... "<<position_x<<" "<<position_y<<" ";
         width=width+position_x;
         unsigned long long add=position_y*width*4;
         rgba32.insert(rgba32.begin(),add,0);
@@ -223,11 +225,13 @@ namespace am{
         while(pos<rgba32.size()){
             add=4*position_x;
             rgba32.insert(rgba32.begin()+pos,add,0);
-            pos+=width;
+            pos+=width*4;
         }
-        height=position_x+height;
+        height=position_y+height;
         position_x=0;
         position_y=0;
+        if(log)
+            cout<<"completed"<<endl;
     }
 
 

@@ -17,12 +17,16 @@ void delete_file(string fil){
 
 string get_directory(string filename){
     if(filename.find_last_of("\\/")==string::npos)
-        return ".";
+        return "./";
     else
-        return filename.substr(0,filename.find_last_of("\\/"));
+        return filename.substr(0,filename.find_last_of("\\/"))+"/";
 }
 
 string get_file_name(string filename){
+    if(filename.find_last_of("\\/")==string::npos&&filename.find_last_of('.')==string::npos){
+        return filename;
+    }
+
     if(filename.find_last_of("\\/")==string::npos)
         return filename.substr(0,filename.find_last_of('.'));
     else if(filename.find_last_of("\\/")<filename.find_last_of('.'))
@@ -37,7 +41,7 @@ vector<unsigned char> read_file(string filename, unsigned long long length){
     vector<unsigned char> data;
 
     if(!file.good()){
-        throw invalid_argument(string("Can't access file.")+filename);
+        throw invalid_argument(string("Can't access file: ")+filename);
     }
 
     file.seekg (0, ios::end);

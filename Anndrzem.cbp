@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;./bin/Release/reksio.ann&quot;' />
+				<Option parameters='&quot;../Release/reksio.ann&quot; -pl' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
@@ -22,7 +22,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;./bin/Release/reksio.ann&quot;' />
+				<Option parameters='&quot;bin/Release/reksio.ann&quot; -pl' />
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="include" />
@@ -83,19 +83,19 @@
 		<Unit filename="include/CRLE.h" />
 		<Unit filename="include/Event.h" />
 		<Unit filename="include/Frame.h" />
-		<Unit filename="include/Image.h" />
 		<Unit filename="include/PNGformat.h" />
 		<Unit filename="include/am_utils.h" />
 		<Unit filename="include/filesys.h" />
+		<Unit filename="include/image.h" />
 		<Unit filename="include/piklib8_shim.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/ANN.cpp" />
 		<Unit filename="src/Event.cpp" />
 		<Unit filename="src/Frame.cpp" />
-		<Unit filename="src/Image.cpp" />
 		<Unit filename="src/PNGformat.cpp" />
 		<Unit filename="src/am_utils.cpp" />
 		<Unit filename="src/filesys.cpp" />
+		<Unit filename="src/image.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

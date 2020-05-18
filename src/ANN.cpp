@@ -76,13 +76,13 @@ namespace am{
 
         for(int im=0;im<images.size();im++){
             if(log)
-                cout<<"Loading data"<<endl;
+                cout<<"Loading data...";
             images[im].load_data(get_data(offset,images[im].image_size+images[im].alpha_size));
             if(log)
-                cout<<"Data loaded"<<endl;
+                cout<<"completed"<<endl;
         }
         if(log)
-            cout<<"Ann file has been loaded"<<"\n\n\n";
+            cout<<"\n\n\nAnn file has been loaded\n\n\n";
     }
 
     dic ANN::load_mann(stringstream &offset){
