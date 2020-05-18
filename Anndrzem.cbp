@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;../Release/reksio.ann&quot; -pl' />
+				<Option parameters='&quot;./bin/Release/reksio.ann&quot; ' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />

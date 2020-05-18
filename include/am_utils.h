@@ -17,7 +17,7 @@ namespace am{
         public:
             Graphics();
 
-            bool log=true;
+            bool log=false;
 
             unsigned long long get_int(bytes::iterator &offset,int length);
             void set_int(bytes::iterator &offset,unsigned long long number,int length=4);

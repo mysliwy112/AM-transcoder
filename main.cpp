@@ -26,7 +26,7 @@ struct Both{
     bool pad=false;//add leading zeros to output filename
     int pad_number=0;
 
-    bool log=true;
+    bool log=false;
 
 };
 Both both;
@@ -116,6 +116,9 @@ void get_flag(char option,bool last,char *command[],int &arg,int maxi){
         break;
     case 'l':
         both.local=true;
+        break;
+    case 'v':
+        both.log=true;
         break;
     case 'o':
         both.pad=true;
@@ -216,7 +219,6 @@ int get_pad_len(int size){
 
 int main(int argc, char *argv[])
 {
-    cout<<argv[0]<<endl;
     if(argc>1){
         parse_commandline(argv,argc);
 

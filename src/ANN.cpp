@@ -18,8 +18,8 @@ namespace am{
 
 
     void ANN::load_header_ann(bytes::iterator &offset){
+        string check=get_str(offset,0x4);
         if(log){
-            string check=get_str(offset,0x4);
             if(check.compare("NVP")!=0){
                 cout<<"Warning: Inappropriate check string: "<<check<<endl;
             }else{
@@ -138,7 +138,6 @@ namespace am{
 
     void ANN::read_any(string filename){
         bytes data=read_file(filename);
-        cout<<data.size()<<endl;
         load(data,get_file_name(filename));
     }
 

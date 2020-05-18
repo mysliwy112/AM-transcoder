@@ -23,9 +23,7 @@ string get_directory(string filename){
 }
 
 string get_file_name(string filename){
-    if(filename.find_last_of("\\/")==string::npos&&filename.find_last_of('.')==string::npos){
-        return filename;
-    }
+
 
     if(filename.find_last_of("\\/")==string::npos)
         return filename.substr(0,filename.find_last_of('.'));
