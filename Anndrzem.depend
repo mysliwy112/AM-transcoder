@@ -109,49 +109,56 @@
 
 1569705700 source:e:\aidemmedia\ann-decoder\icon.rc
 
-1588950735 source:e:\aidemmedia\ann-decoder\main.cpp
+1589757527 source:e:\aidemmedia\ann-decoder\main.cpp
 	<iostream>
 	<string>
 	<vector>
 	"PNGformat.h"
 	"ANN.h"
+	"Image.h"
 	"filesys.h"
 
-1569353025 e:\aidemmedia\ann-decoder\include\pngformat.h
+1589745116 e:\aidemmedia\ann-decoder\include\pngformat.h
+	<vector>
+	<string>
 
-1585434521 e:\aidemmedia\ann-decoder\include\ann.h
+1589752598 e:\aidemmedia\ann-decoder\include\ann.h
 	<string>
 	<vector>
-	<fstream>
+	<sstream>
+	"am_utils.h"
+	"Event.h"
+	"Image.h"
 
-1585421185 e:\aidemmedia\ann-decoder\include\filesys.h
+1589745616 e:\aidemmedia\ann-decoder\include\filesys.h
 	<string>
+	<vector>
 
-1588867726 source:e:\aidemmedia\ann-decoder\src\filesys.cpp
+1589757837 source:e:\aidemmedia\ann-decoder\src\filesys.cpp
 	"filesys.h"
 	<windows.h>
 	<string>
 	<iostream>
+	<fstream>
 
-1569439904 source:e:\aidemmedia\ann-decoder\src\pngformat.cpp
+1589755500 source:e:\aidemmedia\ann-decoder\src\pngformat.cpp
 	"PNGformat.h"
 	<png.h>
 	<stdexcept>
-
-1588859670 source:e:\aidemmedia\ann-decoder\src\ann.cpp
-	"ANN.h"
-	<iostream>
 	<string>
 	<vector>
+
+1589760300 source:e:\aidemmedia\ann-decoder\src\ann.cpp
+	"ANN.h"
+	<iostream>
 	<fstream>
+	<string>
+	<vector>
 	<stdexcept>
 	<algorithm>
-	"PNGformat.h"
-	"CLZW.h"
-	"CRLE.h"
 	"filesys.h"
 
-1585420793 e:\aidemmedia\ann-decoder\include\clzw.h
+1589746100 e:\aidemmedia\ann-decoder\include\clzw.h
 	<vector>
 	<iostream>
 	<algorithm>
@@ -159,7 +166,7 @@
 
 1578168863 e:\aidemmedia\ann-decoder\include\piklib8_shim.h
 
-1585420812 e:\aidemmedia\ann-decoder\include\crle.h
+1589746153 e:\aidemmedia\ann-decoder\include\crle.h
 	<vector>
 
 1543656960 e:\lib\2\lpng1636\png.h
@@ -174,4 +181,45 @@
 	<stdio.h>
 	<setjmp.h>
 	<time.h>
+
+1589758588 source:e:\aidemmedia\ann-decoder\src\am_utils.cpp
+	"am_utils.h"
+	<iostream>
+	<sstream>
+
+1589758613 e:\aidemmedia\ann-decoder\include\am_utils.h
+	<vector>
+	<string>
+	<sstream>
+
+1589759602 source:e:\aidemmedia\ann-decoder\src\event.cpp
+	"Event.h"
+	<iostream>
+
+1589636991 e:\aidemmedia\ann-decoder\include\event.h
+	<vector>
+	"am_utils.h"
+	"Frame.h"
+
+1589759366 e:\aidemmedia\ann-decoder\include\frame.h
+	<string>
+	"am_utils.h"
+
+1589760182 source:e:\aidemmedia\ann-decoder\src\frame.cpp
+	"Frame.h"
+	<iostream>
+
+1589745642 e:\aidemmedia\ann-decoder\include\image.h
+	<vector>
+	<string>
+	"am_utils.h"
+
+1589760166 source:e:\aidemmedia\ann-decoder\src\image.cpp
+	<iostream>
+	"am_utils.h"
+	"PNGformat.h"
+	"filesys.h"
+	"CLZW.h"
+	"CRLE.h"
+	"Image.h"
 
