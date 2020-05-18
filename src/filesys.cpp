@@ -62,8 +62,24 @@ vector<unsigned char> read_file(string filename, unsigned long long length){
 }
 
 void write_file(std::string filename, std::vector<unsigned char> data){
+    int i=2;
+    while(i<filename.size()){
+        i=filename.find_first_of("<>:\"|?*",i);
+        if(i==string::npos){
+            break;
+        }
+        filename.replace(i,1,"+");
+        i++;
+    }
+
     ofstream file(filename,ios::binary);
+    if(!file.good()){
+        file.close();
+        throw"Can't save file: "+filename;
+    }
+
     file.write((char*)data.data(),data.size());
+    file.close();
 }
 
 

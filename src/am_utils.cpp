@@ -1,6 +1,7 @@
 #include "am_utils.h"
 #include <iostream>
 #include <sstream>
+#include <bitset>
 
 using namespace std;
 
@@ -14,10 +15,11 @@ namespace am{
         return var;
     }
 
+
     void Graphics::set_int(bytes::iterator &offset,unsigned long long number,int length){
-        bytes data(&number,&number+length);
-        for(int i=0;i<length;i++){
-            *offset=data[i];
+        bytes data(length);
+        for (int i = 0; i < length; i++){
+            *offset = (number >> (i * 8));
             offset++;
         }
     }
@@ -83,7 +85,8 @@ namespace am{
 
     void Graphics::load_mann(bytes data){
         stringstream offset(string((char*)data.data(),data.size()));
-        load_mann(offset);
+        vector<string>file;
+        load_mann(offset,file);
     }
 
     void Graphics::load_ann(bytes data){
@@ -91,7 +94,7 @@ namespace am{
         load_ann(offset);
     }
 
-    dic Graphics::load_mann(stringstream &offset){
+    dic Graphics::load_mann(stringstream &offset,vector<string>&file){
         cout<<"You shouldn't be here"<<endl;
         dic pic;
         return pic;
@@ -99,5 +102,15 @@ namespace am{
 
     void Graphics::load_ann(bytes::iterator &offset){
         cout<<"You shouldn't be here"<<endl;
+    }
+
+    int Graphics::add_file(std::vector<std::string> &files,string file){
+        for(int i=0;i<files.size();i++){
+            if(files[i]==file){
+                return i;
+            }
+        }
+        files.push_back(file);
+        return files.size()-1;
     }
 }

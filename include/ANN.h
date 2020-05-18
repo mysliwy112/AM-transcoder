@@ -22,10 +22,10 @@ namespace am{
         public:
             ANN(std::string name="no_name");
 
-            std::string name;
-            std::string author;
-            int bpp;
-            int transparency;
+            std::string name="fire";
+            std::string author="anon";
+            int bpp=16;
+            int transparency=255;
 
             std::vector<Event> events;
             std::vector<Image> images;
@@ -36,7 +36,7 @@ namespace am{
             using Graphics::load_ann;
             void load_ann(bytes::iterator &offset);
             using Graphics::load_mann;
-            dic load_mann(std::stringstream &offset);
+            dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
 
 
             bytes get_mann();

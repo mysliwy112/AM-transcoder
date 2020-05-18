@@ -44,4 +44,27 @@ namespace am{
         if(log)
             cout<<"Event "<<name<<" completed"<<"\n\n\n";
     }
+
+    dic Event::load_mann(stringstream &offset,vector<string>&files){
+        frames.clear();
+        dic dict=get_val(offset);
+        while(1){
+            if(dict.key=="transparency"){
+                transparency=stoi(dict.value);
+            }else if(dict.key=="loop"){
+                loop_number=stoi(dict.value);
+            }else if(dict.key=="frame"){
+                while(dict.key=="frame"){
+                    frames.push_back(Frame());
+                    frames.back().image_ref=add_file(files,dict.value);
+                    dict=frames.back().load_mann(offset,files);
+                }
+                return dict;
+            }else{
+                cout<<"Invalid key: "<<dict.key<<endl;
+            }
+            dic dict=get_val(offset);
+        }
+        return dict;
+    }
 }

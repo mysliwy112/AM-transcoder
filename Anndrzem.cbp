@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;./bin/Release/reksio.ann&quot; ' />
+				<Option parameters='&quot;E:\AidemMedia\ORIG\Reksio i Czarodzieje O\Dane\Game\Przygoda\Cat\ul_mask.img&quot; -v' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />

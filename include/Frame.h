@@ -12,15 +12,15 @@ namespace am{
 
             unsigned short image_ref;
             std::string check;
-            short position_x;
-            short position_y;
-            unsigned int sfx_switch;
-            int transparency;
-            std::string name;
+            short position_x=0;
+            short position_y=0;
+            unsigned int sfx_switch=0;
+            int transparency=255;
+            std::string name="none";
             std::string sounds;
 
             void load_ann(bytes::iterator &offset);
-            void load_mann(bytes::iterator &offset);
+            dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
 
             void get_ann(bytes::iterator &offset);
             void get_mann(bytes::iterator &offset);

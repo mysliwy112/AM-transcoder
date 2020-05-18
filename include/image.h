@@ -32,13 +32,13 @@ namespace am{
             unsigned int width;
             unsigned int height;
 
-            int position_x;
-            int position_y;
+            int position_x=0;
+            int position_y=0;
 
             unsigned int image_size;
             unsigned int alpha_size;
             int compression;
-            int bpp;
+            int bpp=16;
 
             bytes rgba32;
 
@@ -49,7 +49,7 @@ namespace am{
             bytes get_img_header(int compression);
 
             void load_data(bytes data);
-            bytes get_am_data();
+            bytes get_am_data(int compression);
             void load_rgba32(bytes data);
             bytes get_rgba32();
 

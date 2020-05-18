@@ -8,7 +8,7 @@ Compression=true
 Event=START
 	frame=./kret1.png
 	frame=./kret2.png
-		positionX:10
+		position_x:10
 		transparency:255
 		name:spi
 	frame:./kret2.png 20 0 255 spi_mocniej

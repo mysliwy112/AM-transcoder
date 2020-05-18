@@ -85,7 +85,7 @@ namespace am{
             cout<<"\n\n\nAnn file has been loaded\n\n\n";
     }
 
-    dic ANN::load_mann(stringstream &offset){
+    dic ANN::load_mann(stringstream &offset, vector<string>&files){
         dic dict;
         string check;
         offset>>check;
@@ -100,14 +100,26 @@ namespace am{
         images.clear();
 
         dict=get_val(offset);
-        if(dict.key=="transparency"){
-            transparency=stoi(dict.value);
-        }else if(dict.key=="author"){
-            author=dict.value;
-        }else if(dict.key=="bpp"){
-            author=dict.value;
-        }else if(dict.key=="event"){
-            author=dict.value;
+        while(1){
+            if(dict.key=="transparency"){
+                transparency=stoi(dict.value);
+            }else if(dict.key=="author"){
+                author=dict.value;
+            }else if(dict.key=="bpp"){
+                bpp=stoi(dict.value);
+            }else if(dict.key=="event"){
+                while(dict.key=="event"){
+                    events.push_back(Event());
+                    events.back().name=dict.value;
+                    dict=events.back().load_mann(offset,files);
+                }
+                images.resize(files.size());
+                for(int im=0;im<images.size();im++){
+                    images[im].name=get_file_name(files[im]);
+                    images[im].read_png(files[im]);
+                }
+                return dict;
+            }
         }
         return dict;
     }
@@ -149,32 +161,4 @@ namespace am{
     void ANN::write_ann(string filename){
 
     }
-
-    string ANN::validate_filename(string filename){
-        int i=0;
-        while(i<filename.size()){
-            i=filename.find_first_of("<>:\"/\\|?*",i);
-            if(i==string::npos){
-                break;
-            }
-            filename.replace(i,1,"+");
-            i++;
-        }
-        return filename;
-    }
-
-    bool ANN::testpath(string filename){
-        ofstream test(filename);
-        if(!test.good()){
-            cout<<"Can't save file: "<<filename<<endl;
-            test.close();
-            return 0;
-        }
-        if(log){
-            cout<<"Saving to: "<<filename<<endl;
-        }
-        test.close();
-        return 1;
-    }
-
 };

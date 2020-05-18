@@ -45,8 +45,6 @@ namespace am{
         }
     }
 
-
-
     void Image::load_img(bytes::iterator &offset)
     {
         if(get_str(offset,0x4)=="PIK"){
@@ -114,16 +112,17 @@ namespace am{
         bytes data(0x28);
         bytes::iterator offset=data.begin();
 
-        set_str(offset,"PIK\0");
+        set_str(offset,"PIK");
+        set_data(offset,bytes(1,0));
 
         set_int(offset,width,0x4);
         set_int(offset,height,0x4);
 
         set_int(offset,bpp,0x4);
-        set_int(offset,rgba32.size()/2,0x4);
+        set_int(offset,image_size,0x4);
         set_data(offset,bytes(4,0));
         set_int(offset,compression,0x4);
-        set_int(offset,rgba32.size()/4,0x4);
+        set_int(offset,alpha_size,0x4);
 
         set_int(offset,position_x,0x4);
         set_int(offset,position_y,0x4);
@@ -131,11 +130,16 @@ namespace am{
         return data;
     }
 
-    bytes Image::get_am_data(){
+    bytes Image::get_am_data(int compression){
+
         image_data img;
         img=split_rgba32();
-        img.image=compress(img.image,crzw,2);
-        img.alpha=compress(img.alpha,crzw,1);
+
+        img.image=compress(img.image,compression,2);
+        image_size=img.image.size();
+        img.alpha=compress(img.alpha,compression,1);
+        alpha_size=img.alpha.size();
+
         img.image.insert(img.image.end(),img.alpha.begin(),img.alpha.end());
         return img.image;
     }
@@ -145,7 +149,11 @@ namespace am{
     }
 
     void Image::read_png(string filename){
-        read_PNG(filename);
+        Image image=read_PNG(filename);
+        width=image.width;
+        height=image.height;
+        bpp=16;
+        rgba32=image.rgba32;
     }
 
     void Image::write_png(string filename){
@@ -160,55 +168,63 @@ namespace am{
     }
 
     void Image::write_img(string filename){
-        bytes data=get_img_header(2);
-        bytes img=get_am_data();
+        int cmpr=2;
+        bytes img=get_am_data(cmpr);
+        bytes data=get_img_header(cmpr);
+
         data.insert(data.end(),img.begin(),img.end());
+        //write_png(filename+".png");
+        //data.insert(data.end(),rgba32.begin(),rgba32.end());
         write_file(filename,data);
     }
 
     bytes Image::decompress(bytes data, int type, int size){
-        try{
-            if(type==0){
-            }else if(type==4){
-                    data=decodeCRLE(data,size);
+        if(data.size()>0){
+            try{
+                if(type==0){
+                }else if(type==4){
+                        data=decodeCRLE(data,size);
 
-            }else if(type==3){
-                    data=decodeCLZW(data);
-                    data=decodeCRLE(data,size);
+                }else if(type==3){
+                        data=decodeCLZW(data);
+                        data=decodeCRLE(data,size);
 
-            }else if(type==2){
-                    data=decodeCLZW(data);
+                }else if(type==2){
+                        data=decodeCLZW(data);
 
-            }else{
-                throw invalid_argument(string("Unknown compression: ")+to_string(type));
+                }else{
+                    throw invalid_argument(string("Unknown compression: ")+to_string(type));
+                }
+            }catch(...){
+                cout<<"Can't decompress image, compression type:"<<type<<endl;
+                throw"File decompress problem";
             }
-        }catch(...){
-            cout<<"Can't decompress image, compression type:"<<type<<endl;
-            throw"File decompress problem";
         }
 
         return data;
     }
 
     bytes Image::compress(bytes data, int type, int size){
-        try{
-            if(type==0){
-            }else if(type==4){
-                data=codeCRLE(data,size);
+        if(data.size()>0){
+            try{
+                if(type==0){
+                }else if(type==4){
+                    data=codeCRLE(data,size);
 
-            }else if(type==3){
-                data=codeCRLE(data,size);
-                data=codeCLZW(data);
+                }else if(type==3){
+                    data=codeCRLE(data,size);
+                    data=codeCLZW(data);
 
-            }else if(type==2){
-                data=codeCLZW(data);
+                }else if(type==2){
+                    data=codeCLZW(data);
 
-            }else{
-                throw invalid_argument(string("Unknown compression: ")+to_string(type));
+                }else{
+                    throw invalid_argument(string("Unknown compression: ")+to_string(type));
+                }
+            }catch(...){
+                cout<<"Can't compress image, compression type:"<<type<<endl;
+                throw"File decompress problem";
             }
-        }catch(...){
-            cout<<"Can't compress image, compression type:"<<type<<endl;
-            throw"File decompress problem";
         }
 
 
@@ -236,6 +252,8 @@ namespace am{
 
 
     void Image::create_rgba32(image_data img){
+        if(img.alpha.size()==0)
+            img.alpha.resize(img.image.size()/3,255);
 
         bytes n(img.image.size()/2*3);
         int temp;
@@ -271,11 +289,11 @@ namespace am{
         int im_p=0;
         int al_p=0;
         for(int i=0;i<rgba32.size();i+=4){
-            img.image[im_p]=uint8_t(float(rgba32[i])*63/255);
-            img.image[im_p]+=uint8_t(float(rgba32[i+1])*127/255)<<5;
-            img.image[im_p+1]=uint8_t(float(rgba32[i+1])*127/255)>>5;
-            img.image[im_p+1]+=uint8_t(float(rgba32[i+2])*63/255)<<3;
-            img.image[al_p]=rgba32[i+3];
+            img.image[im_p]+=uint8_t(float(rgba32[i+2])*32/256);
+            img.image[im_p]+=uint8_t(float(rgba32[i+1])*64/256)<<5;
+            img.image[im_p+1]+=uint8_t(float(rgba32[i+1])*64/256)>>3;
+            img.image[im_p+1]+=uint8_t(float(rgba32[i])*32/256)<<3;
+            img.alpha[al_p]=rgba32[i+3];
             im_p+=2;
             al_p+=1;
         }

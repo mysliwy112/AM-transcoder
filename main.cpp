@@ -182,7 +182,8 @@ void parse_commandline(char *command[],int maxi){
     while(arg<maxi){
         str=get_arg(command,arg,maxi);
         if(str.size()>0){
-            cout<<"File: "<<str<<endl;
+            if(both.log)
+                cout<<"File: "<<str<<endl;
             filenames.push_back(str);
         }
     }
@@ -313,7 +314,6 @@ int main(int argc, char *argv[])
 
         }
     }
-
     return 0;
 }
 

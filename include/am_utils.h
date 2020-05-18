@@ -36,8 +36,10 @@ namespace am{
 
             virtual void load_ann(bytes::iterator &offset);
             void load_ann(bytes data);
-            virtual dic load_mann(std::stringstream &offset);
+            virtual dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
             void load_mann(bytes data);
+
+            int add_file(std::vector<std::string> &files, std::string file);
 
             bytes get_ann();
             bytes get_mann();

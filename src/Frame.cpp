@@ -42,4 +42,27 @@ namespace am{
             cout<<endl;
         }
     }
+
+    dic Frame::load_mann(stringstream &offset,vector<string>&files){
+        dic dict=get_val(offset);
+        while(1){
+            if(dict.key=="position_x"){
+                position_x=stoi(dict.value);
+            }else if(dict.key=="position_y"){
+                position_y=stoi(dict.value);
+            }else if(dict.key=="sfx"){
+                sounds=dict.value;
+            }else if(dict.key=="name"){
+                name=dict.value;
+            }else if(dict.key=="transparency"){
+                transparency=stoi(dict.value);
+            }else if(dict.key=="frame"){
+                return dict;
+            }else{
+                cout<<"Invalid key: "<<dict.key<<endl;
+            }
+            dic dict=get_val(offset);
+        }
+        return dict;
+    }
 }

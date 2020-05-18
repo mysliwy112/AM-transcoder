@@ -26,8 +26,8 @@ std::vector<unsigned char> codeCLZW(std::vector<unsigned char> &decode){
     int out_size;
     char *output;
     output = piklib_CLZWCompression2_compress(reinterpret_cast<char*>(decode.data()), decode.size(),&out_size);
-    std::vector<unsigned char> data(out_size);
-    std::copy(reinterpret_cast<char*>(output), reinterpret_cast<char*>(output)+out_size, data.begin());
+    std::vector<unsigned char> data(out_size+8);
+    std::copy(reinterpret_cast<char*>(output), reinterpret_cast<char*>(output)+out_size+8, data.begin());
 
     delete[] output;
     return data;
