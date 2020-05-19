@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;E:\AidemMedia\ANN-decoder\bin\Release\kogut14_0.ann&quot; -vm' />
+				<Option parameters='&quot;E:\AidemMedia\ANN-decoder\bin\Release\bkg2.img&quot; -v' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />

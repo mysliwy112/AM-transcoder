@@ -262,8 +262,8 @@ namespace am{
 
 
     void Image::create_rgba32(image_data img){
-        if(img.alpha.size()==0)
-            img.alpha.resize(img.image.size()/3,255);
+        //if(img.alpha.size()==0)
+            //img.alpha.resize(img.image.size()/3,255);
 
         bytes n(img.image.size()/2*3);
         int temp;
@@ -279,14 +279,17 @@ namespace am{
         }
         img.image=n;
 
-        rgba32.resize(img.image.size()+img.alpha.size(),0);
+        rgba32.resize(img.image.size()+img.image.size()/3,0);
         int al=0;
         int da=0;
         for(unsigned int i=0;i<rgba32.size();i+=4){
             rgba32[i]=img.image[da];
             rgba32[i+1]=img.image[da+1];
             rgba32[i+2]=img.image[da+2];
-            rgba32[i+3]=img.alpha[al];
+            if(img.alpha.size()==0)
+                rgba32[i+3]=255;
+            else
+                rgba32[i+3]=img.alpha[al];
             da+=3;
             al++;
         }
