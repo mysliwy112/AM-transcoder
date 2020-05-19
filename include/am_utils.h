@@ -4,8 +4,10 @@
 #include<vector>
 #include<string>
 #include <sstream>
+#include <iterator>
 
 namespace am{
+    extern bool LOG;
     typedef std::vector<unsigned char> bytes;
 
     struct dic{
@@ -17,16 +19,16 @@ namespace am{
         public:
             Graphics();
 
-            bool log=false;
+            //bool log=false;
 
             unsigned long long get_int(bytes::iterator &offset,int length);
-            void set_int(bytes::iterator &offset,unsigned long long number,int length=4);
+            void set_int(std::back_insert_iterator<bytes> &offset,unsigned long long number,int length=4);
 
             std::string get_str(bytes::iterator &offset,int length);
-            void set_str(bytes::iterator &offset, std::string str, int length=0);
+            void set_str(std::back_insert_iterator<bytes> &offset, std::string str, int length=0);
 
             bytes get_data(bytes::iterator &offset,int length);
-            void set_data(bytes::iterator &offset,bytes data);
+            void set_data(std::back_insert_iterator<bytes> &offset,bytes data);
 
             dic get_val(std::stringstream &offset);
 
@@ -39,10 +41,18 @@ namespace am{
             virtual dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
             void load_mann(bytes data);
 
+
+            virtual void get_ann(std::back_insert_iterator<bytes> &offset);
+            //void get_ann(bytes data);
+            virtual void get_mann(std::ostringstream &offset,std::vector<std::string>&files);
+            bytes get_mann();
+
+
+
             int add_file(std::vector<std::string> &files, std::string file);
 
             bytes get_ann();
-            bytes get_mann();
+            //bytes get_mann();
 
 
 

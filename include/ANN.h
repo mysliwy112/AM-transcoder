@@ -22,8 +22,11 @@ namespace am{
         public:
             ANN(std::string name="no_name");
 
+            void log();
+
             std::string name="fire";
             std::string author="anon";
+
             int bpp=16;
             int transparency=255;
 
@@ -33,18 +36,22 @@ namespace am{
             void load(bytes file, std::string name);
 
             void load_header_ann(bytes::iterator &offset);
+
             using Graphics::load_ann;
             void load_ann(bytes::iterator &offset);
             using Graphics::load_mann;
             dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
 
-
-            bytes get_mann();
+            using Graphics::get_ann;
+            void get_ann(std::back_insert_iterator<bytes> &offset);
+            using Graphics::get_mann;
+            void get_mann(std::ostringstream &offset,std::vector<std::string>&files);
 
             void read_any(std::string filename);
             void write_mann(std::string filename);
             void write_ann(std::string filename);
 
+            std::string mann_dir="";
 
             void align_image(Image& img, int max_x, int max_y, int min_x, int min_y, int bpp=4);
 

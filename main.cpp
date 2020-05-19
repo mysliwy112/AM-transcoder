@@ -119,6 +119,7 @@ void get_flag(char option,bool last,char *command[],int &arg,int maxi){
         break;
     case 'v':
         both.log=true;
+        am::LOG=true;
         break;
     case 'o':
         both.pad=true;
@@ -248,7 +249,7 @@ int main(int argc, char *argv[])
                 cout<<"Mode: "<<what<<endl;
 
             if(what==decode_ann){
-                am::ANN ann;
+                am::ANN ann(get_file_name(filename));
                 ann.read_any(filename);
 
                 if(decode.align&&!decode.sequence){
@@ -296,7 +297,7 @@ int main(int argc, char *argv[])
                     }
                 }
             }else if(what==code_ann){
-                am::ANN ann;
+                am::ANN ann(get_file_name(filename));
                 ann.read_any(filename);
                 ann.write_ann(out_dir+get_file_name(filename)+".ann");
             }else if(what==decode_img){

@@ -33,11 +33,7 @@ namespace am{
             int sfx_size=get_int(offset,0x4);
             sounds=get_str(offset,sfx_size);
         }
-        log();
-    }
-
-    void Frame::log(){
-        if(LOG){
+        if(log){
             cout<<"Frame: "<<name<<endl;
             cout<<"Check: "<<check<<endl;
             cout<<"x:"<<position_x<<" y:"<<position_y<<endl;
@@ -47,11 +43,9 @@ namespace am{
         }
     }
 
-
     dic Frame::load_mann(stringstream &offset,vector<string>&files){
-        dic dict;
+        dic dict=get_val(offset);
         while(1){
-            dict=get_val(offset);
             if(dict.key=="position_x"){
                 position_x=stoi(dict.value);
             }else if(dict.key=="position_y"){
@@ -62,12 +56,13 @@ namespace am{
                 name=dict.value;
             }else if(dict.key=="transparency"){
                 transparency=stoi(dict.value);
-            }else{
-                log();
+            }else if(dict.key=="frame"){
                 return dict;
+            }else{
+                cout<<"Invalid key: "<<dict.key<<endl;
             }
+            dic dict=get_val(offset);
         }
-
         return dict;
     }
 
@@ -77,30 +72,19 @@ namespace am{
         set_int(offset,position_x,0x2);
         set_int(offset,position_y,0x2);
         set_data(offset,bytes(0x4,0xFF));
+
         set_int(offset,sfx_switch,0x4);
         set_data(offset,bytes(0x4,0));
         set_int(offset,transparency,0x1);
         set_data(offset,bytes(0x5,0));
 
-        set_int(offset,name.size()+1,0x4);
-        set_str(offset,name,name.size()+1);
-        if(sfx_switch>0){
-            set_int(offset,sounds.size()+1);
-            set_str(offset,sounds,sounds.size()+1);
-        }
+        set_int(offset,name.size(),0x4);
+        set_str(offset,name);
+
+
+
     }
 
-    void Frame::get_mann(std::ostringstream &offset,std::vector<std::string>&files){
-        offset<<"\tFrame="<<files[image_ref]<<endl;
-        offset<<"\t\tname="<<name<<endl;
-
-        if(position_x!=0)
-            offset<<"\t\tposition_x="<<position_x<<endl;
-        if(position_y!=0)
-            offset<<"\t\tposition_y="<<position_y<<endl;
-        if(sfx_switch!=0)
-            offset<<"\t\tsfx="<<sounds<<endl;
-    }
 
 
 }

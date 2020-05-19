@@ -18,6 +18,7 @@ namespace am{
     };
 
     struct image_data{
+        bytes header;
         bytes image;
         bytes alpha;
     };
@@ -43,13 +44,18 @@ namespace am{
             bytes rgba32;
 
             void load_ann(bytes::iterator &offset);
-            bytes get_ann_header(int compression);
+
             void load_img(bytes::iterator &offset);
             void load_img(bytes data);
-            bytes get_img_header(int compression);
+
+
+            bytes get_ann_header(int compression,int isize,int asize);
+            bytes get_img_header(int compression,int isize,int asize);
+            image_data get_am_data(int compression);
+            image_data get_ann();
+            //void get_mann(std::ostringstream &offset,std::vector<std::string>&files);
 
             void load_data(bytes data);
-            bytes get_am_data(int compression);
             void load_rgba32(bytes data);
             bytes get_rgba32();
 

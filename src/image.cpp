@@ -33,7 +33,7 @@ namespace am{
 
         name=get_str(offset,0x14);
 
-        if(log){
+        if(LOG){
             cout<<"Image: "<<name<<endl;
             cout<<"x:"<<position_x<<" y:"<<position_y<<endl;
             cout<<"width:"<<width<<" height:"<<height<<endl;
@@ -83,46 +83,47 @@ namespace am{
         rgba32=data;
     }
 
-    bytes Image::get_ann_header(int compression){
-        bytes data(0x34);
-        bytes::iterator offset=data.begin();
+    bytes Image::get_ann_header(int compression,int isize,int asize){
+        bytes data;
 
-        set_int(offset,width,0x4);
-        set_int(offset,height,0x4);
+        back_insert_iterator<bytes> offset(data);
 
-        set_int(offset,position_x,0x4);
-        set_int(offset,position_y,0x4);
+        set_int(offset,width,0x2);
+        set_int(offset,height,0x2);
 
-        set_int(offset,compression,0x4);
+        set_int(offset,position_x,0x2);
+        set_int(offset,position_y,0x2);
 
-        set_int(offset,rgba32.size()/2,0x4);
+        set_int(offset,compression,0x2);
+
+        set_int(offset,isize,0x4);
 
         set_data(offset,bytes(1,4));
         set_data(offset,bytes(3,0));
-        set_data(offset,bytes(0xE,0));
+        set_data(offset,bytes(0xA,0));
 
-        set_int(offset,rgba32.size()/4,0x4);
+        set_int(offset,asize,0x4);
         set_str(offset,name,0x14);
 
         return data;
 
     }
 
-    bytes Image::get_img_header(int compression){
-        bytes data(0x28);
-        bytes::iterator offset=data.begin();
+    bytes Image::get_img_header(int compression,int isize,int asize){
+        bytes data;
 
-        set_str(offset,"PIK");
-        set_data(offset,bytes(1,0));
+        back_insert_iterator<bytes> offset(data);
+
+        set_str(offset,"PIK",0x4);
 
         set_int(offset,width,0x4);
         set_int(offset,height,0x4);
 
         set_int(offset,bpp,0x4);
-        set_int(offset,image_size,0x4);
+        set_int(offset,isize,0x4);
         set_data(offset,bytes(4,0));
         set_int(offset,compression,0x4);
-        set_int(offset,alpha_size,0x4);
+        set_int(offset,asize,0x4);
 
         set_int(offset,position_x,0x4);
         set_int(offset,position_y,0x4);
@@ -130,19 +131,25 @@ namespace am{
         return data;
     }
 
-    bytes Image::get_am_data(int compression){
+    image_data Image::get_am_data(int compression){
 
         image_data img;
         img=split_rgba32();
 
         img.image=compress(img.image,compression,2);
-        image_size=img.image.size();
         img.alpha=compress(img.alpha,compression,1);
-        alpha_size=img.alpha.size();
 
-        img.image.insert(img.image.end(),img.alpha.begin(),img.alpha.end());
-        return img.image;
+        return img;
     }
+
+    image_data Image::get_ann(){
+        int comp=2;
+        image_data data=get_am_data(comp);
+        data.header=get_ann_header(comp,data.image.size(),data.alpha.size());
+        return data;
+    }
+
+
 
     bytes Image::get_rgba32(){
         return rgba32;
@@ -169,12 +176,15 @@ namespace am{
 
     void Image::write_img(string filename){
         int cmpr=2;
-        bytes img=get_am_data(cmpr);
-        bytes data=get_img_header(cmpr);
+        bytes data;
 
-        data.insert(data.end(),img.begin(),img.end());
-        //write_png(filename+".png");
-        //data.insert(data.end(),rgba32.begin(),rgba32.end());
+        image_data img=get_am_data(cmpr);
+        img.header=get_img_header(cmpr,img.image.size(),img.alpha.size());
+
+        data.insert(data.end(),img.header.begin(),img.header.end());
+        data.insert(data.end(),img.image.begin(),img.image.end());
+        data.insert(data.end(),img.alpha.begin(),img.alpha.end());
+
         write_file(filename,data);
     }
 
@@ -232,7 +242,7 @@ namespace am{
     }
 
     void Image::align(){
-        if(log)
+        if(LOG)
             cout<<"Aligning... "<<position_x<<" "<<position_y<<" ";
         width=width+position_x;
         unsigned long long add=position_y*width*4;
@@ -246,7 +256,7 @@ namespace am{
         height=position_y+height;
         position_x=0;
         position_y=0;
-        if(log)
+        if(LOG)
             cout<<"completed"<<endl;
     }
 

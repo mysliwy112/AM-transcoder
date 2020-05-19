@@ -6,6 +6,7 @@
 using namespace std;
 
 namespace am{
+    extern bool LOG=false;
     Graphics::Graphics(){}
 
     unsigned long long Graphics::get_int(bytes::iterator &offset,int length){
@@ -16,12 +17,13 @@ namespace am{
     }
 
 
-    void Graphics::set_int(bytes::iterator &offset,unsigned long long number,int length){
+    void Graphics::set_int(back_insert_iterator<bytes> &offset,unsigned long long number,int length){
         bytes data(length);
         for (int i = 0; i < length; i++){
-            *offset = (number >> (i * 8));
-            offset++;
+            data[i] = (number >> (i * 8));
         }
+        copy(data.begin(),data.end(),offset);
+
     }
 
     string Graphics::get_str(bytes::iterator &offset,int length){
@@ -31,14 +33,17 @@ namespace am{
         return out;
     }
 
-    void Graphics::set_str(bytes::iterator &offset, std::string str, int length){
+    void Graphics::set_str(back_insert_iterator<bytes> &offset, std::string str, int length){
+        bytes dif;
+
         if(length==0){
             length=str.size();
+        }else if(length>str.size()){
+            dif.resize(length-str.size(),0);
+            length=str.size();
         }
-        for(int i=0;i<length;i++){
-            *offset=str[i];
-            offset++;
-        }
+        copy(str.begin(),str.begin()+length,offset);
+        copy(dif.begin(),dif.end(),offset);
 
     }
 
@@ -48,12 +53,8 @@ namespace am{
         return data;
     }
 
-    void Graphics::set_data(bytes::iterator &offset,bytes data){
-        for(int i=0;i<data.size();i++){
-            *offset=data[i];
-            offset++;
-        }
-
+    void Graphics::set_data(back_insert_iterator<bytes> &offset,bytes data){
+        copy(data.begin(),data.end(),offset);
     }
 
     void Graphics::check_bound(bytes::iterator offset,unsigned long long length){
@@ -73,15 +74,18 @@ namespace am{
     dic Graphics::get_val(stringstream &offset){
         dic pic;
         offset>>std::ws;
-        while(pic.key.size()==0){
-            getline(offset,pic.key,'=');
-        }
-        for(char&lower:pic.key){
+        getline(offset,pic.key,'=');
+
+        for(char &lower:pic.key){
             lower=tolower(lower);
         }
+
         getline(offset,pic.value);
         return pic;
     }
+
+
+
 
     void Graphics::load_mann(bytes data){
         stringstream offset(string((char*)data.data(),data.size()));
@@ -94,6 +98,22 @@ namespace am{
         load_ann(offset);
     }
 
+    bytes Graphics::get_ann(){
+        bytes data;
+        back_insert_iterator<bytes> offset(data);
+        get_ann(offset);
+        return data;
+    }
+
+    bytes Graphics::get_mann(){
+        ostringstream offset;
+        vector<std::string> files;
+        get_mann(offset,files);
+        string data=offset.str();
+        return bytes(data.begin(),data.end());
+    }
+
+
     dic Graphics::load_mann(stringstream &offset,vector<string>&file){
         cout<<"You shouldn't be here"<<endl;
         dic pic;
@@ -101,6 +121,15 @@ namespace am{
     }
 
     void Graphics::load_ann(bytes::iterator &offset){
+        cout<<"You shouldn't be here"<<endl;
+    }
+
+    void Graphics::get_mann(ostringstream &offset,vector<std::string>&files){
+        cout<<offset.str()<<endl;
+
+    }
+
+    void Graphics::get_ann(back_insert_iterator<bytes> &offset){
         cout<<"You shouldn't be here"<<endl;
     }
 

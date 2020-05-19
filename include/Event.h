@@ -13,6 +13,8 @@ namespace am{
         public:
             Event();
 
+            void log();
+
             std::string name="STAND";
             unsigned int loop_number=0;
             unsigned int transparency=255;
@@ -21,8 +23,8 @@ namespace am{
             void load_ann(bytes::iterator &offset);
             dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
 
-            void get_ann(bytes::iterator &offset);
-            void get_mann(bytes::iterator &offset);
+            void get_ann(std::back_insert_iterator<bytes> &offset);
+            void get_mann(std::ostringstream &offset,std::vector<std::string>&files);
 
         protected:
 
