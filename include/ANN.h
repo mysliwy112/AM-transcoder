@@ -53,7 +53,8 @@ namespace am{
 
             std::string mann_dir="";
 
-            void align_image(Image& img, int max_x, int max_y, int min_x, int min_y, int bpp=4);
+            void align_images();
+            void align_sequence(int event_id);
 
 
             bytes original;

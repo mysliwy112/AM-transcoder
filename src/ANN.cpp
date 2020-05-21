@@ -123,11 +123,15 @@ namespace am{
                     events.back().name=dict.value;
                     dict=events.back().load_mann(offset,files);
                 }
+
                 images.resize(files.size());
                 for(int im=0;im<images.size();im++){
-                    images[im].name=get_file_name(files[im]);
                     images[im].read_png(mann_dir+files[im]);
                 }
+                while(dict.key=="image"){
+                    dict=images[add_file(files, dict.value)].load_mann(offset);
+                }
+
                 return dict;
             }else{
                 cout<<"Invalid key: "<<dict.key<<endl;
@@ -145,7 +149,7 @@ namespace am{
         int mode=0;
 
         string check((char*)file.data(),3);
-        if (check=="NVP"){
+        if (check=="NVP"||check=="NVM"){
             mode=1;
         }else if(check=="ANN"){
             mode=2;
@@ -201,16 +205,17 @@ namespace am{
             offset<<"bpp="<<bpp<<endl;
         files.resize(images.size());
         for(int im=0;im<images.size();im++){
-            files[im]=to_string(im)+"_"+images[im].name+".png";
-            images[im].align();
+            files[im]=to_string(im)+".png";
             images[im].write_png(mann_dir+files[im]);
         }
         for(int ev=0;ev<events.size();ev++){
             events[ev].get_mann(offset,files);
         }
+        offset<<endl;
+        for(int im=0;im<images.size();im++){
+            images[im].get_mann(offset,files[im]);
+        }
     }
-
-
 
 
     void ANN::read_any(string filename){
@@ -230,4 +235,50 @@ namespace am{
         bytes data=get_ann();
         write_file(filename,data);
     }
+
+    void ANN::align_images(){
+        int max_x=0;
+        int max_y=0;
+        int x;
+        int y;
+        for(Image &image:images){
+            x=image.position_x+image.width;
+            if(x>max_x)
+                max_x=x;
+            y=image.position_y+image.height;
+            if(y>max_y)
+                max_y=y;
+        }
+        int im=0;
+        for(Image &image:images){
+            if(LOG)
+                cout<<im<<" ";
+            im++;
+            image.align(max_x,max_y);
+        }
+    }
+
+
+    void ANN::align_sequence(int event_id){
+        int min_pos_x=0;
+        int min_pos_y=0;
+        vector<Frame> &frames=events[event_id].frames;
+
+        for(int fr=0;fr<frames.size();fr++){
+            images[frames[fr].image_ref].position_x+=frames[fr].position_x;
+            if(images[frames[fr].image_ref].position_x<min_pos_x)
+                min_pos_x=images[frames[fr].image_ref].position_x;
+
+            images[frames[fr].image_ref].position_y+=frames[fr].position_y;
+            if(images[frames[fr].image_ref].position_y<min_pos_y)
+                min_pos_x=images[frames[fr].image_ref].position_y;
+        }
+
+        for(int fr=0;fr<frames.size();fr++){
+            images[frames[fr].image_ref].position_x+=min_pos_x;
+            images[frames[fr].image_ref].position_y+=min_pos_y;
+            images[frames[fr].image_ref].align();
+        }
+    }
+
 };

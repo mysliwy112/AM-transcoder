@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;E:\AidemMedia\ANN-decoder\bin\Release\bkg2.img&quot; -v' />
+				<Option parameters='&quot;E:\AidemMedia\ORIG\Reksio i Kapitan Nemo ORIG\dane\game\przygoda\bdusa\pola.ann&quot; -va' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />

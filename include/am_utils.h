@@ -21,7 +21,7 @@ namespace am{
 
             //bool log=false;
 
-            unsigned long long get_int(bytes::iterator &offset,int length);
+            long long get_int(bytes::iterator &offset,int length);
             void set_int(std::back_insert_iterator<bytes> &offset,unsigned long long number,int length=4);
 
             std::string get_str(bytes::iterator &offset,int length);
@@ -43,7 +43,7 @@ namespace am{
 
 
             virtual void get_ann(std::back_insert_iterator<bytes> &offset);
-            //void get_ann(bytes data);
+            bytes get_ann();
             virtual void get_mann(std::ostringstream &offset,std::vector<std::string>&files);
             bytes get_mann();
 
@@ -51,8 +51,6 @@ namespace am{
 
             int add_file(std::vector<std::string> &files, std::string file);
 
-            bytes get_ann();
-            //bytes get_mann();
 
 
 

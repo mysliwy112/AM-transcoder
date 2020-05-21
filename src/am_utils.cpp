@@ -9,10 +9,18 @@ namespace am{
     extern bool LOG=false;
     Graphics::Graphics(){}
 
-    unsigned long long Graphics::get_int(bytes::iterator &offset,int length){
+    long long Graphics::get_int(bytes::iterator &offset,int length){
 
-        unsigned long long var =combine(offset,length);
+        unsigned long long out=0;
+        int mult=1;
+        for(int i=0;i<length;i++){
+            out+=*(offset+i)*mult;
+            mult*=256;
+        }
         advance(offset,length);
+
+        long long var=(long long)out;
+
         return var;
     }
 

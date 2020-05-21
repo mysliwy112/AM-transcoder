@@ -92,7 +92,7 @@ namespace am{
 
     void Frame::get_mann(std::ostringstream &offset,std::vector<std::string>&files){
         offset<<"\tFrame="<<files[image_ref]<<endl;
-        offset<<"\t\tname="<<name<<endl;
+        //offset<<"\t\tname="<<name<<endl;
 
         if(position_x!=0)
             offset<<"\t\tposition_x="<<position_x<<endl;

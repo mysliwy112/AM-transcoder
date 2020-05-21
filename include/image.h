@@ -28,13 +28,13 @@ namespace am{
         public:
             Image();
 
-            std::string name;
+            std::string name="magick";
 
             unsigned int width;
             unsigned int height;
 
-            int position_x=0;
-            int position_y=0;
+            short position_x=0;
+            short position_y=0;
 
             unsigned int image_size;
             unsigned int alpha_size;
@@ -44,16 +44,19 @@ namespace am{
             bytes rgba32;
 
             void load_ann(bytes::iterator &offset);
+            dic load_mann(std::stringstream &offset);
 
             void load_img(bytes::iterator &offset);
             void load_img(bytes data);
+
+            void log();
 
 
             bytes get_ann_header(int compression,int isize,int asize);
             bytes get_img_header(int compression,int isize,int asize);
             image_data get_am_data(int compression);
             image_data get_ann();
-            //void get_mann(std::ostringstream &offset,std::vector<std::string>&files);
+            void get_mann(std::ostringstream &offset,std::string &file);
 
             void load_data(bytes data);
             void load_rgba32(bytes data);
@@ -70,7 +73,7 @@ namespace am{
             void create_rgba32(image_data img);
             image_data split_rgba32();
 
-            void align();
+            void align(int max_x=0, int max_y=0);
 
 
         protected:

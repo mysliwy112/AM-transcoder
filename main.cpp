@@ -53,7 +53,7 @@ int get_mode(am::bytes data){
     string check((char*)data.data(),4);
     if(both.log)
         cout<<"Magic: "<<check<<endl;
-    if(check.substr(0,3)=="NVP")
+    if(check.substr(0,3)=="NVP"||check.substr(0,3)=="NVM")
         return 0;
     else if(check.substr(0,3)=="ANN")
         return 1;
@@ -190,26 +190,7 @@ void parse_commandline(char *command[],int maxi){
     }
 }
 
-void align_sequence(int event_id, am::ANN &ann){
-    int min_pos_x=0;
-    int min_pos_y=0;
 
-    for(int fr=0;fr<ann.events[event_id].frames.size();fr++){
-        ann.images[ann.events[event_id].frames[fr].image_ref].position_x+=ann.events[event_id].frames[fr].position_x;
-        if(ann.images[ann.events[event_id].frames[fr].image_ref].position_x<min_pos_x)
-            min_pos_x=ann.images[ann.events[event_id].frames[fr].image_ref].position_x;
-
-        ann.images[ann.events[event_id].frames[fr].image_ref].position_y+=ann.events[event_id].frames[fr].position_y;
-        if(ann.images[ann.events[event_id].frames[fr].image_ref].position_y<min_pos_y)
-            min_pos_x=ann.images[ann.events[event_id].frames[fr].image_ref].position_y;
-    }
-
-    for(int fr=0;fr<ann.events[event_id].frames.size();fr++){
-        ann.images[ann.events[event_id].frames[fr].image_ref].position_x+=min_pos_x;
-        ann.images[ann.events[event_id].frames[fr].image_ref].position_y+=min_pos_y;
-        ann.images[ann.events[event_id].frames[fr].image_ref].align();
-    }
-}
 int get_pad_len(int size){
     int pad_len;
     if(both.pad_number>=len_int(size))
@@ -255,9 +236,7 @@ int main(int argc, char *argv[])
                 if(decode.align&&!decode.sequence){
                     if(both.log)
                         cout<<"File align"<<endl;
-                    for(am::Image &image:ann.images){
-                        image.align();
-                    }
+                    ann.align_images();
                     if(both.log)
                         cout<<"completed"<<endl;
                 }
@@ -267,7 +246,7 @@ int main(int argc, char *argv[])
                 }else if(decode.sequence){
                     int event_id=get_event_id(ann);
                     if(decode.align)
-                        align_sequence(event_id,ann);
+                        ann.align_sequence(event_id);
 
                     int pad_len=get_pad_len(ann.events[event_id].frames.size());
 

@@ -32,7 +32,10 @@ namespace am{
         alpha_size=get_int(offset,0x4);
 
         name=get_str(offset,0x14);
+        log();
+    }
 
+    void Image::log(){
         if(LOG){
             cout<<"Image: "<<name<<endl;
             cout<<"x:"<<position_x<<" y:"<<position_y<<endl;
@@ -41,9 +44,30 @@ namespace am{
             cout<<"image_size: "<<image_size<<endl;
             cout<<"alpha_size: "<<alpha_size<<endl;
             cout<<endl;
-
         }
     }
+
+
+    dic Image::load_mann(stringstream &offset){
+        dic dict;
+        while(1){
+            dict=get_val(offset);
+            if(dict.key=="position_x"){
+                position_x=stoi(dict.value);
+            }else if(dict.key=="position_y"){
+                position_y=stoi(dict.value);
+            }else if(dict.key=="name"){
+                name=dict.value;
+            }else{
+                log();
+                return dict;
+            }
+        }
+
+        return dict;
+    }
+
+
 
     void Image::load_img(bytes::iterator &offset)
     {
@@ -143,10 +167,19 @@ namespace am{
     }
 
     image_data Image::get_ann(){
-        int comp=2;
+        int comp=0;
         image_data data=get_am_data(comp);
         data.header=get_ann_header(comp,data.image.size(),data.alpha.size());
         return data;
+    }
+
+    void Image::get_mann(std::ostringstream &offset,string &file){
+        offset<<"image="<<file<<endl;
+        if(position_x!=0)
+            offset<<"\tposition_x="<<position_x<<endl;
+        if(position_y!=0)
+            offset<<"\tposition_y="<<position_y<<endl;
+
     }
 
 
@@ -241,29 +274,44 @@ namespace am{
         return data;
     }
 
-    void Image::align(){
+    void Image::align(int max_x, int max_y){
         if(LOG)
-            cout<<"Aligning... "<<position_x<<" "<<position_y<<" ";
-        width=width+position_x;
-        unsigned long long add=position_y*width*4;
-        rgba32.insert(rgba32.begin(),add,0);
-        unsigned long long pos=add;
-        while(pos<rgba32.size()){
-            add=4*position_x;
-            rgba32.insert(rgba32.begin()+pos,add,0);
-            pos+=width*4;
+            cout<<"Aligning... max>"<<max_x<<" "<<position_x+width<<"<sum max>"<<max_y<<" "<<position_y+height<<"<sum ";
+        if(max_x==0)
+            max_x=position_x+width;
+        if(max_y==0)
+            max_y=position_y+height;
+
+        int bpp=4;
+        bytes data(max_x*max_y*bpp,0);
+
+        max_x=max_x*bpp;
+        max_y=max_y*bpp;
+
+        int shift_x=position_x*bpp;
+        int shift_y=position_y*bpp;
+        int width_bpp=width*bpp;
+        int height_bpp=height_bpp*bpp;
+
+        int in=0;
+        int out=shift_x+shift_y;
+        while(in<rgba32.size()&&out<data.size()){
+            copy(rgba32.begin()+in,rgba32.begin()+in+width_bpp,data.begin()+out);
+            in+=width_bpp;
+            out+=max_x;
         }
-        height=position_y+height;
         position_x=0;
         position_y=0;
+        width=max_x/bpp;
+        height=max_y/bpp;
+
+        rgba32=data;
         if(LOG)
             cout<<"completed"<<endl;
     }
 
 
     void Image::create_rgba32(image_data img){
-        //if(img.alpha.size()==0)
-            //img.alpha.resize(img.image.size()/3,255);
 
         bytes n(img.image.size()/2*3);
         int temp;
