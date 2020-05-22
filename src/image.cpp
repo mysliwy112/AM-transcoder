@@ -71,7 +71,7 @@ namespace am{
 
     void Image::load_img(bytes::iterator &offset)
     {
-        if(get_str(offset,0x4)=="PIK"){
+        if(get_str(offset,0x4)=="PIK"&&LOG){
             cout<<"This is img."<<endl;
         }
         width=get_int(offset,0x4);
@@ -167,7 +167,7 @@ namespace am{
     }
 
     image_data Image::get_ann(){
-        int comp=0;
+        int comp=4;
         image_data data=get_am_data(comp);
         data.header=get_ann_header(comp,data.image.size(),data.alpha.size());
         return data;
@@ -253,7 +253,6 @@ namespace am{
                 if(type==0){
                 }else if(type==4){
                     data=codeCRLE(data,size);
-
                 }else if(type==3){
                     data=codeCRLE(data,size);
                     data=codeCLZW(data);
