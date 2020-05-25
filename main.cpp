@@ -42,6 +42,7 @@ struct Decode{
     bool sequenced=false;//extracts every sequence as another folder
 
     bool align=false;//resolves all position changes
+    int offset=0;//set offset for additional editing
 
     bool metafile=false;//creates mann file, ignores previous flags
 
@@ -121,7 +122,7 @@ void get_flag(char option,bool last,char *command[],int &arg,int maxi){
         both.log=true;
         am::LOG=true;
         break;
-    case 'o':
+    case 'd':
         both.pad=true;
         if(last)
             both.out_directory=get_arg(command,arg,maxi);//check for "-*"!!!!
@@ -145,6 +146,10 @@ void get_flag(char option,bool last,char *command[],int &arg,int maxi){
         break;
     case 'a':
         decode.align=true;
+        break;
+    case 'o':
+        if(last)
+            decode.offset=stoi(get_arg(command,arg,maxi));
         break;
 
     case 'm':
@@ -241,12 +246,25 @@ int main(int argc, char *argv[])
                         cout<<"completed"<<endl;
                 }
 
+                if(decode.offset&&!decode.sequence){
+                    for(am::Image&image:ann.images)
+                        image.align(image.position_x+image.width+decode.offset,
+                                    image.position_y+image.height+decode.offset,
+                                    image.position_x-decode.offset,
+                                    image.position_y-decode.offset);
+                }
+
                 if(decode.metafile){
                     ann.write_mann(out_dir);
                 }else if(decode.sequence){
                     int event_id=get_event_id(ann);
                     if(decode.align)
                         ann.align_sequence(event_id);
+                        for(am::Image&image:ann.images)
+                        image.align(image.position_x+image.width+decode.offset,
+                                    image.position_y+image.height+decode.offset,
+                                    image.position_x-decode.offset,
+                                    image.position_y-decode.offset);
 
                     int pad_len=get_pad_len(ann.events[event_id].frames.size());
 
@@ -284,6 +302,12 @@ int main(int argc, char *argv[])
                 image.read_img(filename);
                 if(decode.align){
                     image.align();
+                }
+                if(decode.offset){
+                    image.align(image.position_x+image.width+decode.offset,
+                                image.position_y+image.height+decode.offset,
+                                image.position_x-decode.offset,
+                                image.position_y-decode.offset);
                 }
                 image.write_png(out_dir+get_file_name(filename)+".png");
             }else if(what==code_img){

@@ -2,7 +2,7 @@
 #define CRLE_H
 
 #include <vector>
-using namespace std;
+
 std::vector<unsigned char> decodeCRLE(std::vector<unsigned char> data,unsigned int bulk=1/*how many bytes decode as one element*/){
 
     std::vector<unsigned char> n;
@@ -69,16 +69,6 @@ std::vector<unsigned char> codeCRLE(std::vector<unsigned char> data,unsigned int
     last=point;
     n.push_back(counter+128);
     n.insert(n.end(),data.begin()+point-bulk,data.begin()+point);
-
-//    std::vector<unsigned char> ne=decodeCRLE(n,bulk);
-//    for(int i=0;i<data.size();i++){
-//        if(data[i]!=ne[i]){
-//            cout<<i<<" "<<data.size()<<endl;
-//            cout<<(int)data[i]<<" "<<(int)ne[i]<<endl;
-//            cout<<(int)n[i]<<" "<<(int)n[i+1]<<endl;
-//            throw"";
-//        }
-//    }
 
     return n;
 }

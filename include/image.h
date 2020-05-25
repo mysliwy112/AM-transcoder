@@ -73,7 +73,7 @@ namespace am{
             void create_rgba32(image_data img);
             image_data split_rgba32();
 
-            void align(int max_x=0, int max_y=0);
+            void align(int max_x=0, int max_y=0, int min_x=0, int min_y=0);
 
 
         protected:

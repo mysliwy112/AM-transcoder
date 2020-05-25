@@ -238,23 +238,30 @@ namespace am{
 
     void ANN::align_images(){
         int max_x=0;
+        int min_x=0;
         int max_y=0;
+        int min_y=0;
         int x;
         int y;
+
         for(Image &image:images){
             x=image.position_x+image.width;
             if(x>max_x)
                 max_x=x;
+            if(image.position_x<min_x)
+                min_x=image.position_x;
             y=image.position_y+image.height;
             if(y>max_y)
                 max_y=y;
+            if(image.position_y<min_y)
+                min_y=image.position_y;
         }
         int im=0;
         for(Image &image:images){
             if(LOG)
                 cout<<im<<" ";
             im++;
-            image.align(max_x,max_y);
+            image.align(max_x,max_y,min_x,min_y);
         }
     }
 

@@ -273,7 +273,7 @@ namespace am{
         return data;
     }
 
-    void Image::align(int max_x, int max_y){
+    void Image::align(int max_x, int max_y, int min_x, int min_y){
         if(LOG)
             cout<<"Aligning... max>"<<max_x<<" "<<position_x+width<<"<sum max>"<<max_y<<" "<<position_y+height<<"<sum ";
         if(max_x==0)
@@ -281,28 +281,32 @@ namespace am{
         if(max_y==0)
             max_y=position_y+height;
 
+        long long new_width=max_x-min_x;
+        long long new_height=max_y-min_y;
+
+
         int bpp=4;
-        bytes data(max_x*max_y*bpp,0);
+        bytes data(new_width*new_height*bpp,0);
 
-        max_x=max_x*bpp;
-        max_y=max_y*bpp;
+        new_width=new_width*bpp;
 
-        int shift_x=position_x*bpp;
-        int shift_y=position_y*bpp;
+
+        int shift_x=(position_x-min_x)*bpp;
+        int shift_y=position_y-min_y;
         int width_bpp=width*bpp;
-        int height_bpp=height_bpp*bpp;
+        int height_bpp=height*bpp;
 
         int in=0;
-        int out=shift_x+shift_y;
+        int out=shift_x+shift_y*new_width;
         while(in<rgba32.size()&&out<data.size()){
             copy(rgba32.begin()+in,rgba32.begin()+in+width_bpp,data.begin()+out);
             in+=width_bpp;
-            out+=max_x;
+            out+=new_width;
         }
-        position_x=0;
-        position_y=0;
-        width=max_x/bpp;
-        height=max_y/bpp;
+        position_x=min_x;
+        position_y=min_y;
+        width=new_width/bpp;
+        height=new_height;
 
         rgba32=data;
         if(LOG)
