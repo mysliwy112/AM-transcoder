@@ -205,7 +205,7 @@ namespace am{
             offset<<"bpp="<<bpp<<endl;
         files.resize(images.size());
         for(int im=0;im<images.size();im++){
-            files[im]=to_string(im)+".png";
+            files[im]=name+"_"+to_string(im)+".png";
             images[im].write_png(mann_dir+files[im]);
         }
         for(int ev=0;ev<events.size();ev++){

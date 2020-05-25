@@ -224,8 +224,9 @@ int main(int argc, char *argv[])
 
             if(!both.local){
                 out_dir+=get_file_name(filename)+string("/");
-                create_directory(out_dir);
+
             }
+            create_directory(out_dir);
 
             if(both.log)
                 cout<<"Out directory: "<<out_dir<<endl;
