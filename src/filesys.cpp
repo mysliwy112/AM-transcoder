@@ -8,7 +8,12 @@
 using namespace std;
 
 void create_directory(string dir){
-    CreateDirectoryA(dir.c_str(),NULL);
+    int last=0;
+    while (last!=string::npos){
+        last=dir.find_first_of("\\/",last+1);
+        string creator=dir.substr(0,last);
+        CreateDirectoryA(creator.c_str(),NULL);
+    }
 }
 
 void delete_file(string fil){

@@ -208,6 +208,7 @@ namespace am{
             files[im]=name+"_"+to_string(im)+".png";
             images[im].write_png(mann_dir+files[im]);
         }
+        offset<<endl;
         for(int ev=0;ev<events.size();ev++){
             events[ev].get_mann(offset,files);
         }

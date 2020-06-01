@@ -74,6 +74,7 @@ namespace am{
             image_data split_rgba32();
 
             void align(int max_x=0, int max_y=0, int min_x=0, int min_y=0);
+            void dealign();
 
 
         protected:

@@ -19,7 +19,7 @@ void write_PNG(std::vector<unsigned char> &data, unsigned long long width, unsig
 
     FILE *file = fopen(filename.c_str(), "wb");
     if(!file)
-        throw invalid_argument("Can't access file.");
+        throw invalid_argument("Can't access file: "+filename);
 
     png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     if (!png)

@@ -313,6 +313,66 @@ namespace am{
             cout<<"completed"<<endl;
     }
 
+    void Image::dealign(){
+        long long up=0;
+        long long down=0;
+        long long left=0;
+        long long right=0;
+        long long how=0;
+        int bpp=4;
+
+        for(how=bpp-1;up<rgba32.size();how+=bpp){
+            if(rgba32[how]!=0){
+                up=how/bpp/width;
+                break;
+            }
+        }
+
+        for(how=rgba32.size()-1;how>=0;how-=bpp){
+            if(rgba32[how]!=0){
+                down=(rgba32.size()-how)/bpp/width;
+                break;
+            }
+        }
+
+
+        for(how=bpp-1;how!=rgba32.size()-1;how+=width*bpp){
+            if(how>rgba32.size()){
+                how=how-rgba32.size()+bpp;
+            }
+            if(rgba32[how]!=0){
+                left=(how/bpp)%width;
+                break;
+            }
+        }
+
+        for(how=rgba32.size()-1;how!=bpp;how-=width*bpp){
+            if(how<0){
+                how=how+rgba32.size()-bpp;
+            }
+            if(rgba32[how]!=0){
+                right=width-(how/bpp)%width;
+                break;
+            }
+        }
+
+        int old_width=width;
+        int old_height=height;
+
+        position_y+=up;
+        position_x+=left;
+        height-=up+down;
+        width-=left+right;
+
+        bytes new_rgba32(width*height*bpp,0);
+        int point=0;
+        while(point<height){
+            copy(rgba32.begin()+(up*old_width+left+point*old_width)*bpp,rgba32.begin()+(up*old_width+left+point*old_width+width)*bpp, new_rgba32.begin()+point*width*bpp);
+            point++;
+        }
+        rgba32=new_rgba32;
+    }
+
 
     void Image::create_rgba32(image_data img){
 
