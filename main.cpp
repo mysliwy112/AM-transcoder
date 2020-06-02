@@ -97,13 +97,20 @@ int get_event_id(am::ANN &ann){
 void help_page(){
     cout<<"Decode >ANN<";
     cout<<endl<<endl;
-    cout<<"anndrzem [file paths][-h][-f directory_path][-l][-o][-s event_name][-e][-n]"<<endl<<endl;
+    cout<<"anndrzem [file paths][-h][-f][-d directory_path][-l][-m][-s event_name][-v][-p pad_number][-a][-o offset]"<<endl<<endl;
     cout<<"-h\tShows help message."<<endl;
-    cout<<"-f\tSets output directory."<<endl;
-    cout<<"-l\tSome random console output."<<endl;
-    cout<<"-o\tDon't create new directory for images."<<endl;
+    cout<<endl;
+    cout<<"-f\tSets output to input files' directories."<<endl;
+    cout<<"-d\tSets output directory."<<endl;
+    cout<<"-l\tAdditional file directory won't be created."<<endl;
+    cout<<endl;
+    cout<<"-m\tCreates MetaANN file and additional images, used for recoding anns."<<endl;
     cout<<"-s\tCreates event sequence (type \":\" to get sequence by number)(events names are going to be listed and can be chosen from on runtime)."<<endl;
-    cout<<"-n\tAlign image sizes."<<endl;
+    cout<<endl;
+    cout<<"-v\tSome random console output."<<endl;
+    cout<<"-p\tPads numbers with zeros to specified number of digits"<<endl;
+    cout<<"-a\tAlign image sizes."<<endl;
+    cout<<"-o\tAdds transparent pixels to all sides of image."<<endl;
     cout<<endl;
 }
 
@@ -205,6 +212,9 @@ int get_pad_len(int size){
         pad_len=len_int(size);
     return pad_len;
 }
+
+
+
 
 int main(int argc, char *argv[])
 {
