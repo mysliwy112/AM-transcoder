@@ -4,32 +4,27 @@
 	<Project>
 		<Option title="Anndrzem" />
 		<Option pch_mode="2" />
-		<Option compiler="gcc" />
+		<Option compiler="gnu_gcc_32" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/Anndrzem" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_32" />
 				<Option parameters="-d ./rek/ E:\AidemMedia\ANN-decoder\bin\Release\reksio\reksio.ann" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/Anndrzem" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_32" />
 				<Option parameters='&quot;bin/Release/reksio.ann&quot; -pl' />
 				<Compiler>
 					<Add option="-O3" />
-					<Add directory="include" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add option="pei-x86-64" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
@@ -39,16 +34,14 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++14" />
 			<Add option="-fexceptions" />
-			<Add directory="E:/lib/2/lpng1636" />
-			<Add directory="E:/lib/zlib" />
+			<Add directory="E:/lib/lpng" />
+			<Add directory="E:/lib/lpng/build/x64" />
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lpiklib8_shim" />
-			<Add library="E:/lib/asd/libpng.a" />
-			<Add library="E:/lib/zlib/libz.a" />
-			<Add directory="E:/lib/asd" />
-			<Add directory="E:/lib/zlib" />
+			<Add library="E:/lib/lpng/build/x64/libpng16.a" />
+			<Add directory="E:/lib/lpng/build/x64" />
 			<Add directory="lib" />
 		</Linker>
 		<Unit filename="include/ANN.h" />

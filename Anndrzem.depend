@@ -109,7 +109,7 @@
 
 1569705700 source:e:\aidemmedia\ann-decoder\icon.rc
 
-1591035051 source:e:\aidemmedia\ann-decoder\main.cpp
+1591089190 source:e:\aidemmedia\ann-decoder\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -226,4 +226,19 @@
 	"CLZW.h"
 	"CRLE.h"
 	"Image.h"
+
+1555265432 e:\lib\lpng\png.h
+	"pnglibconf.h"
+	"pngconf.h"
+
+1591378334 e:\lib\lpng\build\x64\pnglibconf.h
+
+1555265432 e:\lib\lpng\pngconf.h
+	<limits.h>
+	<stddef.h>
+	<stdio.h>
+	<setjmp.h>
+	<time.h>
+
+1591380390 e:\lib\lpng\build\x32\pnglibconf.h
 
