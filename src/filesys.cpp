@@ -1,4 +1,5 @@
 #include "filesys.h"
+#include "am_utils.h"
 
 #include <windows.h>
 #include <string>
@@ -87,7 +88,14 @@ void write_file(std::string filename, std::vector<unsigned char> data){
     file.close();
 }
 
-
+int get_pad_len(int size){
+    int pad_len;
+    if(am::PAD>=len_int(size))
+        pad_len=am::PAD;
+    else
+        pad_len=len_int(size);
+    return pad_len;
+}
 
 string pad_int(unsigned int number,int length){
     if (number == 0)

@@ -1,12 +1,13 @@
 #include "am_utils.h"
 #include <iostream>
 #include <sstream>
-#include <bitset>
+
 
 using namespace std;
 
 namespace am{
     extern bool LOG=false;
+    extern int PAD=-1;
     Graphics::Graphics(){}
 
     long long Graphics::get_int(bytes::iterator &offset,int length){

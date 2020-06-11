@@ -8,6 +8,7 @@
 
 namespace am{
     extern bool LOG;
+    extern int PAD;
     typedef std::vector<unsigned char> bytes;
 
     struct dic{

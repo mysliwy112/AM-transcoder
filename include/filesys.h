@@ -12,6 +12,6 @@ std::vector<unsigned char> read_file(std::string filename, unsigned long long le
 void write_file(std::string filename, std::vector<unsigned char> data);
 std::string pad_int(unsigned int number,int length);
 unsigned int len_int(unsigned int number);
-
+int get_pad_len(int size);
 
 #endif // FILESYS_H

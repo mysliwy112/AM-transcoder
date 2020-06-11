@@ -34,16 +34,22 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++14" />
 			<Add option="-fexceptions" />
+			<Add directory="E:/lib/lpng/build/x32" />
 			<Add directory="E:/lib/lpng" />
-			<Add directory="E:/lib/lpng/build/x64" />
+			<Add directory="E:/lib/zlib" />
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lpiklib8_shim" />
-			<Add library="E:/lib/lpng/build/x64/libpng16.a" />
-			<Add directory="E:/lib/lpng/build/x64" />
+			<Add library="E:/lib/lpng/build/x32/libpng16.a" />
+			<Add library="E:/lib/zlib/build/x32/libzlibstatic.a" />
+			<Add directory="E:/lib/lpng/build/x32" />
+			<Add directory="E:/lib/zlib/build/x32" />
 			<Add directory="lib" />
 		</Linker>
+		<Unit filename="icon.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="include/ANN.h" />
 		<Unit filename="include/CLZW.h" />
 		<Unit filename="include/CRLE.h" />

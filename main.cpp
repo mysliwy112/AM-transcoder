@@ -6,6 +6,7 @@
 #include "ANN.h"
 #include "Image.h"
 #include "filesys.h"
+#include "am_utils.h"
 
 using namespace std;
 
@@ -137,10 +138,13 @@ void get_flag(char option,bool last,char *command[],int &arg,int maxi){
         break;
     case 'p':
         both.pad=true;
+        am::PAD=0;
         if(last){
             string str=get_arg(command,arg,maxi);
-            if(str.size()>0)
+            if(str.size()>0){
                 both.pad_number=stoi(str);
+                am::PAD=both.pad_number;
+            }
         }
         break;
 
@@ -204,18 +208,6 @@ void parse_commandline(char *command[],int maxi){
 }
 
 
-int get_pad_len(int size){
-    int pad_len;
-    if(both.pad_number>=len_int(size))
-        pad_len=both.pad_number;
-    else
-        pad_len=len_int(size);
-    return pad_len;
-}
-
-
-
-
 int main(int argc, char *argv[])
 {
     if(argc>1){
@@ -251,6 +243,7 @@ int main(int argc, char *argv[])
             if(what==decode_ann){
                 am::ANN ann(get_file_name(filename));
                 ann.read_any(filename);
+
 
                 if(both.align&&!decode.sequence){
                     if(both.log)

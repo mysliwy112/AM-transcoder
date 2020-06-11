@@ -109,7 +109,7 @@
 
 1569705700 source:e:\aidemmedia\ann-decoder\icon.rc
 
-1591089190 source:e:\aidemmedia\ann-decoder\main.cpp
+1591906800 source:e:\aidemmedia\ann-decoder\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -117,6 +117,7 @@
 	"ANN.h"
 	"Image.h"
 	"filesys.h"
+	"am_utils.h"
 
 1589817721 e:\aidemmedia\ann-decoder\include\pngformat.h
 	<vector>
@@ -131,12 +132,13 @@
 	"Event.h"
 	"Image.h"
 
-1591034775 e:\aidemmedia\ann-decoder\include\filesys.h
+1591906585 e:\aidemmedia\ann-decoder\include\filesys.h
 	<string>
 	<vector>
 
-1591034882 source:e:\aidemmedia\ann-decoder\src\filesys.cpp
+1591906812 source:e:\aidemmedia\ann-decoder\src\filesys.cpp
 	"filesys.h"
+	"am_utils.h"
 	<windows.h>
 	<string>
 	<iostream>
@@ -150,7 +152,7 @@
 	<vector>
 	<iostream>
 
-1591035317 source:e:\aidemmedia\ann-decoder\src\ann.cpp
+1591906660 source:e:\aidemmedia\ann-decoder\src\ann.cpp
 	"ANN.h"
 	<iostream>
 	<fstream>
@@ -184,13 +186,12 @@
 	<setjmp.h>
 	<time.h>
 
-1590092619 source:e:\aidemmedia\ann-decoder\src\am_utils.cpp
+1591906773 source:e:\aidemmedia\ann-decoder\src\am_utils.cpp
 	"am_utils.h"
 	<iostream>
 	<sstream>
-	<bitset>
 
-1590092619 e:\aidemmedia\ann-decoder\include\am_utils.h
+1591905261 e:\aidemmedia\ann-decoder\include\am_utils.h
 	<vector>
 	<string>
 	<sstream>

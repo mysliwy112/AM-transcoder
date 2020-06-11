@@ -204,8 +204,18 @@ namespace am{
         if(bpp!=16)
             offset<<"bpp="<<bpp<<endl;
         files.resize(images.size());
+
+        int pad_len=get_pad_len(images.size());
+
         for(int im=0;im<images.size();im++){
-            files[im]=name+"_"+to_string(im)+".png";
+
+            string number;
+            if(PAD)
+                number=pad_int(im,pad_len);
+            else
+                number=to_string(im);
+
+            files[im]=name+"_"+number+".png";
             images[im].write_png(mann_dir+files[im]);
         }
         offset<<endl;
