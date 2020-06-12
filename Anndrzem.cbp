@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gnu_gcc_32" />
-				<Option parameters="-d ./rek/ E:\AidemMedia\ANN-decoder\bin\Release\reksio\reksio.ann" />
+				<Option parameters='-v &quot;E:\AidemMedia\ORIG\Reksio i Wehikuł Czasu ORIG\Dane\Game\Przygoda\Arcade\aleja\bkg.img&quot;' />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -38,14 +38,18 @@
 			<Add directory="E:/lib/lpng" />
 			<Add directory="E:/lib/zlib" />
 			<Add directory="include" />
+			<Add directory="E:/lib/libjpeg-turbo" />
+			<Add directory="E:/lib/libjpeg-turbo/build/x32" />
 		</Compiler>
 		<Linker>
 			<Add option="-lpiklib8_shim" />
 			<Add library="E:/lib/lpng/build/x32/libpng16.a" />
 			<Add library="E:/lib/zlib/build/x32/libzlibstatic.a" />
+			<Add library="E:/lib/libjpeg-turbo/build/x32/libjpeg.a" />
 			<Add directory="E:/lib/lpng/build/x32" />
 			<Add directory="E:/lib/zlib/build/x32" />
 			<Add directory="lib" />
+			<Add directory="E:/lib/libjpeg-turbo/build/x32" />
 		</Linker>
 		<Unit filename="icon.rc">
 			<Option compilerVar="WINDRES" />

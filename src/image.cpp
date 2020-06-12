@@ -97,10 +97,18 @@ namespace am{
             img.image.assign(data.begin(),data.begin()+image_size);
             img.alpha.assign(data.begin()+image_size,data.end());
         }
-        img.image=decompress(img.image,compression,2);
-        img.alpha=decompress(img.alpha,compression,1);
+        if(compression!=jpeg){
+            img.image=decompress(img.image,compression,2);
+            img.alpha=decompress(img.alpha,compression,1);
+            create_rgba32(img);
+        }else{
+            img.image=decompress(img.image,compression,2);
+            add_alpha(img);
+        }
+
+
         compression=0;
-        create_rgba32(img);
+
     }
 
     void Image::load_rgba32(bytes data){
@@ -225,15 +233,19 @@ namespace am{
         if(data.size()>0){
             try{
                 if(type==0){
-                }else if(type==4){
-                        data=decodeCRLE(data,size);
+                }else if(type==clzw){
+                    data=decodeCLZW(data);
 
-                }else if(type==3){
-                        data=decodeCLZW(data);
-                        data=decodeCRLE(data,size);
+                }else if(type==crzw){
+                    data=decodeCLZW(data);
+                    data=decodeCRLE(data,size);
 
-                }else if(type==2){
-                        data=decodeCLZW(data);
+                }else if(type==crle){
+                    data=decodeCRLE(data,size);
+
+                }else if(type==jpeg){
+                    data=load_JPEG(data).rgba32;
+
 
                 }else{
                     throw invalid_argument(string("Unknown compression: ")+to_string(type));
@@ -251,15 +263,19 @@ namespace am{
         if(data.size()>0){
             try{
                 if(type==0){
-                }else if(type==4){
-                    data=codeCRLE(data,size);
+                }else if(type==2){
+                    data=codeCLZW(data);
+
                 }else if(type==3){
                     data=codeCRLE(data,size);
                     data=codeCLZW(data);
 
-                }else if(type==2){
-                    data=codeCLZW(data);
+                }else if(type==4){
+                    data=codeCRLE(data,size);
 
+                }else if(type==5){
+                    cout<<"Just don't compress in jpeg. It's bad for quality ;)"<<endl;
+                    throw"Bad taste";
                 }else{
                     throw invalid_argument(string("Unknown compression: ")+to_string(type));
                 }
@@ -389,7 +405,11 @@ namespace am{
                 counter+=3;
         }
         img.image=n;
+        add_alpha(img);
 
+    }
+
+    void Image::add_alpha(image_data img){
         rgba32.resize(img.image.size()+img.image.size()/3,0);
         int al=0;
         int da=0;

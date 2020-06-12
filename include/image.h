@@ -71,6 +71,7 @@ namespace am{
             bytes compress(bytes data, int type, int size);
 
             void create_rgba32(image_data img);
+            void add_alpha(image_data img=image_data());
             image_data split_rgba32();
 
             void align(int max_x=0, int max_y=0, int min_x=0, int min_y=0);
