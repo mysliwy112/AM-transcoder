@@ -1,8 +1,12 @@
 ### ANN-decoder
 Is a CLI program named Anndrzem used for decoding and encoding graphical files (ann, img) from games developed in Piklib and Bloomoo engines which were created by Aidem Media.
 
+
+
 ### Release
 [Get it here](https://github.com/mysliwy112/ANN-decoder/releases)
+
+
 
 ### Instruction
 Files can be decoded and encoded by dragging and dropping them on decoder (Anndrzem.exe).
@@ -27,45 +31,57 @@ After arguments it is possible to add names of files to extract ex.:
 
 Extracts images from buty, with additional debug info.
 
+
 #Arguments:
 
 Full names are specified only for better rememberance, please don't use them as flag, because that type of usage is not implemented.
 
--h(elp) Shows help message.
-	
--d(irectory) Sets output directory, takes path as argument:
+
+**-h**elp - Shows help message.
+
+
+**-d**irectory - Sets output directory, takes path as argument:
 `anndrzem -f ./out/ kretes.ann`
 Will create folder out in anndrzem directory and decode kretes.ann into it.
-	
--f(ile's) Sets output to input file directory:
+
+
+**-f**ile's - Sets output to input file directory:
 `anndrzem -f C:/kretes.ann`
 Will decode to directory where file kretes.ann is located.
 
--c(reate) Creates directory named by input file's name:
+
+**-c**reate - Creates directory named by input file's name:
 `anndrzem -c kretes.ann`
 Will create additional directory named kretes/ and decode there. Can be used with previos flags.
 
--m(eta) Creates MetaANN file and additional images, used for encoding anns.
+
+**-m**eta - Creates MetaANN file and additional images, used for encoding anns.
 `anndrzem -m kretes.ann`
 Will create kretes.mann and additional png files representing images from ann. For mann documentation look into MANN_DOC.md.
 
--s(equence) Creates event sequence, can take one argument - event name:
+
+**-s**equence - Creates event sequence, can take one argument - event name:
 Extracts specific animation from ann file, name of event to extract can be specified on runtime, after program list events' names. You can type : to get event by id.
 'anndrzem -s GADA kretes.ann'
 Will extract frames to files prefixed with GADA, representing talking Moles The Mole.
 
--v(erbose) Generates additional console output, used mainly for debbuging.
 
--p(ad) Pads numbers with zeros to specified number of digits can take one argument - maximal number of digits:
+**-v**erbose - Generates additional console output, used mainly for debbuging.
+
+
+**-p**ad - Pads numbers with zeros to specified number of digits can take one argument - maximal number of digits:
 'anndrzem -p 3 kretes.ann'
 Will creates files kretes_00001, kretes_00002 etc. When parameter is not specified program will take number of images to extract as maximal padding.
 'anndrzem kretes.ann -p'
 Will create kretes_01, kretes_02, ... , kretes_13.
 
--a(lign) Aligns images' sizes.
+
+**-a**lign - Aligns images' sizes.
 Images extracted with this option, are going to have additional transparent pixels, so they could be positioned in animation by left right corner.
 
--o(ffset) Adds transparent pixels to all sides of image, takes one argument - length of plane to add, when not specified default value is 10.
+
+**-o**ffset - Adds transparent pixels to all sides of image, takes one argument - length of plane to add, when not specified default value is 10.
+
 
 
 ### Warning
@@ -84,6 +100,7 @@ In case of breaching a contract, producer is going to exercise the right and cla
 litigation processes will take place in Producer's local Court.
 
 You've been warned.
+
 
 
 ### Compilation
