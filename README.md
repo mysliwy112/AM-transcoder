@@ -8,10 +8,11 @@ Is a CLI program named Anndrzem used for decoding and encoding graphical files (
 Files can be decoded and encoded by dragging and dropping them on decoder (Anndrzem.exe).
 
 ###### Supported formats:
-.img => .png
-.ann => multiple .png and .mann if specified.
-.png => .img
-.mann and aditional .png => .ann
+* .img => .png
+* .ann => multiple .png and .mann if specified.
+* .png => .img
+* .mann and aditional .png => .ann
+
 
 To get around complexity and additional data stored by ann, special MetaANN file for encoding ann was created. It should be readable and editable config file. You can create it by hand, or just by extracting ann file with -m flag. To get additional information and specification of mann file look into MANN_DOC.md.
 
@@ -27,6 +28,7 @@ After arguments it is possible to add names of files to extract ex.:
 Extracts images from buty,
 
 #Arguments:
+(full names are specified only for better rememberance, please don't use them as flag, because that type of usage is not implemented)
 
 -h(elp) Shows help message.
 	
