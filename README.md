@@ -25,10 +25,11 @@ After arguments it is possible to add names of files to extract ex.:
 
 ```anndrzem -n -v  ".\Przygoda\Cat\buty.ann"```
 
-Extracts images from buty,
+Extracts images from buty, with additional debug info.
 
 #Arguments:
-(full names are specified only for better rememberance, please don't use them as flag, because that type of usage is not implemented)
+
+Full names are specified only for better rememberance, please don't use them as flag, because that type of usage is not implemented.
 
 -h(elp) Shows help message.
 	
