@@ -21,7 +21,7 @@ vector<string> filenames;
 
 struct Both{
     bool file_dir=false;//sets output directory to input file's directory
-    bool local=false;//creates directory for unpacked ann, same as input file's name
+    bool name_dir=false;//creates directory for unpacked ann, same as input file's name
     string out_directory;//specifies output directory
 
     bool pad=false;//add leading zeros to output filename
@@ -103,7 +103,7 @@ void help_page(){
     cout<<endl;
     cout<<"-f\tSets output to input files' directories."<<endl;
     cout<<"-d\tSets output directory."<<endl;
-    cout<<"-l\tAdditional file directory won't be created."<<endl;
+    cout<<"-c\tCreates directories named by input files' names."<<endl;
     cout<<endl;
     cout<<"-m\tCreates MetaANN file and additional images, used for recoding anns."<<endl;
     cout<<"-s\tCreates event sequence (type \":\" to get sequence by number)(events names are going to be listed and can be chosen from on runtime)."<<endl;
@@ -125,8 +125,8 @@ void get_flag(char option,bool last,char *command[],int &arg,int maxi){
     case 'f':
         both.file_dir=true;
         break;
-    case 'l':
-        both.local=true;
+    case 'n':
+        both.name_dir=true;
         break;
     case 'v':
         both.log=true;
@@ -225,7 +225,7 @@ int main(int argc, char *argv[])
                 out_dir=get_directory(argv[0]);
             }
 
-            if(!both.local){
+            if(both.name_dir){
                 out_dir+=get_file_name(filename)+string("/");
 
             }
