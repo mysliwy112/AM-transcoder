@@ -98,17 +98,18 @@ int get_event_id(am::ANN &ann){
 void help_page(){
     cout<<"Decode >ANN<";
     cout<<endl<<endl;
-    cout<<"anndrzem [file paths][-h][-f][-d directory_path][-l][-m][-s event_name][-v][-p pad_number][-a][-o offset]"<<endl<<endl;
+    cout<<"anndrzem [file paths][-h][-f][-d directory_path][-c][-m][-s event_name][-v][-p pad_number][-a][-o offset]"<<endl<<endl;
+    cout<<"For more detailed informations look into README.md Instruction section"<<endl<<endl;
     cout<<"-h\tShows help message."<<endl;
     cout<<endl;
-    cout<<"-f\tSets output to input files' directories."<<endl;
     cout<<"-d\tSets output directory."<<endl;
-    cout<<"-c\tCreates directories named by input files' names."<<endl;
+    cout<<"-f\tSets output to input file's director."<<endl;
+    cout<<"-c\tCreates directory named by input file's name."<<endl;
     cout<<endl;
-    cout<<"-m\tCreates MetaANN file and additional images, used for recoding anns."<<endl;
+    cout<<"-m\tCreates MetaANN file and additional images, used for encoding anns."<<endl;
     cout<<"-s\tCreates event sequence (type \":\" to get sequence by number)(events names are going to be listed and can be chosen from on runtime)."<<endl;
     cout<<endl;
-    cout<<"-v\tSome random console output."<<endl;
+    cout<<"-v\tGenerates additional console output, used mainly for debbuging."<<endl;
     cout<<"-p\tPads numbers with zeros to specified number of digits"<<endl;
     cout<<"-a\tAlign image sizes."<<endl;
     cout<<"-o\tAdds transparent pixels to all sides of image."<<endl;
