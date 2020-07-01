@@ -104,7 +104,7 @@ void help_page(){
     cout<<endl;
     cout<<"-d\tSets output directory."<<endl;
     cout<<"-f\tSets output to input file's director."<<endl;
-    cout<<"-c\tCreates directory named by input file's name."<<endl;
+    cout<<"-n\tCreates directory named by input file's name."<<endl;
     cout<<endl;
     cout<<"-m\tCreates MetaANN file and additional images, used for encoding anns."<<endl;
     cout<<"-s\tCreates event sequence (type \":\" to get sequence by number)(events names are going to be listed and can be chosen from on runtime)."<<endl;
@@ -266,14 +266,20 @@ int main(int argc, char *argv[])
                     ann.write_mann(out_dir);
                 }else if(decode.sequence){
 
+                    vector<am::Image> images;
+
                     int event_id=get_event_id(ann);
 
                     if(both.align){
-                        ann.align_sequence(event_id);
+                        images=ann.align_sequence(event_id);
+                    }else{
+                        for(int fr=0;fr<ann.events[event_id].frames.size();fr++){
+                            images.push_back(ann.images[ann.events[event_id].frames[fr].image_ref]);
+                        }
                     }
 
                     if(decode.offset){
-                        for(am::Image&image:ann.images)
+                        for(am::Image&image:images)
                             image.align(image.position_x+image.width+decode.offset,
                                         image.position_y+image.height+decode.offset,
                                         image.position_x-decode.offset,
@@ -290,7 +296,7 @@ int main(int argc, char *argv[])
                         else
                             number=to_string(fr);
 
-                        ann.images[ann.events[event_id].frames[fr].image_ref].write_png(out_dir+ann.events[event_id].name+"_"+number+".png");
+                        images[fr].write_png(out_dir+ann.events[event_id].name+"_"+number+".png");
                     }
                 }else{
 

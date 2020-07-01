@@ -196,6 +196,12 @@ namespace am{
     }
 
     void ANN::get_mann(ostringstream &offset,vector<std::string>&files){
+        int log_n=0;
+        if(LOG){
+            cout<<"Writing mann"<<endl;
+        }
+
+
         offset<<"ANN\n\n";
         offset<<"name="<<name<<endl;
         offset<<"author="<<author<<endl;
@@ -205,26 +211,44 @@ namespace am{
             offset<<"bpp="<<bpp<<endl;
         files.resize(images.size());
 
-        int pad_len=get_pad_len(images.size());
+        int pad_len;
+        if(PAD>-1)
+            pad_len=get_pad_len(images.size());
 
+        if(LOG){
+            cout<<offset.str().substr(log_n)<<endl;
+            log_n=offset.str().size();
+        }
         for(int im=0;im<images.size();im++){
 
             string number;
-            if(PAD)
+            if(PAD>-1){
                 number=pad_int(im,pad_len);
-            else
+            }else{
                 number=to_string(im);
-
+            }
             files[im]=name+"_"+number+".png";
             images[im].write_png(mann_dir+files[im]);
         }
         offset<<endl;
+        if(LOG){
+            cout<<offset.str().substr(log_n)<<endl;
+            log_n=offset.str().size();
+        }
+
         for(int ev=0;ev<events.size();ev++){
             events[ev].get_mann(offset,files);
+            offset<<endl;
         }
         offset<<endl;
+        if(LOG){
+            cout<<offset.str().substr(log_n)<<endl;
+            log_n=offset.str().size();
+        }
+
         for(int im=0;im<images.size();im++){
             images[im].get_mann(offset,files[im]);
+            offset<<endl;
         }
     }
 
@@ -248,6 +272,10 @@ namespace am{
     }
 
     void ANN::align_images(){
+        align(images);
+    }
+
+    void ANN::align(vector<Image> &img){
         int max_x=0;
         int min_x=0;
         int max_y=0;
@@ -255,7 +283,7 @@ namespace am{
         int x;
         int y;
 
-        for(Image &image:images){
+        for(Image &image:img){
             x=image.position_x+image.width;
             if(x>max_x)
                 max_x=x;
@@ -268,7 +296,7 @@ namespace am{
                 min_y=image.position_y;
         }
         int im=0;
-        for(Image &image:images){
+        for(Image &image:img){
             if(LOG)
                 cout<<im<<" ";
             im++;
@@ -277,26 +305,17 @@ namespace am{
     }
 
 
-    void ANN::align_sequence(int event_id){
-        int min_pos_x=0;
-        int min_pos_y=0;
+    vector<Image> ANN::align_sequence(int event_id){
         vector<Frame> &frames=events[event_id].frames;
 
-        for(int fr=0;fr<frames.size();fr++){
-            images[frames[fr].image_ref].position_x+=frames[fr].position_x;
-            if(images[frames[fr].image_ref].position_x<min_pos_x)
-                min_pos_x=images[frames[fr].image_ref].position_x;
-
-            images[frames[fr].image_ref].position_y+=frames[fr].position_y;
-            if(images[frames[fr].image_ref].position_y<min_pos_y)
-                min_pos_x=images[frames[fr].image_ref].position_y;
-        }
+        vector<Image> img;
 
         for(int fr=0;fr<frames.size();fr++){
-            images[frames[fr].image_ref].position_x+=min_pos_x;
-            images[frames[fr].image_ref].position_y+=min_pos_y;
-            images[frames[fr].image_ref].align();
+            img.push_back(images[frames[fr].image_ref]);
+            img[fr].position_x+=frames[fr].position_x;
+            img[fr].position_y+=frames[fr].position_y;
         }
+        align(img);
+        return img;
     }
-
 };

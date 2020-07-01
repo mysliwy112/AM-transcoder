@@ -101,8 +101,10 @@ namespace am{
             offset<<"\tloop="<<loop_number<<endl;
         if(transparency!=255)
             offset<<"\ttransparency="<<transparency<<endl;
+        offset<<endl;
         for(int fr=0;fr<frames.size();fr++){
             frames[fr].get_mann(offset,files);
+            offset<<endl;
         }
     }
 
