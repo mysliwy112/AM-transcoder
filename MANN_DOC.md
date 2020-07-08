@@ -37,7 +37,7 @@ position_x | int | 0 | position in x axis of image
 position_y | int | 0 | position in y axis of image
 name | string | "magick" | name of image
 
-#Example
+###Example
 ```
 ANN
 
@@ -61,7 +61,7 @@ Event=WCHODZI
 	Frame=cpl_smok_1.png
 		position_x=129
 		position_y=3
-		sfx=wavs/wchodzi1.wav;wavs/wchodzi2.wav;
+		sfx=wavs/wchodzi1.wav;wavs/wchodzi2.wav
 
 	Frame=cpl_smok_1.png
 		position_x=108
