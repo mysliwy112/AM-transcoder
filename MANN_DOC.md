@@ -1,13 +1,9 @@
 MetaANN file is configuration file used to compile ann files for Piklib/Bloomoo engine. It can be opened by notepad or any other simmilar text editor.
 
-MANN structure is simple and hierarhical.
-MANN always starts with ANN in header.
-Then comes global ann options.
-Then Events and frames.
+MANN structure is simple and hierarchical.
+MANN always starts with ANN - magic world followed by global ann options, events and frames, ended by images descriptions.
 
-Then images description.
-
-I'll disect parts on sections and describe sections:
+Here are descriptions of all mann options. Some of which shouldn't be modified by user.
 
 ## HEADER
 name|argument type|default value|description
@@ -41,3 +37,45 @@ position_x | int | 0 | position in x axis of image
 position_y | int | 0 | position in y axis of image
 name | string | "magick" | name of image
 
+#Example
+```
+ANN
+
+name=cpl_smok
+author=Piotr Maciejewski
+
+Event=WCHODZI
+
+	Frame=cpl_smok_0.png
+		position_x=211
+		position_y=5
+
+	Frame=cpl_smok_0.png
+		position_x=180
+		position_y=4
+
+	Frame=cpl_smok_0.png
+		position_x=153
+		position_y=3
+
+	Frame=cpl_smok_1.png
+		position_x=129
+		position_y=3
+		sfx=wavs/wchodzi1.wav;wavs/wchodzi2.wav;
+
+	Frame=cpl_smok_1.png
+		position_x=108
+		position_y=2
+
+	Frame=cpl_smok_1.png
+		position_x=89
+		position_y=2
+
+image=cpl_smok_0.png
+	position_x=593
+	position_y=106
+	
+image=cpl_smok_1.png
+	position_x=593
+	position_y=106
+```
