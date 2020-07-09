@@ -21,7 +21,7 @@ vector<string> filenames;
 
 struct Both{
     bool file_dir=false;//sets output directory to input file's directory
-    bool name_dir=false;//creates directory for unpacked ann, same as input file's name
+    bool name_dir=true;//creates directory for unpacked ann, same as input file's name
     string out_directory;//specifies output directory
 
     bool pad=false;//add leading zeros to output filename
@@ -30,6 +30,8 @@ struct Both{
     bool log=false;
 
     bool align=false;//resolves all position changes
+
+    bool ignore=false;//ignores errors
 
 };
 Both both;
@@ -114,6 +116,8 @@ void help_page(){
     cout<<"-a\tAlign image sizes."<<endl;
     cout<<"-o\tAdds transparent pixels to all sides of image."<<endl;
     cout<<endl;
+    cout<<"-i\tIgnores errors."<<endl;
+    cout<<endl;
 }
 
 string get_arg(char *command[],int &arg,int maxi);
@@ -127,7 +131,7 @@ void get_flag(char option,bool last,char *command[],int &arg,int maxi){
         both.file_dir=true;
         break;
     case 'n':
-        both.name_dir=true;
+        both.name_dir=false;
         break;
     case 'v':
         both.log=true;
@@ -147,6 +151,9 @@ void get_flag(char option,bool last,char *command[],int &arg,int maxi){
                 am::PAD=both.pad_number;
             }
         }
+        break;
+    case 'i':
+        both.ignore=false;
         break;
 
     case 's':
@@ -237,111 +244,124 @@ int main(int argc, char *argv[])
             if(both.log)
                 cout<<"Out directory: "<<out_dir<<endl;
 
-            int what=get_mode(read_file(filename,4));
-            if(both.log)
-                cout<<"Mode: "<<what<<endl;
+            try{
 
-            if(what==decode_ann){
-                am::ANN ann(get_file_name(filename));
-                ann.read_any(filename);
+                int what=get_mode(read_file(filename,4));
+                if(both.log)
+                    cout<<"Mode: "<<what<<endl;
+
+                if(what==decode_ann){
+                    am::ANN ann(get_file_name(filename));
+                    ann.read_any(filename);
 
 
-                if(both.align&&!decode.sequence){
-                    if(both.log)
-                        cout<<"File align"<<endl;
-                    ann.align_images();
-                    if(both.log)
-                        cout<<"completed"<<endl;
-                }
-
-                if(decode.offset&&!decode.sequence){
-                    for(am::Image&image:ann.images)
-                        image.align(image.position_x+image.width+decode.offset,
-                                    image.position_y+image.height+decode.offset,
-                                    image.position_x-decode.offset,
-                                    image.position_y-decode.offset);
-                }
-
-                if(decode.metafile){
-                    ann.write_mann(out_dir);
-                }else if(decode.sequence){
-
-                    vector<am::Image> images;
-
-                    int event_id=get_event_id(ann);
-
-                    if(both.align){
-                        images=ann.align_sequence(event_id);
-                    }else{
-                        for(int fr=0;fr<ann.events[event_id].frames.size();fr++){
-                            images.push_back(ann.images[ann.events[event_id].frames[fr].image_ref]);
-                        }
+                    if(both.align&&!decode.sequence){
+                        if(both.log)
+                            cout<<"File align"<<endl;
+                        ann.align_images();
+                        if(both.log)
+                            cout<<"completed"<<endl;
                     }
 
-                    if(decode.offset){
-                        for(am::Image&image:images)
+                    if(decode.offset&&!decode.sequence){
+                        for(am::Image&image:ann.images)
                             image.align(image.position_x+image.width+decode.offset,
                                         image.position_y+image.height+decode.offset,
                                         image.position_x-decode.offset,
                                         image.position_y-decode.offset);
                     }
 
-                    int pad_len=get_pad_len(ann.events[event_id].frames.size());
+                    if(decode.metafile){
+                        ann.write_mann(out_dir);
+                    }else if(decode.sequence){
 
-                    for(int fr=0;fr<ann.events[event_id].frames.size();fr++){
+                        vector<am::Image> images;
 
-                        string number;
-                        if(both.pad)
-                            number=pad_int(fr,pad_len);
-                        else
-                            number=to_string(fr);
+                        int event_id=get_event_id(ann);
 
-                        images[fr].write_png(out_dir+ann.events[event_id].name+"_"+number+".png");
+                        if(both.align){
+                            images=ann.align_sequence(event_id);
+                        }else{
+                            for(int fr=0;fr<ann.events[event_id].frames.size();fr++){
+                                images.push_back(ann.images[ann.events[event_id].frames[fr].image_ref]);
+                            }
+                        }
+
+                        if(decode.offset){
+                            for(am::Image&image:images)
+                                image.align(image.position_x+image.width+decode.offset,
+                                            image.position_y+image.height+decode.offset,
+                                            image.position_x-decode.offset,
+                                            image.position_y-decode.offset);
+                        }
+
+                        int pad_len=get_pad_len(ann.events[event_id].frames.size());
+
+                        for(int fr=0;fr<ann.events[event_id].frames.size();fr++){
+
+                            string number;
+                            if(both.pad)
+                                number=pad_int(fr,pad_len);
+                            else
+                                number=to_string(fr);
+
+                            images[fr].write_png(out_dir+ann.events[event_id].name+"_"+number+".png");
+                        }
+                    }else{
+
+                        int pad_len=get_pad_len(ann.images.size());
+
+                        for(int im=0;im<ann.images.size();im++){
+
+                            string number;
+                            if(both.pad)
+                                number=pad_int(im,pad_len);
+                            else
+                                number=to_string(im);
+
+                            ann.images[im].write_png(out_dir+ann.name+"_"+number+".png");
+                        }
                     }
-                }else{
-
-                    int pad_len=get_pad_len(ann.images.size());
-
-                    for(int im=0;im<ann.images.size();im++){
-
-                        string number;
-                        if(both.pad)
-                            number=pad_int(im,pad_len);
-                        else
-                            number=to_string(im);
-
-                        ann.images[im].write_png(out_dir+ann.name+"_"+number+".png");
+                }else if(what==code_ann){
+                    am::ANN ann(get_file_name(filename));
+                    ann.read_any(filename);
+                    if(both.align){
+                        for(am::Image& image : ann.images){
+                            image.dealign();
+                        }
                     }
-                }
-            }else if(what==code_ann){
-                am::ANN ann(get_file_name(filename));
-                ann.read_any(filename);
-                if(both.align){
-                    for(am::Image& image : ann.images){
+                    ann.write_ann(out_dir+get_file_name(filename)+".ann");
+                }else if(what==decode_img){
+                    am::Image image;
+                    image.read_img(filename);
+                    if(both.align){
+                        image.align();
+                    }
+                    if(decode.offset){
+                        image.align(image.position_x+image.width+decode.offset,
+                                    image.position_y+image.height+decode.offset,
+                                    image.position_x-decode.offset,
+                                    image.position_y-decode.offset);
+                    }
+                    image.write_png(out_dir+get_file_name(filename)+".png");
+                }else if(what==code_img){
+                    am::Image image;
+                    image.read_png(filename);
+                    if(both.align){
                         image.dealign();
                     }
+                    image.write_img(out_dir+get_file_name(filename)+".img");
                 }
-                ann.write_ann(out_dir+get_file_name(filename)+".ann");
-            }else if(what==decode_img){
-                am::Image image;
-                image.read_img(filename);
-                if(both.align){
-                    image.align();
+            }catch(...){
+                if(both.ignore==false){
+                    cout<<"Can't process "<<filename<<endl;
+                    cout<<"Please contact developer if you think that this is error in program"<<endl;
+                    cout<<"Continue with further files? [y/n]"<<endl;
+                    char yes;
+                    cin>>yes;
+                    if(yes!='y')
+                        return -1;
                 }
-                if(decode.offset){
-                    image.align(image.position_x+image.width+decode.offset,
-                                image.position_y+image.height+decode.offset,
-                                image.position_x-decode.offset,
-                                image.position_y-decode.offset);
-                }
-                image.write_png(out_dir+get_file_name(filename)+".png");
-            }else if(what==code_img){
-                am::Image image;
-                image.read_png(filename);
-                if(both.align){
-                    image.dealign();
-                }
-                image.write_img(out_dir+get_file_name(filename)+".img");
             }
 
         }
