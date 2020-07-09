@@ -42,7 +42,7 @@ name | string | "magick" | name of image
 ANN
 
 name=cpl_smok
-author=Piotr Maciejewski
+author=Dove
 
 Event=WCHODZI
 
