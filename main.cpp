@@ -365,6 +365,9 @@ int main(int argc, char *argv[])
             }
 
         }
+        cout<<"No more files to decode"<<endl;
+    }else{
+        cout<<"No files to decode"<<endl;
     }
     return 0;
 }
