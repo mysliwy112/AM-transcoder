@@ -106,7 +106,7 @@ void help_page(){
     cout<<endl;
     cout<<"-d\tSets output directory."<<endl;
     cout<<"-f\tSets output to input file's director."<<endl;
-    cout<<"-n\tCreates directory named by input file's name."<<endl;
+    cout<<"-n\tStops creation of directory named by input ann's name."<<endl;
     cout<<endl;
     cout<<"-m\tCreates MetaANN file and additional images, used for encoding anns."<<endl;
     cout<<"-s\tCreates event sequence (type \":\" to get sequence by number)(events names are going to be listed and can be chosen from on runtime)."<<endl;
@@ -222,33 +222,31 @@ int main(int argc, char *argv[])
         parse_commandline(argv,argc);
 
         for(string &filename : filenames){
-
-            string out_dir;
-
-            if(both.file_dir){
-                out_dir=get_directory(filename);
-            }else if(both.out_directory.size()>0){
-                out_dir=both.out_directory;
-            }else{
-                out_dir=get_directory(argv[0]);
-            }
-
-            if(both.name_dir){
-                out_dir+=get_file_name(filename)+string("/");
-
-            }
-
-            create_directory(out_dir);
-
-
-            if(both.log)
-                cout<<"Out directory: "<<out_dir<<endl;
-
             try{
+                string out_dir;
+
+                if(both.file_dir){
+                    out_dir=get_directory(filename);
+                }else if(both.out_directory.size()>0){
+                    out_dir=both.out_directory;
+                }else{
+                    out_dir=get_directory(argv[0]);
+                }
 
                 int what=get_mode(read_file(filename,4));
+
                 if(both.log)
                     cout<<"Mode: "<<what<<endl;
+
+                if(both.name_dir&&what==decode_ann){
+                    out_dir+=get_file_name(filename)+string("/");
+                }
+
+                create_directory(out_dir);
+
+                if(both.log)
+                    cout<<"Out directory: "<<out_dir<<endl;
+
 
                 if(what==decode_ann){
                     am::ANN ann(get_file_name(filename));
@@ -354,8 +352,8 @@ int main(int argc, char *argv[])
                 }
             }catch(...){
                 if(both.ignore==false){
-                    cout<<"Can't process "<<filename<<endl;
-                    cout<<"Please contact developer if you think that this is error in program"<<endl;
+                    cout<<"Can't process: "<<filename<<endl;
+                    cout<<"Please contact developer if you think it's program's error."<<endl;
                     cout<<"Continue with further files? [y/n]"<<endl;
                     char yes;
                     cin>>yes;
@@ -365,9 +363,9 @@ int main(int argc, char *argv[])
             }
 
         }
-        cout<<"No more files to decode"<<endl;
+        cout<<"No more files to process"<<endl;
     }else{
-        cout<<"No files to decode"<<endl;
+        cout<<"No files to process"<<endl;
     }
     return 0;
 }
