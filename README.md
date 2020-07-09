@@ -41,9 +41,9 @@ Will create folder out in anndrzem directory and decode kretes.ann into it.
 `anndrzem -f C:/kretes.ann`
 Will decode to directory where file kretes.ann is located.
 
--c(reate) Creates directory named by input file's name:
-`anndrzem -c kretes.ann`
-Will create additional directory named kretes/ and decode there. Can be used with previos flags.
+-n(ame off) Disable creation of directory named by input file's name:
+`anndrzem kretes.ann`
+Will create additional directory named kretes/ and decode there. While with -n it will not create kretes/. Can be used with previos flags.
 
 -m(eta) Creates MetaANN file and additional images, used for encoding anns.
 `anndrzem -m kretes.ann`
