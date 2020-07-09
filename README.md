@@ -1,5 +1,5 @@
-### ANN-decoder
-Is a CLI program named Anndrzem used for decoding and encoding graphical files (ann, img) from games developed in Piklib and Bloomoo engines which were created by Aidem Media.
+### AM-transcoder
+Is a CLI program named Anndrzem used for decoding and encoding graphical files (ann, img) from games developed in Piklib and Bloomoo - engines which were created by Aidem Media.
 
 ### Release
 [Get it here](https://github.com/mysliwy112/ANN-decoder/releases)
@@ -14,7 +14,7 @@ Files can be decoded and encoded by dragging and dropping them on decoder (Anndr
 * .mann and aditional .png => .ann
 
 
-To get around complexity and additional data stored by ann, special MetaANN file for encoding ann was created. It should be readable and editable config file. You can create it by hand, or just by extracting ann file with -m flag. To get additional information and specification of mann file look into MANN_DOC.md.
+To get around complexity and additional data stored by ann, special MetaANN file for encoding ann was created. It should be readable and editable config file. You can create it by hand, or just by extracting ann file with -m flag. To get additional information and specification of mann file look into [MANN_DOC.md](MANN_DOC.md).
 
 Because decoder is CLI application it can take additional arguments.
 (To open CMD in folder, one should, while holding Shift, click on empty space in folder and choose option "Open command window here") later after typing the name of the program, it is possible to add parameters.
@@ -67,6 +67,7 @@ Images extracted with this option, are going to have additional transparent pixe
 
 -o(ffset) Adds transparent pixels to all sides of image, takes one argument - length of plane to add, when not specified default value is 10.
 
+-i(gnore) Ignores errors while processing files.
 
 ### Warning
 I've stolen this section from sister project [dePIKczer](https://github.com/Dove6/dePIKczer/raw/master/Release/dePIKczer.exe) for decoding .img files. 
@@ -90,7 +91,3 @@ You've been warned.
 Program was created in codeblocks, so it uses it's project system.
 Anndrzem is only compilable to 32-bit binaries, because it still uses piklib library.
 I'll add dependencies later.
-
-
-#PS.
-Sorry Dove, I just couldn't wait anymore and Whitebrim really wanted to get his graphics into game, just to be let down by engine's capabilities (oh and so sorry to say this but 32-bit encoder and piklib is not going to work with your 11k images, call me when you need to talk about this). Ech, It's a shame that Skoop is no longer with us, he had so many ideas for graphical mods and actual devotion to do them.
