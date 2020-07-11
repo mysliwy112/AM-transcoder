@@ -66,6 +66,8 @@ namespace am{
             void write_png(std::string filename);
             void read_img(std::string filename);
             void write_img(std::string filename);
+            void write_mann(std::string filename);
+            void read_mann(std::string filename);
 
             bytes decompress(bytes data, int type, int size);
             bytes compress(bytes data, int type, int size);

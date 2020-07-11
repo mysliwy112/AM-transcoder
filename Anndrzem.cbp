@@ -21,7 +21,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gnu_gcc_32" />
-				<Option parameters='&quot;bin/Release/reksio.ann&quot; -pl' />
+				<Option parameters='-directory &quot;bin/Release/reksio.ann&quot; -pl -o=40' />
 				<Compiler>
 					<Add option="-O3" />
 				</Compiler>
@@ -34,7 +34,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-std=c++14" />
+			<Add option="-std=c++17" />
 			<Add option="-fexceptions" />
 			<Add directory="E:/lib/lpng/build/x32" />
 			<Add directory="E:/lib/lpng" />

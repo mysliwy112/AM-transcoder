@@ -109,10 +109,11 @@
 
 1569705700 source:e:\aidemmedia\ann-decoder\icon.rc
 
-1594288101 source:e:\aidemmedia\ann-decoder\main.cpp
+1594501491 source:e:\aidemmedia\ann-decoder\main.cpp
 	<iostream>
 	<string>
 	<vector>
+	<iomanip>
 	"PNGformat.h"
 	"ANN.h"
 	"Image.h"
@@ -217,12 +218,12 @@
 	"Frame.h"
 	<iostream>
 
-1591926773 e:\aidemmedia\ann-decoder\include\image.h
+1594378003 e:\aidemmedia\ann-decoder\include\image.h
 	<vector>
 	<string>
 	"am_utils.h"
 
-1591927001 source:e:\aidemmedia\ann-decoder\src\image.cpp
+1594377910 source:e:\aidemmedia\ann-decoder\src\image.cpp
 	<iostream>
 	"am_utils.h"
 	"PNGformat.h"

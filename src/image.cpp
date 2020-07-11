@@ -187,7 +187,6 @@ namespace am{
             offset<<"\tposition_x="<<position_x<<endl;
         if(position_y!=0)
             offset<<"\tposition_y="<<position_y<<endl;
-
     }
 
 
