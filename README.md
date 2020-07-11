@@ -27,7 +27,7 @@ After arguments it is possible to add names of files to extract ex.:
 
 Extracts images from buty, with additional debug info.
 
-#Arguments:
+#### Arguments:
 
 Full names are specified only for better rememberance, please don't use them as flag, because that type of usage is not implemented.
 

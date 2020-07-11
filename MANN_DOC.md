@@ -24,17 +24,17 @@ frame | string - filename | - | image file of frame, starts frame arguments
 ## FRAME
 name|argument type|default value|description
 ----|-------------|-------------|-----------
-position_x | int | 0 | position in x axis of frame
-position_y | int | 0 | position in y axis of frame
-sfx | string - filenames separated by ';' | - | names of sounds that can play while playing this frame
+position_x | int | 0 | position of frame in x axis 
+position_y | int | 0 | position of frame in y axis 
+sfx | string - filenames separated by ';' | - | paths to sound files that can play while playing this frame
 name | string | "none" | name of frame
 
 ## IMAGE
 name|argument type|default value|description
 ----|-------------|-------------|-----------
 image | string - filename | - | start of image section, filename of image 
-position_x | int | 0 | position in x axis of image
-position_y | int | 0 | position in y axis of image
+position_x | int | 0 | position of image in x axis 
+position_y | int | 0 | position of image in y axis 
 name | string | "magick" | name of image
 
 ### Example
