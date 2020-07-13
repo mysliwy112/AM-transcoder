@@ -121,8 +121,8 @@ namespace am{
                 cout<<"It's meta ann file!"<<endl;
             }
         }
-        events.clear();
-        images.clear();
+        //events.clear();
+        //images.clear();
 
 
         while(1){
@@ -139,12 +139,12 @@ namespace am{
                 log();
                 while(dict.key=="event"){
                     int index=get_event_index(dict.value);
-                    //if(index==-1){
+                    if(index==-1){
                         events.push_back(Event());
                         events.back().name=dict.value;
-                        //index=events.size()-1;
-                    //}
-                    dict=events.back().load_mann(offset,files);
+                        index=events.size()-1;
+                    }
+                    dict=events[index].load_mann(offset,files);
                 }
 
                 images.resize(files.size());

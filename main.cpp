@@ -252,17 +252,17 @@ int main(int argc, char *argv[])
                 if(what==decode_ann){
                     am::ANN ann(get_file_name(filename));
                     ann.read_any(filename);
-//
-//                    if(flags.merge){
-//                        if(flags.metafile){
-//                            try{
-//                                ann.read_any(out_dir+ann.name+".mann");
-//                            }catch(...){
-//                                if(flags.log)
-//                                    cout<<"Can't read file to merge."<<endl;
-//                            }
-//                        }
-//                    }
+
+                    if(flags.merge){
+                        if(flags.metafile){
+                            try{
+                                ann.read_any(out_dir+ann.name+".mann");
+                            }catch(...){
+                                if(flags.log)
+                                    cout<<"Can't read file to merge."<<endl;
+                            }
+                        }
+                    }
 
                     if(flags.align&&!flags.sequence){
                         if(flags.log)

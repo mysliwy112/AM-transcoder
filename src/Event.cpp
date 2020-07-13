@@ -51,7 +51,7 @@ namespace am{
     }
 
     dic Event::load_mann(stringstream &offset,vector<string>&files){
-        frames.clear();
+        //frames.clear();
         dic dict;
         while(1){
             dict=get_val(offset);
@@ -61,13 +61,13 @@ namespace am{
                 loop_number=stoi(dict.value);
             }else if(dict.key=="frame"){
                 log();
-                //int licz=0;
+                int licz=0;
                 while(dict.key=="frame"){
-                    //if(licz>=frames.size())
+                    if(licz>=frames.size())
                         frames.push_back(Frame());
-                    frames.back().image_ref=add_file(files,dict.value);
-                    dict=frames.back().load_mann(offset,files);
-                 //   licz++;
+                    frames[licz].image_ref=add_file(files,dict.value);
+                    dict=frames[licz].load_mann(offset,files);
+                    licz++;
                 }
                 return dict;
             }else{
