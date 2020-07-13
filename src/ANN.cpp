@@ -29,7 +29,9 @@ namespace am{
 
         images.resize(get_int(offset,0x2));
         bpp=get_int(offset,0x2);
-        events.resize(get_int(offset,0x2));
+        //ev_number=get_int(offset,0x2);
+        //if(events.size()<ev_number)
+            events.resize(get_int(offset,0x2));
 
         //unknown data
         advance(offset,0xD);//kuratoren
@@ -68,10 +70,27 @@ namespace am{
         if(LOG)
             cout<<"Loading events & frames"<<endl;
 
+
+
+//        for(int li=0;li<ev_number;li++){
+//            string ev_name=get_str(offset,0x20);
+//            int ev_id=get_event_index(ev_name);
+//            if(ev_id==-1){
+//                for(int ev=0;ev<events.size();ev++){
+//                    if(events[ev].name.size()==0){
+//                        events[ev].name=ev_name;
+//                        events[ev].load_ann(offset);
+//                    }
+//
+//                }
+//            }else{
+//                events[ev_id].load_ann(offset);
+//            }
+//        }
+
         for(int ev=0;ev<events.size();ev++){
             events[ev].load_ann(offset);
         }
-
         if(LOG)
             cout<<"Loading images"<<endl;
         for(int im=0;im<images.size();im++){
@@ -119,8 +138,12 @@ namespace am{
             }else if(dict.key=="event"){
                 log();
                 while(dict.key=="event"){
-                    events.push_back(Event());
-                    events.back().name=dict.value;
+                    int index=get_event_index(dict.value);
+                    //if(index==-1){
+                        events.push_back(Event());
+                        events.back().name=dict.value;
+                        //index=events.size()-1;
+                    //}
                     dict=events.back().load_mann(offset,files);
                 }
 
@@ -142,9 +165,8 @@ namespace am{
     }
 
 
-    void ANN::load(bytes file, string name){
+    void ANN::load(bytes file){
         original=file;
-        name=name;
 
         int mode=0;
 
@@ -164,7 +186,7 @@ namespace am{
         }
     }
 
-    void ANN::get_ann(back_insert_iterator<bytes> &offset){
+    void ANN::get_ann(back_insert_iterator<bytes> &offset, bool doimages){
         set_str(offset,"NVP",0x4);
         set_int(offset,images.size(),0x2);
         set_int(offset,bpp,0x2);
@@ -179,23 +201,24 @@ namespace am{
         set_str(offset,author);
         set_data(offset,bytes(0x4,0));
         for(int ev=0;ev<events.size();ev++){
-            events[ev].get_ann(offset);
+            events[ev].get_ann(offset, doimages);
         }
 
         //good for now
         vector<image_data> im_datas(images.size());
         for(int im=0;im<images.size();im++){
-            im_datas[im]=images[im].get_ann();
+            im_datas[im]=images[im].get_ann(doimages);
             set_data(offset,im_datas[im].header);
         }
-        for(int im=0;im<images.size();im++){
-            set_data(offset,im_datas[im].image);
-            set_data(offset,im_datas[im].alpha);
+        if(doimages){
+            for(int im=0;im<images.size();im++){
+                set_data(offset,im_datas[im].image);
+                set_data(offset,im_datas[im].alpha);
+            }
         }
-
     }
 
-    void ANN::get_mann(ostringstream &offset,vector<std::string>&files){
+    void ANN::get_mann(ostringstream &offset,vector<std::string>&files, bool doimages, bool full){
         int log_n=0;
         if(LOG){
             cout<<"Writing mann"<<endl;
@@ -203,11 +226,11 @@ namespace am{
 
 
         offset<<"ANN\n\n";
-        offset<<"name="<<name<<endl;
+        //offset<<"name="<<name<<endl;
         offset<<"author="<<author<<endl;
-        if(transparency!=255)
+        if(transparency!=255||full)
             offset<<"transparency="<<transparency<<endl;
-        if(bpp!=16)
+        if(bpp!=16||full)
             offset<<"bpp="<<bpp<<endl;
         files.resize(images.size());
 
@@ -227,8 +250,11 @@ namespace am{
             }else{
                 number=to_string(im);
             }
+
             files[im]=name+"_"+number+".png";
-            images[im].write_png(mann_dir+files[im]);
+            if(doimages){
+                images[im].write_png(mann_dir+files[im]);
+            }
         }
         offset<<endl;
         if(LOG){
@@ -237,7 +263,7 @@ namespace am{
         }
 
         for(int ev=0;ev<events.size();ev++){
-            events[ev].get_mann(offset,files);
+            events[ev].get_mann(offset,files,doimages,full);
             offset<<endl;
         }
         offset<<endl;
@@ -247,7 +273,7 @@ namespace am{
         }
 
         for(int im=0;im<images.size();im++){
-            images[im].get_mann(offset,files[im]);
+            images[im].get_mann(offset,files[im],doimages,full);
             offset<<endl;
         }
     }
@@ -256,18 +282,18 @@ namespace am{
     void ANN::read_any(string filename){
         bytes data=read_file(filename);
         mann_dir=get_directory(filename);
-        load(data,get_file_name(filename));
+        load(data);
     }
 
 
-    void ANN::write_mann(string filename){
+    void ANN::write_mann(string filename, bool doimages, bool full){
         mann_dir=filename;
-        bytes data=get_mann();
+        bytes data=get_mann(doimages, full);
         write_file(filename+name+".mann",data);
     }
 
-    void ANN::write_ann(string filename){
-        bytes data=get_ann();
+    void ANN::write_ann(string filename, bool doimages){
+        bytes data=get_ann(doimages);
         write_file(filename,data);
     }
 
@@ -318,4 +344,15 @@ namespace am{
         align(img);
         return img;
     }
+
+    int ANN::get_event_index(string ev_name){
+        for(int ev=0;ev<events.size();ev++){
+            if(ev_name.compare(events[ev].name)==0){
+                return ev;
+            }
+        }
+        return -1;
+    }
+
+
 };

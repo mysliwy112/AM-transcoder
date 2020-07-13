@@ -61,10 +61,13 @@ namespace am{
                 loop_number=stoi(dict.value);
             }else if(dict.key=="frame"){
                 log();
+                //int licz=0;
                 while(dict.key=="frame"){
-                    frames.push_back(Frame());
+                    //if(licz>=frames.size())
+                        frames.push_back(Frame());
                     frames.back().image_ref=add_file(files,dict.value);
                     dict=frames.back().load_mann(offset,files);
+                 //   licz++;
                 }
                 return dict;
             }else{
@@ -74,7 +77,7 @@ namespace am{
         return dict;
     }
 
-    void Event::get_ann(back_insert_iterator<bytes> &offset){
+    void Event::get_ann(back_insert_iterator<bytes> &offset, bool doimages){
         set_str(offset,name,0x20);
         set_int(offset,frames.size(),0x2);
         set_data(offset,bytes(0x6,0));
@@ -90,20 +93,20 @@ namespace am{
         }
 
         for(int fr=0;fr<frames.size();fr++){
-            frames[fr].get_ann(offset);
+            frames[fr].get_ann(offset, doimages);
         }
 
     }
 
-    void Event::get_mann(std::ostringstream &offset,std::vector<std::string>&files){
+    void Event::get_mann(std::ostringstream &offset,std::vector<std::string>&files, bool doimages, bool full){
         offset<<"Event="<<name<<endl;
-        if(loop_number!=0)
+        if(loop_number!=0||full)
             offset<<"\tloop="<<loop_number<<endl;
-        if(transparency!=255)
+        if(transparency!=255||full)
             offset<<"\ttransparency="<<transparency<<endl;
         offset<<endl;
         for(int fr=0;fr<frames.size();fr++){
-            frames[fr].get_mann(offset,files);
+            frames[fr].get_mann(offset,files, doimages, full);
             offset<<endl;
         }
     }

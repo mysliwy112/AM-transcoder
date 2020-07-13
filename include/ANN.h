@@ -20,11 +20,12 @@ namespace am{
     class ANN: public Graphics
     {
         public:
-            ANN(std::string name="no_name");
+            ANN(std::string name="");
 
             void log();
 
-            std::string name="fire";
+            //name of output file
+            std::string name="";
             std::string author="anon";
 
             int bpp=16;
@@ -33,7 +34,7 @@ namespace am{
             std::vector<Event> events;
             std::vector<Image> images;
 
-            void load(bytes file, std::string name);
+            void load(bytes file);
 
             void load_header_ann(bytes::iterator &offset);
 
@@ -43,13 +44,15 @@ namespace am{
             dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
 
             using Graphics::get_ann;
-            void get_ann(std::back_insert_iterator<bytes> &offset);
+            void get_ann(std::back_insert_iterator<bytes> &offset ,bool doimages=true);
             using Graphics::get_mann;
-            void get_mann(std::ostringstream &offset,std::vector<std::string>&files);
+            void get_mann(std::ostringstream &offset,std::vector<std::string>&files ,bool doimages=true , bool full=false);
 
             void read_any(std::string filename);
-            void write_mann(std::string filename);
-            void write_ann(std::string filename);
+            void write_mann(std::string filename, bool doimages=true , bool full=false);
+            void write_ann(std::string filename, bool doimages=true);
+
+            int get_event_index(std::string ev_name);
 
             std::string mann_dir="";
 
@@ -57,20 +60,16 @@ namespace am{
             std::vector<Image> align_sequence(int event_id);
             void align(std::vector<Image> &img);
 
-
-
             bytes original;
 
             check_bound(bytes::iterator offset,unsigned long long length);
 
-
-
         protected:
-
+            //these don't work
             std::string validate_filename(std::string filename);
             bool testpath(std::string filename);
 
-            private:
+        private:
     };
 }
 #endif // ANN_H

@@ -12,9 +12,9 @@ using namespace std;
 
 
 namespace am{
-    Image::Image()
+    Image::Image(string name)
     {
-        //ctor
+        this->name=name;
     }
 
     void Image::load_ann(bytes::iterator &offset)
@@ -52,12 +52,14 @@ namespace am{
         dic dict;
         while(1){
             dict=get_val(offset);
-            if(dict.key=="position_x"){
+            if(dict.key=="name"){
+                name=dict.value;
+            }else if(dict.key=="position_x"){
                 position_x=stoi(dict.value);
             }else if(dict.key=="position_y"){
                 position_y=stoi(dict.value);
-            }else if(dict.key=="name"){
-                name=dict.value;
+            }else if(dict.key=="compression"){
+                compression=stoi(dict.value);
             }else{
                 log();
                 return dict;
@@ -65,6 +67,58 @@ namespace am{
         }
 
         return dict;
+    }
+
+    dic Image::load_mimg(stringstream &offset){
+        dic dict;
+        string check;
+        offset>>check;
+
+        if(LOG){
+            if(check.compare("IMG")!=0){
+                cout<<"Warning: Inappropriate check string"<<endl;
+            }else{
+                cout<<"It's meta img file!"<<endl;
+            }
+        }
+
+        while(1){
+            dict=get_val(offset);
+            if(dict.key=="name"){
+                name=dict.value;
+            }else if(dict.key=="image"){
+                if(name.size()==0)
+                    name=get_file_name(dict.value);
+                Image read=read_PNG(dict.value);
+                if(width==0)
+                    width=read.width;
+                if(height==0)
+                    height=read.height;
+                rgba32=read.rgba32;
+            }else if(dict.key=="position_x"){
+                position_x=stoi(dict.value);
+            }else if(dict.key=="position_y"){
+                position_y=stoi(dict.value);
+            }else if(dict.key=="compression"){
+                compression=stoi(dict.value);
+            }else if(dict.key=="width"){
+                width=stoi(dict.value);
+            }else if(dict.key=="height"){
+                height=stoi(dict.value);
+            }
+            if(offset.eof()){
+                log();
+                return dict;
+            }
+        }
+
+        return dict;
+    }
+
+    void Image::load_mimg(bytes data){
+        stringstream offset(string((char*)data.data(),data.size()));
+        vector<string>file;
+        load_mimg(offset);
     }
 
 
@@ -88,6 +142,7 @@ namespace am{
         alpha_size=get_int(offset,0x4);
         position_x=get_int(offset,0x4);
         position_y=get_int(offset,0x4);
+        log();
     }
 
     void Image::load_data(bytes data)
@@ -106,16 +161,13 @@ namespace am{
             add_alpha(img);
         }
 
-
-        compression=0;
-
     }
 
     void Image::load_rgba32(bytes data){
         rgba32=data;
     }
 
-    bytes Image::get_ann_header(int compression,int isize,int asize){
+    bytes Image::get_ann_header(int isize,int asize){
         bytes data;
 
         back_insert_iterator<bytes> offset(data);
@@ -141,7 +193,7 @@ namespace am{
 
     }
 
-    bytes Image::get_img_header(int compression,int isize,int asize){
+    bytes Image::get_img_header(int isize,int asize){
         bytes data;
 
         back_insert_iterator<bytes> offset(data);
@@ -163,7 +215,7 @@ namespace am{
         return data;
     }
 
-    image_data Image::get_am_data(int compression){
+    image_data Image::get_am_data(){
 
         image_data img;
         img=split_rgba32();
@@ -174,26 +226,96 @@ namespace am{
         return img;
     }
 
-    image_data Image::get_ann(){
-        int comp=4;
-        image_data data=get_am_data(comp);
-        data.header=get_ann_header(comp,data.image.size(),data.alpha.size());
+    image_data Image::get_ann(bool doimages){
+        image_data data=get_am_data();
+        data.header=get_ann_header(data.image.size(),data.alpha.size());
         return data;
     }
 
-    void Image::get_mann(std::ostringstream &offset,string &file){
+    void Image::get_mann(ostringstream &offset,string &file, bool doimages, bool full){
         offset<<"image="<<file<<endl;
+        if(full)
+            offset<<"\tname="<<name<<endl;
         if(position_x!=0)
             offset<<"\tposition_x="<<position_x<<endl;
         if(position_y!=0)
             offset<<"\tposition_y="<<position_y<<endl;
+        if(full)
+            offset<<"\twidth="<<width<<endl;
+        if(full)
+            offset<<"\theight="<<height<<endl;
+        if(full)
+            offset<<"\tcompression="<<compression<<endl;
     }
 
+    void Image::get_mimg(ostringstream &offset,string &file, bool doimages, bool full){
+        offset<<"IMG"<<endl<<endl;
+        if(doimages)
+            offset<<"image="<<file<<endl;
+        if(full)
+            offset<<"name="<<name<<endl;
+        if(full)
+            offset<<"bpp="<<bpp<<endl;
+        if(position_x!=0||full)
+            offset<<"position_x="<<position_x<<endl;
+        if(position_y!=0||full)
+            offset<<"position_y="<<position_y<<endl;
+        if(full)
+            offset<<"width="<<width<<endl;
+        if(full)
+            offset<<"height="<<height<<endl;
+        if(full)
+            offset<<"compression="<<compression<<endl;
+        if(doimages)
+            write_png(file);
+    }
 
+    bytes Image::get_mimg(string file,bool doimages, bool full){
+        ostringstream offset;
+        get_mimg(offset,file,doimages,full);
+        string data=offset.str();
+        return bytes(data.begin(),data.end());
+    }
 
     bytes Image::get_rgba32(){
         return rgba32;
     }
+
+    void Image::read_any(string filename){
+        bytes data=read_file(filename);
+        mann_dir=get_directory(filename);
+        load(data);
+    }
+
+    void Image::load(bytes file){
+        if(name.size()>0)
+            this->name=name;
+
+        int mode=0;
+
+        string check((char*)file.data(),3);
+        if(check=="\x89PNG"){
+            mode=1;
+        }else if(check=="IMG"){
+            mode=2;
+        }else if(check=="PIK"){
+            mode=3;
+        }
+        if(LOG)
+            cout<<"Image mode:"<<mode<<endl;
+
+        if(mode==0){
+            throw invalid_argument("Unknown filetype");
+        }else if(mode==1){
+            load_PNG(file);
+        }else if(mode==2){
+            load_mimg(file);
+        }else if(mode==3){
+            load_img(file);
+        }
+    }
+
+
 
     void Image::read_png(string filename){
         Image image=read_PNG(filename);
@@ -214,18 +336,23 @@ namespace am{
         load_data(get_data(i,image_size+alpha_size));
     }
 
-    void Image::write_img(string filename){
-        int cmpr=2;
+    void Image::write_img(string filename, bool doimages){
         bytes data;
-
-        image_data img=get_am_data(cmpr);
-        img.header=get_img_header(cmpr,img.image.size(),img.alpha.size());
+        if(compression==3)
+            compression=2;
+        image_data img=get_am_data();
+        img.header=get_img_header(img.image.size(),img.alpha.size());
 
         data.insert(data.end(),img.header.begin(),img.header.end());
-        data.insert(data.end(),img.image.begin(),img.image.end());
-        data.insert(data.end(),img.alpha.begin(),img.alpha.end());
-
+        if(doimages){
+            data.insert(data.end(),img.image.begin(),img.image.end());
+            data.insert(data.end(),img.alpha.begin(),img.alpha.end());
+        }
         write_file(filename,data);
+    }
+
+    void Image::write_mimg(std::string filename, bool doimages, bool full){
+        write_file(filename+".mimg",get_mimg(filename+".png",doimages,full));
     }
 
     bytes Image::decompress(bytes data, int type, int size){
@@ -447,6 +574,7 @@ namespace am{
     void Image::load_img(bytes data){
         bytes::iterator offset=data.begin();
         load_img(offset);
+        load_data(get_data(offset,image_size+alpha_size));
     }
 
 };

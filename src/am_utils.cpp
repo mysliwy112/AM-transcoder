@@ -107,17 +107,17 @@ namespace am{
         load_ann(offset);
     }
 
-    bytes Graphics::get_ann(){
+    bytes Graphics::get_ann(bool doimages){
         bytes data;
         back_insert_iterator<bytes> offset(data);
-        get_ann(offset);
+        get_ann(offset,doimages);
         return data;
     }
 
-    bytes Graphics::get_mann(){
+    bytes Graphics::get_mann(bool doimages, bool full){
         ostringstream offset;
         vector<std::string> files;
-        get_mann(offset,files);
+        get_mann(offset,files,doimages,full);
         string data=offset.str();
         return bytes(data.begin(),data.end());
     }
@@ -133,12 +133,11 @@ namespace am{
         cout<<"You shouldn't be here"<<endl;
     }
 
-    void Graphics::get_mann(ostringstream &offset,vector<std::string>&files){
+    void Graphics::get_mann(ostringstream &offset,vector<std::string>&files, bool doimages, bool full){
         cout<<offset.str()<<endl;
-
     }
 
-    void Graphics::get_ann(back_insert_iterator<bytes> &offset){
+    void Graphics::get_ann(back_insert_iterator<bytes> &offset, bool doimages){
         cout<<"You shouldn't be here"<<endl;
     }
 

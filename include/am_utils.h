@@ -43,10 +43,10 @@ namespace am{
             void load_mann(bytes data);
 
 
-            virtual void get_ann(std::back_insert_iterator<bytes> &offset);
-            bytes get_ann();
-            virtual void get_mann(std::ostringstream &offset,std::vector<std::string>&files);
-            bytes get_mann();
+            virtual void get_ann(std::back_insert_iterator<bytes> &offset,bool doimages=true);
+            bytes get_ann(bool doimages=true);
+            virtual void get_mann(std::ostringstream &offset,std::vector<std::string>&files, bool doimages=true ,bool full=false);
+            bytes get_mann(bool doimages=true, bool full=false);
 
 
 

@@ -56,12 +56,20 @@ namespace am{
                 position_x=stoi(dict.value);
             }else if(dict.key=="position_y"){
                 position_y=stoi(dict.value);
+            }else if(dict.key=="sfx_hash"){
+                sfx_switch=stoi(dict.value);
             }else if(dict.key=="sfx"){
                 sounds=dict.value;
+                if(sfx_switch==0){
+                    srand(sounds.size());
+                    sfx_switch=rand();
+                }
             }else if(dict.key=="name"){
                 name=dict.value;
             }else if(dict.key=="transparency"){
                 transparency=stoi(dict.value);
+            }else if(dict.key=="check"){
+                check=dict.value;
             }else{
                 log();
                 return dict;
@@ -71,7 +79,7 @@ namespace am{
         return dict;
     }
 
-    void Frame::get_ann(back_insert_iterator<bytes> &offset){
+    void Frame::get_ann(back_insert_iterator<bytes> &offset, bool doimages){
         set_str(offset,check,0x4);
         set_data(offset,bytes(0x4,0));
         set_int(offset,position_x,0x2);
@@ -90,16 +98,24 @@ namespace am{
         }
     }
 
-    void Frame::get_mann(std::ostringstream &offset,std::vector<std::string>&files){
+    void Frame::get_mann(std::ostringstream &offset,std::vector<std::string>& files, bool doimages, bool full){
         offset<<"\tFrame="<<files[image_ref]<<endl;
-        //offset<<"\t\tname="<<name<<endl;
+        if(full)
+            offset<<"\t\tname="<<name<<endl;
 
-        if(position_x!=0)
+        if(position_x!=0||full)
             offset<<"\t\tposition_x="<<position_x<<endl;
-        if(position_y!=0)
+        if(position_y!=0||full)
             offset<<"\t\tposition_y="<<position_y<<endl;
-        if(sfx_switch!=0)
+
+        if(sfx_switch!=0){
+            if(full)
+                offset<<"\t\tsfx_hash="<<sfx_switch<<endl;
             offset<<"\t\tsfx="<<sounds<<endl;
+        }
+        if(full)
+            offset<<"\t\tcheck="<<check<<endl;
+
     }
 
 
