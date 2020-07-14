@@ -56,7 +56,7 @@ namespace am{
                 position_x=stoi(dict.value);
             }else if(dict.key=="position_y"){
                 position_y=stoi(dict.value);
-            }else if(dict.key=="sfx_hash"){
+            }else if(dict.key=="sfx_hash"||dict.key=="sfx_seed"){
                 sfx_switch=stoi(dict.value);
             }else if(dict.key=="sfx"){
                 sounds=dict.value;
@@ -110,7 +110,7 @@ namespace am{
 
         if(sfx_switch!=0){
             if(full)
-                offset<<"\t\tsfx_hash="<<sfx_switch<<endl;
+                offset<<"\t\tsfx_seed="<<sfx_switch<<endl;
             offset<<"\t\tsfx="<<sounds<<endl;
         }
         if(full)

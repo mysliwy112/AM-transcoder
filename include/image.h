@@ -55,6 +55,7 @@ namespace am{
             void load_mimg(bytes data);
 
             void load(bytes data);
+            void load_png(bytes data);
 
             void log();
 

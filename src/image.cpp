@@ -294,7 +294,7 @@ namespace am{
         int mode=0;
 
         string check((char*)file.data(),3);
-        if(check=="\x89PNG"){
+        if(check=="\x89PN"){
             mode=1;
         }else if(check=="IMG"){
             mode=2;
@@ -307,7 +307,7 @@ namespace am{
         if(mode==0){
             throw invalid_argument("Unknown filetype");
         }else if(mode==1){
-            load_PNG(file);
+            load_png(file);
         }else if(mode==2){
             load_mimg(file);
         }else if(mode==3){
@@ -316,13 +316,20 @@ namespace am{
     }
 
 
-
-    void Image::read_png(string filename){
-        Image image=read_PNG(filename);
+    void Image::load_png(bytes data){
+        Image image=load_PNG(data);
         width=image.width;
         height=image.height;
         bpp=16;
         rgba32=image.rgba32;
+
+    }
+
+
+
+    void Image::read_png(string filename){
+        bytes image=read_file(filename);
+        load_png(image);
     }
 
     void Image::write_png(string filename){

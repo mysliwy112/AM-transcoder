@@ -133,7 +133,7 @@ namespace am{
                 author=dict.value;
             }else if(dict.key=="bpp"){
                 bpp=stoi(dict.value);
-            }else if(dict.key=="name"){
+            }else if(dict.key=="filename"||dict.key=="name"){
                 name=dict.value;
             }else if(dict.key=="event"){
                 log();
