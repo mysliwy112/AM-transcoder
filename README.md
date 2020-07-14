@@ -6,11 +6,13 @@ Is a CLI program named Anndrzem used for decoding and encoding graphical files (
 
 ### Instruction
 Files can be decoded and encoded by dragging and dropping them on decoder (Anndrzem.exe).
+ex. drag zegar.mimg on anndrzem.exe to convert it to zegar.img
+or use console `anndrzem kretes.ann -m` to extract images and kretes.mann.
 
 ###### Supported formats:
 * .img => .png
 * .ann => multiple .png and .mann if specified.
-* .png => .img
+* .png/.mimg => .img
 * .mann and aditional .png => .ann
 
 
@@ -29,35 +31,35 @@ Extracts images from buty, with additional debug info.
 
 #### Arguments:
 
-Full names are specified only for better rememberance, please don't use them as flag, because that type of usage is not implemented.
+Use - for short names and -- for full names. Parameters to specific flags can be added after "=" character.
 
 -h(elp) Shows help message.
 	
 -d(irectory) Sets output directory, takes path as argument:
-`anndrzem -f ./out/ kretes.ann`
+`anndrzem -f=./out/ kretes.ann`
 Will create folder out in anndrzem directory and decode kretes.ann into it.
 	
--f(ile's) Sets output to input file directory:
+-f(ile) Sets output to input file directory:
 `anndrzem -f C:/kretes.ann`
 Will decode to directory where file kretes.ann is located.
 
--n(ame off) Disable creation of directory named by input file's name:
+-n(ame-off) Disable creation of directory named by input file's name:
 `anndrzem kretes.ann`
 Will create additional directory named kretes/ and decode there. While with -n it will not create kretes/. Can be used with previos flags.
 
--m(eta) Creates MetaANN file and additional images, used for encoding anns.
+-m(etafile) Creates MetaANN file and additional images, used for encoding anns.
 `anndrzem -m kretes.ann`
 Will create kretes.mann and additional png files representing images from ann. For mann documentation look into MANN_DOC.md.
 
 -s(equence) Creates event sequence, can take one argument - event name:
 Extracts specific animation from ann file, name of event to extract can be specified on runtime, after program list events' names. You can type : to get event by id.
-'anndrzem -s GADA kretes.ann'
+'anndrzem -s=GADA kretes.ann'
 Will extract frames to files prefixed with GADA, representing talking Moles The Mole.
 
 -v(erbose) Generates additional console output, used mainly for debbuging.
 
 -p(ad) Pads numbers with zeros to specified number of digits can take one argument - maximal number of digits:
-'anndrzem -p 3 kretes.ann'
+'anndrzem -p=3 kretes.ann'
 Will creates files kretes_00001, kretes_00002 etc. When parameter is not specified program will take number of images to extract as maximal padding.
 'anndrzem kretes.ann -p'
 Will create kretes_01, kretes_02, ... , kretes_13.
@@ -68,6 +70,17 @@ Images extracted with this option, are going to have additional transparent pixe
 -o(ffset) Adds transparent pixels to all sides of image, takes one argument - length of plane to add, when not specified default value is 10.
 
 -i(gnore) Ignores errors while processing files.
+
+--images-off Don't extract images.
+When used, image files like these with ".png" extension won't be created. Used mainly when you want to get information about ann. When used while encoding ann/img only headers will be created.
+
+--full Fully transcripts ann to mann.
+Writes all possible data to metafile. Metafile created in that way can be hard to read. But sometimes data used with this flag would me necessary for proper encoding.
+
+--merge Merges to destination file (Experimental)
+Merges decoded file to destination metafile. Mainly used with --full flag. It won't work sometimes, can brake meta file. Use at your own risk, do backups.
+
+--
 
 ### Warning
 I've stolen this section from sister project [dePIKczer](https://github.com/Dove6/dePIKczer/raw/master/Release/dePIKczer.exe) for decoding .img files. 
