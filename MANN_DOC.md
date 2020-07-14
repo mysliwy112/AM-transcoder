@@ -1,14 +1,14 @@
-MetaANN file is configuration file used to compile ann files for Piklib/Bloomoo engine. It can be opened by notepad or any other simmilar text editor.
+MetaANN(mann) and MetaIMG(mimg) files are configuration files used to compile ann or img files for Piklib/Bloomoo engine. They can be opened by notepad or any other simmilar text editor.
 
-MANN structure is simple and hierarchical.
+Metafile structure is simple and hierarchical.
 MANN always starts with ANN - magic world followed by global ann options, events and frames, ended by images descriptions.
 
-Here are descriptions of all mann options. Some of which shouldn't be modified by user.
+Here are descriptions of all MANN options. Some of which shouldn't be modified by user, MIMG uses same options as MANN in Image section, but should have IMG instead of ANN in header.
 
 ## HEADER
 name|argument type|default value|description
 ----|-------------|-------------|-----------
-name | string | "fire" | name of ann 
+filename | string | name of file | name of ann that will be created when passed to anndrzem (without extension)
 author | string | "anon" | author of ann
 transparency | int 0 - 255 | 255 | transparency of ann, generaly don't use, it's here for compatibility 
 bpp | uint | 16 | bits per pixel, generaly don't use, it's here for compatybility
@@ -26,7 +26,9 @@ name|argument type|default value|description
 ----|-------------|-------------|-----------
 position_x | int | 0 | position of frame in x axis 
 position_y | int | 0 | position of frame in y axis 
+sfx_seed | int | - | number used for sfx deduction, generaly don't use, it's here for compatybility
 sfx | string - filenames separated by ';' | - | paths to sound files that can play while playing this frame
+check | string - 4 characters | \`}U. | just ignore it's here for compatybility
 name | string | "none" | name of frame
 
 ## IMAGE
@@ -35,7 +37,11 @@ name|argument type|default value|description
 image | string - filename | - | start of image section, filename of image 
 position_x | int | 0 | position of image in x axis 
 position_y | int | 0 | position of image in y axis 
-name | string | "magick" | name of image
+compression | enum | 3 | compression type of image, just for experimentation 
+width | int | input image width | width of image, just for experimentation 
+height | int | input image height | height of image, just for experimentation 
+bpp | int | bpp of ann, 16 | bits per pixel, generaly don't use
+name | string | - | name of image
 
 ### Example
 ```
