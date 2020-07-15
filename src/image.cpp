@@ -252,7 +252,7 @@ namespace am{
         offset<<"IMG"<<endl<<endl;
         if(doimages)
             offset<<"image="<<file<<endl;
-        if(full)
+        //if(full)
             offset<<"name="<<name<<endl;
         if(full)
             offset<<"bpp="<<bpp<<endl;

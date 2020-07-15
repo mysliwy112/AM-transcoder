@@ -100,7 +100,7 @@ namespace am{
 
     void Frame::get_mann(std::ostringstream &offset,std::vector<std::string>& files, bool doimages, bool full){
         offset<<"\tFrame="<<files[image_ref]<<endl;
-        if(full)
+        //if(full)
             offset<<"\t\tname="<<name<<endl;
 
         if(position_x!=0||full)
