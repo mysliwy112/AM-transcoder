@@ -234,7 +234,7 @@ namespace am{
 
     void Image::get_mann(ostringstream &offset,string &file, bool doimages, bool full){
         offset<<"image="<<file<<endl;
-        if(full)
+        //if(full)
             offset<<"\tname="<<name<<endl;
         if(position_x!=0)
             offset<<"\tposition_x="<<position_x<<endl;
@@ -252,7 +252,7 @@ namespace am{
         offset<<"IMG"<<endl<<endl;
         if(doimages)
             offset<<"image="<<file<<endl;
-        //if(full)
+        if(full)
             offset<<"name="<<name<<endl;
         if(full)
             offset<<"bpp="<<bpp<<endl;
