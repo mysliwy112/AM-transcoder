@@ -85,7 +85,7 @@ struct Flags{
     Flag<> align{list,"align",true,"Align image sizes.",false};
     Flag<> ignore{list,"ignore",true,"Ignores errors.",false};
     Flag<string> sequence{list,"sequence",true,"Creates event sequence {type \":\" to get sequence by number}{events names are going to be listed and can be chosen from on runtime}.",false,""};
-    //Flag<> sequenced{flags.list,"sequence","Extracts every sequence as another folder.",false};
+    Flag<> sequenced{flags.list,"quences","Extracts every sequence as another folder.",true};
     Flag<int> offset{list,"offset",true,"Adds transparent pixels to all sides of image.",false,10};
     Flag<string> metafile{list,"metafile",true,"Creates Meta file and additional images, used for encoding anns and imgs.",false,""};
     Flag<> images{list,"images-off",false,"Generates mann without additional image data.",true};
@@ -192,23 +192,28 @@ int get_mode(am::bytes data){
 }
 
 int get_event_id(am::ANN &ann){
-    string sequence=flags.sequence.arg;
-    if(sequence.size()==0){
-        cout<<endl;
-        for(int ev=0;ev<ann.events.size();ev++){
-            cout<<ev<<".\t"<<ann.events[ev].name<<endl;
+    try{
+        string sequence=flags.sequence.arg;
+        if(sequence.size()==0){
+            cout<<endl;
+            for(int ev=0;ev<ann.events.size();ev++){
+                cout<<ev<<".\t"<<ann.events[ev].name<<endl;
+            }
+            cout<<"Choose event name: (type \":\") to get sequence by number"<<endl;
+            cin>>sequence;
         }
-        cout<<"Choose event name: (type \":\") to get sequence by number"<<endl;
-        cin>>sequence;
+
+        if(sequence.compare(0,1,":")==0){
+            return stoi(sequence.substr(1));
+        }else{
+            return ann.get_event_index(sequence);
+        }
+    }catch(...){
+        string error=string("Can't find event with name |")+sequence+"|"
+        cout<<error<<endl;
+        throw invalid_argument(error);
     }
 
-    if(sequence.compare(0,1,":")==0){
-        return stoi(sequence.substr(1));
-    }else{
-
-    }
-
-    throw invalid_argument(string("Can't find event with name |")+sequence+"|");
 }
 
 int main(int argc, char *argv[])
