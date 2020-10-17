@@ -78,9 +78,8 @@ When used, image files like these with ".png" extension won't be created. Used m
 Writes all possible data to metafile. Metafile created in that way can be hard to read. But sometimes data used with this flag would me necessary for proper encoding.
 
 --merge Merges to destination file (Experimental)
-Merges decoded file to destination metafile. Mainly used with --full flag. It won't work sometimes, can brake meta file. Use at your own risk, do backups.
+Merges decoded file to destination metafile. Mainly used with --full flag. It won't work sometimes, can break meta file. Use at your own risk, do backups.
 
---
 
 ### Warning
 I've stolen this section from sister project [dePIKczer](https://github.com/Dove6/dePIKczer/raw/master/Release/dePIKczer.exe) for decoding .img files. 

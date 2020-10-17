@@ -7,41 +7,6 @@
 			<Cursor1 position="780" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\PNGformat.cpp" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="226" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="include\filesys.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="533" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\filesys.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2492" topLine="71" />
-		</Cursor>
-	</File>
-	<File name="include\piklib8_shim.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="234" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\CLZW.h" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1068" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\ANN.cpp" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9464" topLine="316" />
-		</Cursor>
-	</File>
-	<File name="include\Event.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="387" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="src\Frame.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2989" topLine="82" />
@@ -52,24 +17,19 @@
 			<Cursor1 position="1645" topLine="18" />
 		</Cursor>
 	</File>
-	<File name="include\PNGformat.h" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="258" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="src\am_utils.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2920" topLine="113" />
 		</Cursor>
 	</File>
+	<File name="include\CLZW.h" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1068" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="include\image.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1812" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\ANN.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="1027" zoom_1="2" zoom_2="2">
-		<Cursor>
-			<Cursor1 position="1500" topLine="29" />
 		</Cursor>
 	</File>
 	<File name="src\image.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -82,14 +42,54 @@
 			<Cursor1 position="9200" topLine="281" />
 		</Cursor>
 	</File>
-	<File name="include\CRLE.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\Event.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2353" topLine="0" />
+			<Cursor1 position="387" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\Event.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1978" topLine="42" />
+		</Cursor>
+	</File>
+	<File name="include\PNGformat.h" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="258" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\PNGformat.cpp" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="226" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="include\ANN.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="1027" zoom_1="2" zoom_2="2">
+		<Cursor>
+			<Cursor1 position="1500" topLine="29" />
+		</Cursor>
+	</File>
+	<File name="include\filesys.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="533" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\filesys.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2492" topLine="71" />
+		</Cursor>
+	</File>
+	<File name="include\CRLE.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2353" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\piklib8_shim.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="234" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\ANN.cpp" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9464" topLine="316" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

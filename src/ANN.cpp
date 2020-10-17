@@ -345,6 +345,20 @@ namespace am{
         return img;
     }
 
+    vector<Image> ANN::align_sequences(){
+        vector<Image> img;
+
+        for(int ev=0;ev<events.size();ev++){
+            for(int fr=0;fr<events[ev].frames.size();fr++){
+                img.push_back(images[events[ev].frames[fr].image_ref]);
+                img[fr].position_x+=events[ev].frames[fr].position_x;
+                img[fr].position_y+=events[ev].frames[fr].position_y;
+            }
+        }
+        align(img);
+        return img;
+    }
+
     int ANN::get_event_index(string ev_name){
         for(int ev=0;ev<events.size();ev++){
             if(ev_name.compare(events[ev].name)==0){

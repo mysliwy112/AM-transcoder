@@ -58,6 +58,7 @@ namespace am{
 
             void align_images();
             std::vector<Image> align_sequence(int event_id);
+            std::vector<Image> align_sequences();
             void align(std::vector<Image> &img);
 
             bytes original;
