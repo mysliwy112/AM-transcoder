@@ -88,6 +88,7 @@ struct Flags{
     //Flag<> sequenced{flags.list,"quences","Extracts every sequence as another folder.",true};
     Flag<int> offset{list,"offset",true,"Adds transparent pixels to all sides of image.",false,10};
     Flag<string> metafile{list,"metafile",true,"Creates Meta file and additional images, used for encoding anns and imgs.",false,""};
+    Flag<string> json{list,"json",true,"Creates Meta file in json format.",false,""};
     Flag<> images{list,"images-off",false,"Generates mann without additional image data.",true};
     Flag<> full{list,"full",false,"Fully transcripts ann to mann.",false};
     Flag<> merge{list,"merge",false,"(Experimental) Merges decoded file to destination metafile.",false};
@@ -267,6 +268,17 @@ int main(int argc, char *argv[])
                                 if(flags.log)
                                     cout<<"Can't read file to merge."<<endl;
                             }
+                            if(flags.json){
+                                cout<<"Warning: Json file merges as second one"<<endl;
+                            }
+                        }
+                        if(flags.json){
+                            try{
+                                ann.read_any(out_dir+ann.name+".mann");
+                            }catch(...){
+                                if(flags.log)
+                                    cout<<"Can't read file to merge."<<endl;
+                            }
                         }
                     }
 
@@ -286,10 +298,17 @@ int main(int argc, char *argv[])
                                         image.position_y-flags.offset.arg);
                     }
 
-                    if(flags.metafile){
-                        if(flags.metafile.arg.size()>0)
-                            ann.name=flags.metafile.arg;
-                        ann.write_mann(out_dir,flags.images,flags.full);
+                    if(flags.metafile||flags.json){
+                        if(flags.metafile){
+                            if(flags.metafile.arg.size()>0)
+                                ann.name=flags.metafile.arg;
+                            ann.write_mann(out_dir,flags.images,flags.full);
+                        }
+                        if(flags.json){
+                            if(flags.json.arg.size()>0)
+                                ann.name=flags.json.arg;
+                            ann.write_jann(out_dir,flags.images,flags.full);
+                        }
                     }else if(flags.sequence){
                         vector<am::Image> images;
 
@@ -358,6 +377,17 @@ int main(int argc, char *argv[])
                                 if(flags.log)
                                     cout<<"Can't read file to merge."<<endl;
                             }
+                            if(flags.json){
+                                cout<<"Warning: Json is merged as second file"<<endl;
+                            }
+                        }
+                        if(flags.json){
+                            try{
+                                image.read_any(out_dir+image.name+".jimg");
+                            }catch(...){
+                                if(flags.log)
+                                    cout<<"Can't read file to merge."<<endl;
+                            }
                         }
 
                     }
@@ -374,8 +404,13 @@ int main(int argc, char *argv[])
 
 
 
-                    if(flags.metafile){
-                        image.write_mimg(out_dir+image.name,flags.images,flags.full);
+                    if(flags.metafile||flags.json){
+                        if(flags.metafile){
+                            image.write_mimg(out_dir+image.name,flags.images,flags.full);
+                        }
+                        if(flags.json){
+                            image.write_jimg(out_dir+image.name,flags.images&&(!flags.metafile),flags.full);
+                        }
                     }else if(flags.images){
                         image.write_png(out_dir+image.name+".png");
                     }
