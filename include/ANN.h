@@ -50,7 +50,7 @@ namespace am{
             using Graphics::get_mann;
             void get_mann(std::ostringstream &offset,std::vector<std::string>&files ,bool doimages=true , bool full=false);
             using Graphics::get_jann;
-            void get_jann(nlohmann::json &fj,std::vector<std::string>&files ,bool doimages=true , bool full=false);
+            nlohmann::json get_jann(std::vector<std::string>&files ,bool doimages=true , bool full=false);
 
             void read_any(std::string filename);
             void write_mann(std::string filename, bool doimages=true , bool full=false);

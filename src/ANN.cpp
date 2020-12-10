@@ -164,7 +164,7 @@ namespace am{
         return dict;
     }
 
-    void ANN::load_jann(enlohmann::json &fj, vector<string>&files){
+    void ANN::load_jann(nlohmann::json &fj, vector<string>&files){
 
 //        dic dict;
 //        string check;
@@ -194,21 +194,21 @@ namespace am{
             name=fj.at("name");
         }catch(...){}
         log();
-        for(auto& elem : fj["event"]){
+        for(auto& elem : fj["event"].items()){
             int index=get_event_index(elem.key());
             if(index==-1){
                 events.push_back(Event());
                 events.back().name=elem.key();
                 index=events.size()-1;
             }
-            events[index].load_jann(elem,files);
+            events[index].load_jann(elem.value(),files);
         }
         images.resize(files.size());
         for(int im=0;im<images.size();im++){
             images[im].read_png(mann_dir+files[im]);
         }
-        for(auto& elem : j["image"]){
-            images[add_file(files, elem.key())].load_jann(fj);
+        for(auto& elem : fj["image"].items()){
+            images[add_file(files, elem.key())].load_jann(elem.value());
         }
     }
 
@@ -328,7 +328,8 @@ namespace am{
         }
     }
 
-    void ANN::get_jann(enlohmann::json &fj,vector<std::string>&files, bool doimages, bool full){
+    nlohmann::json ANN::get_jann(vector<std::string>&files, bool doimages, bool full){
+        nlohmann::json fj;
         int log_n=0;
         if(LOG){
             cout<<"Writing jann"<<endl;
@@ -347,8 +348,7 @@ namespace am{
             pad_len=get_pad_len(images.size());
 
         if(LOG){
-//            cout<<offset.str().substr(log_n)<<endl;
-//            log_n=offset.str().size();
+            cout<<fj<<endl;
         }
 
         for(int im=0;im<images.size();im++){
@@ -367,22 +367,22 @@ namespace am{
         }
 
         if(LOG){
-//            cout<<offset.str().substr(log_n)<<endl;
-//            log_n=offset.str().size();
+            cout<<fj<<endl;
         }
-        fj["events"]={};
+        fj["events"]=nlohmann::json::object();
         for(int ev=0;ev<events.size();ev++){
-            fj["events"].push_back({events[ev].name,events[ev].get_jann(fj,files,doimages,full)});
+            fj["events"].push_back({events[ev].name,events[ev].get_jann(files,doimages,full)});
         }
 
         if(LOG){
 //            cout<<offset.str().substr(log_n)<<endl;
 //            log_n=offset.str().size();
         }
-        fj["images"]={};
+        fj["images"]=nlohmann::json::object();
         for(int im=0;im<images.size();im++){
-            fj["images"].push_back(files[im],images[im].get_jann(fj,files[im],doimages,full));
+            fj["images"].push_back({files[im],images[im].get_jann(files[im],doimages,full)});
         }
+        return fj;
     }
 
 

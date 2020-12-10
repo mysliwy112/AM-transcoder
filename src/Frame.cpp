@@ -79,7 +79,8 @@ namespace am{
         return dict;
     }
 
-    void Frame::load_jann(enlohmann::json &fj,vector<string>&files){
+    void Frame::load_jann(nlohmann::json &fj,vector<string>&files){
+            image_ref=add_file(files,fj.at("filename"));
         try{
             position_x=fj.at("position_x");
         }catch(...){}
@@ -148,8 +149,9 @@ namespace am{
     }
 
 
-    void Frame::get_jann(enlohmann::json &fj,std::vector<std::string>& files, bool doimages, bool full){
-
+    nlohmann::json Frame::get_jann(std::vector<std::string>& files, bool doimages, bool full){
+        nlohmann::json fj;
+        fj["filename"]=files[image_ref];
         //if(full)
             fj["name"]=name;
 
@@ -163,8 +165,31 @@ namespace am{
                 fj["sfx_seed"]=sfx_switch;
             fj["sfx"]=sounds;
         }
-        if(full)
-            ofj["check"]=check;
+        if(full){
+            stringstream ss;
+            for(int i=0;i<check.size();i++){
+                ss<<std::hex<<+(uint8_t)check[i];
+            }
+//            const char* tempBuf = check.c_str();
+//
+//
+//            const char* it = tempBuf;
+//            const char* end = tempBuf + std::strlen(tempBuf);
+//
+//            for (; it != end; ++it)
+//                ss << std::hex << unsigned(*it);
+//
+//            string result;
+//            ss >> result;
+//            fj["check"]=std::vector<std::uint8_t>(check.begin(),check.end());
+            fj["check"]=ss.str();
+        }
 
+
+        if(LOG){
+            cout<<fj<<endl;
+        }
+
+        return fj;
     }
 }

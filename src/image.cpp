@@ -69,7 +69,7 @@ namespace am{
         return dict;
     }
 
-    void Image::load_mann(nlohmann::json &fj){
+    void Image::load_jann(nlohmann::json &fj){
         try{
             name=fj.at("name");
         }catch(...){}
@@ -132,7 +132,7 @@ namespace am{
         return dict;
     }
 
-    void Image::load_mann(nlohmann::json &fj){
+    void Image::load_jimg(nlohmann::json &fj){
         string image_name;
         try{
             name=fj.at("name");
@@ -311,7 +311,8 @@ namespace am{
             offset<<"\tcompression="<<compression<<endl;
     }
 
-    void Image::get_jann(nlohmann::json &fs,string &file, bool doimages, bool full){
+    nlohmann::json Image::get_jann(string &file, bool doimages, bool full){
+        nlohmann::json fj;
 //        fj["image"]=file;
         //if(full)
             fj["name"]=name;
@@ -325,6 +326,7 @@ namespace am{
 //            offset<<"\theight="<<height<<endl;
         if(full)
             fj["compression"]=compression;
+        return fj;
     }
 
     void Image::get_mimg(ostringstream &offset,string &file, bool doimages, bool full){
@@ -348,7 +350,7 @@ namespace am{
         if(doimages)
             write_png(file);
     }
-    void Image::get_jimg(nlohmann::json &fs,string &file, bool doimages, bool full){
+    void Image::get_jimg(nlohmann::json &fj,string &file, bool doimages, bool full){
         if(doimages)
             fj["image"]=file;
         if(full)
@@ -377,9 +379,9 @@ namespace am{
     }
 
     bytes Image::get_jimg(string file,bool doimages, bool full){
-        nlohmann::json fs
+        nlohmann::json fs;
         get_jimg(fs,file,doimages,full);
-        string data=fs.dump();
+        string data=fs.dump(4);
         return bytes(data.begin(),data.end());
     }
 

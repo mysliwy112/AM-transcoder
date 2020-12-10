@@ -43,7 +43,7 @@ namespace am{
             void load_ann(bytes data);
             virtual dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
             void load_mann(bytes data);
-            virtual dic load_jann(nlohmann::json &fj,std::vector<std::string>&files);
+            virtual void load_jann(nlohmann::json &fj,std::vector<std::string>&files);
             void load_jann(bytes data);
 
 
@@ -51,7 +51,7 @@ namespace am{
             bytes get_ann(bool doimages=true);
             virtual void get_mann(std::ostringstream &offset,std::vector<std::string>&files, bool doimages=true, bool full=false);
             bytes get_mann(bool doimages=true, bool full=false);
-            virtual void get_jann(nlohmann::json &fj,std::vector<std::string>&files, bool doimages=true, bool full=false);
+            virtual nlohmann::json get_jann(std::vector<std::string>&files, bool doimages=true, bool full=false);
             bytes get_jann(bool doimages=true, bool full=false);
 
 

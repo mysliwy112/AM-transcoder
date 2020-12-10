@@ -131,8 +131,8 @@ namespace am{
     bytes Graphics::get_jann(bool doimages, bool full){
         nlohmann::json fj;
         vector<std::string> files;
-        get_jann(fj,files,doimages,full);
-        string data=fj.dump();
+        fj=get_jann(files,doimages,full);
+        string data=fj.dump(4);
         return bytes(data.begin(),data.end());
     }
 
@@ -143,7 +143,7 @@ namespace am{
         return pic;
     }
 
-    void Graphics::load_jann(nlohmann::json fj,vector<string>&file){
+    void Graphics::load_jann(nlohmann::json &fj,vector<string>&file){
         cout<<"You shouldn't be here"<<endl;
     }
 
@@ -155,8 +155,10 @@ namespace am{
         cout<<offset.str()<<endl;
     }
 
-    void Graphics::get_mann(nlohmann::json fj,vector<std::string>&files, bool doimages, bool full){
+    nlohmann::json Graphics::get_jann(vector<std::string>&files, bool doimages, bool full){
+        nlohmann::json fj;
         cout<<fj<<endl;
+        return fj;
     }
 
     void Graphics::get_ann(back_insert_iterator<bytes> &offset, bool doimages){

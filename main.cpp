@@ -426,7 +426,7 @@ int main(int argc, char *argv[])
                 if(flags.ignore==false){
                     cout<<"Can't process: "<<filename<<endl;
                     cout<<"Please contact developer if you think it's program's error."<<endl;
-                    cout<<"Continue with further files? [y/n]"<<endl;
+                    cout<<"Continue with further files? [y/n] ";
                     char yes;
                     cin>>yes;
                     if(yes!='y')

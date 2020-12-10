@@ -65,6 +65,7 @@
 		<Unit filename="include/am_utils.h" />
 		<Unit filename="include/filesys.h" />
 		<Unit filename="include/image.h" />
+		<Unit filename="include/json.hpp" />
 		<Unit filename="include/piklib8_shim.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/ANN.cpp" />

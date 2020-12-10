@@ -67,10 +67,13 @@ namespace am{
             bytes get_img_header(int isize,int asize);
             image_data get_am_data();
             image_data get_ann(bool doimages);
+
             void get_mann(std::ostringstream &offset,std::string &file, bool doimages, bool full);
-            void get_jann(nlohmann::json &fj,std::string &file, bool doimages, bool full);
+            nlohmann::json get_jann(std::string &file, bool doimages, bool full);
+
             void get_mimg(std::ostringstream &offset,std::string &file, bool doimages=true, bool full=false);
             void get_jimg(nlohmann::json &fj,std::string &file, bool doimages=true, bool full=false);
+
             bytes get_mimg(std::string file, bool doimages=true, bool full=false);
             bytes get_jimg(std::string file, bool doimages=true, bool full=false);
 
