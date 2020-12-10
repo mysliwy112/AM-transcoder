@@ -104,6 +104,7 @@ namespace am{
             transparency=fj.at("transparency");
         }catch(...){}
         try{
+            cout<<fj.at("check")<<endl;;
             check=fj.at("check");
         }catch(...){}
         log();
@@ -165,23 +166,11 @@ namespace am{
                 fj["sfx_seed"]=sfx_switch;
             fj["sfx"]=sounds;
         }
-        if(full){
+        if(0&&full){
             stringstream ss;
             for(int i=0;i<check.size();i++){
-                ss<<R"(\x)"<<std::hex<<+(uint8_t)check[i];
+                ss<<"\\x"<<std::hex<<+(uint8_t)check[i];
             }
-//            const char* tempBuf = check.c_str();
-//
-//
-//            const char* it = tempBuf;
-//            const char* end = tempBuf + std::strlen(tempBuf);
-//
-//            for (; it != end; ++it)
-//                ss << std::hex << unsigned(*it);
-//
-//            string result;
-//            ss >> result;
-//            fj["check"]=std::vector<std::uint8_t>(check.begin(),check.end());
             fj["check"]=ss.str();
         }
 

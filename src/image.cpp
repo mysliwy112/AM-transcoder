@@ -408,6 +408,8 @@ namespace am{
             mode=2;
         }else if(check=="PIK"){
             mode=3;
+        }else if(check[0]=='{'){
+            mode=4;
         }
         if(LOG)
             cout<<"Image mode:"<<mode<<endl;

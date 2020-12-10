@@ -88,7 +88,7 @@ namespace am{
         }catch(...){}
         log();
         int licz=0;
-        for(auto& elem : fj["frame"].items()){
+        for(auto& elem : fj["frames"].items()){
             if(licz>=frames.size())
                 frames.push_back(Frame());
             frames[licz].load_jann(elem.value(),files);

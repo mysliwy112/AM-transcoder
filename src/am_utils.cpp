@@ -103,7 +103,8 @@ namespace am{
     }
 
     void Graphics::load_jann(bytes data){
-        nlohmann::json fj = data;
+        nlohmann::json fj;
+        fj=nlohmann::json::parse(string(data.begin(),data.end()));
         vector<string>file;
         load_jann(fj,file);
     }

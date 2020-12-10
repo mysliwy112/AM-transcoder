@@ -183,7 +183,7 @@ int get_mode(am::bytes data){
         cout<<"Magic: "<<check<<endl;
     if(check.substr(0,3)=="NVP"||check.substr(0,3)=="NVM")
         return 0;
-    else if(check.substr(0,3)=="ANN")
+    else if(check.substr(0,3)=="ANN"||check.substr(0,1)=="{")
         return 1;
     else if(check.substr(0,3)=="PIK")
         return 2;

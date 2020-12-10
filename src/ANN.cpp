@@ -57,7 +57,7 @@ namespace am{
             cout<<"Number of events: "<<events.size()<<endl;
             cout<<"Author: "<<author<<endl;
             cout<<"Bpp: "<<bpp<<endl;
-            cout<<"Transparency: "<<author<<endl;
+            cout<<"Transparency: "<<transparency<<endl;
         }
     }
 
@@ -176,8 +176,8 @@ namespace am{
 //                cout<<"It's meta ann file!"<<endl;
 //            }
 //        }
-        events.clear();
-        images.clear();
+//        events.clear();
+//        images.clear();
         try{
             transparency=fj.at("transparency");
         }catch(...){}
@@ -194,7 +194,8 @@ namespace am{
             name=fj.at("name");
         }catch(...){}
         log();
-        for(auto& elem : fj["event"].items()){
+        for(auto& elem : fj["events"].items()){
+
             int index=get_event_index(elem.key());
             if(index==-1){
                 events.push_back(Event());
@@ -207,7 +208,7 @@ namespace am{
         for(int im=0;im<images.size();im++){
             images[im].read_png(mann_dir+files[im]);
         }
-        for(auto& elem : fj["image"].items()){
+        for(auto& elem : fj["images"].items()){
             images[add_file(files, elem.key())].load_jann(elem.value());
         }
     }
@@ -223,6 +224,8 @@ namespace am{
             mode=1;
         }else if(check=="ANN"){
             mode=2;
+        }else if(check[0]=='{'){
+            mode=3;
         }
 
         if(mode==0){
@@ -402,7 +405,7 @@ namespace am{
     void ANN::write_jann(string filename, bool doimages, bool full){
         mann_dir=filename;
         bytes data=get_jann(doimages, full);
-        write_file(filename+name+".jann",data);
+        write_file(filename+name+".json",data);
     }
 
     void ANN::write_ann(string filename, bool doimages){
