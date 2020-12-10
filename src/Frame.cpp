@@ -168,7 +168,7 @@ namespace am{
         if(full){
             stringstream ss;
             for(int i=0;i<check.size();i++){
-                ss<<std::hex<<+(uint8_t)check[i];
+                ss<<R"(\x)"<<std::hex<<+(uint8_t)check[i];
             }
 //            const char* tempBuf = check.c_str();
 //
