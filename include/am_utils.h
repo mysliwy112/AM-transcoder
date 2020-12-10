@@ -1,10 +1,12 @@
 #ifndef AM_UTILS_H
 #define AM_UTILS_H
 
-#include<vector>
-#include<string>
+#include <vector>
+#include <string>
 #include <sstream>
 #include <iterator>
+
+#include "json.hpp"
 
 namespace am{
     extern bool LOG;
@@ -41,7 +43,7 @@ namespace am{
             void load_ann(bytes data);
             virtual dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
             void load_mann(bytes data);
-            virtual dic load_jann(std::stringstream &offset,std::vector<std::string>&files);
+            virtual dic load_jann(nlohmann::json &fj,std::vector<std::string>&files);
             void load_jann(bytes data);
 
 
@@ -49,7 +51,7 @@ namespace am{
             bytes get_ann(bool doimages=true);
             virtual void get_mann(std::ostringstream &offset,std::vector<std::string>&files, bool doimages=true, bool full=false);
             bytes get_mann(bool doimages=true, bool full=false);
-            virtual void get_jann(std::ostringstream &offset,std::vector<std::string>&files, bool doimages=true, bool full=false);
+            virtual void get_jann(nlohmann::json &fj,std::vector<std::string>&files, bool doimages=true, bool full=false);
             bytes get_jann(bool doimages=true, bool full=false);
 
 

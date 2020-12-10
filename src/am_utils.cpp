@@ -102,6 +102,12 @@ namespace am{
         load_mann(offset,file);
     }
 
+    void Graphics::load_jann(bytes data){
+        nlohmann::json fj = data;
+        vector<string>file;
+        load_jann(fj,file);
+    }
+
     void Graphics::load_ann(bytes data){
         bytes::iterator offset=data.begin();
         load_ann(offset);
@@ -122,11 +128,23 @@ namespace am{
         return bytes(data.begin(),data.end());
     }
 
+    bytes Graphics::get_jann(bool doimages, bool full){
+        nlohmann::json fj;
+        vector<std::string> files;
+        get_jann(fj,files,doimages,full);
+        string data=fj.dump();
+        return bytes(data.begin(),data.end());
+    }
+
 
     dic Graphics::load_mann(stringstream &offset,vector<string>&file){
         cout<<"You shouldn't be here"<<endl;
         dic pic;
         return pic;
+    }
+
+    void Graphics::load_jann(nlohmann::json fj,vector<string>&file){
+        cout<<"You shouldn't be here"<<endl;
     }
 
     void Graphics::load_ann(bytes::iterator &offset){
@@ -135,6 +153,10 @@ namespace am{
 
     void Graphics::get_mann(ostringstream &offset,vector<std::string>&files, bool doimages, bool full){
         cout<<offset.str()<<endl;
+    }
+
+    void Graphics::get_mann(nlohmann::json fj,vector<std::string>&files, bool doimages, bool full){
+        cout<<fj<<endl;
     }
 
     void Graphics::get_ann(back_insert_iterator<bytes> &offset, bool doimages){

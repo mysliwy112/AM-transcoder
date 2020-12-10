@@ -77,6 +77,26 @@ namespace am{
         return dict;
     }
 
+    void Event::load_jann(enlohmann::json &fj,vector<string>&files){
+        //frames.clear();
+
+        try{
+            transparency=fj.at("transparency");
+        }catch(...){}
+        try{
+            loop=fj.at("loop");
+        }catch(...){}
+        log();
+        int licz=0;
+        for(auto& elem : fj["frame"]){
+            if(licz>=frames.size())
+                frames.push_back(Frame());
+            frames[licz].image_ref=add_file(files,elem.key());
+            frames[licz].load_jann(elem,files);
+            licz++;
+        }
+    }
+
     void Event::get_ann(back_insert_iterator<bytes> &offset, bool doimages){
         set_str(offset,name,0x20);
         set_int(offset,frames.size(),0x2);
@@ -108,6 +128,18 @@ namespace am{
         for(int fr=0;fr<frames.size();fr++){
             frames[fr].get_mann(offset,files, doimages, full);
             offset<<endl;
+        }
+    }
+
+    void Event::get_jann(enlohmann::json &fj,std::vector<std::string>&files, bool doimages, bool full){
+
+        if(loop_number!=0||full)
+            fj["loop"]=loop_number;
+        if(transparency!=255||full)
+             fj["transparency"]=transparency;
+        fj["frames"]={};
+        for(int fr=0;fr<frames.size();fr++){
+            fj["frames"].push_back({files[frames[fr].image_ref],frames[fr].get_mann(offset,files, doimages, full)});
         }
     }
 

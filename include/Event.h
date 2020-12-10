@@ -22,9 +22,11 @@ namespace am{
 
             void load_ann(bytes::iterator &offset);
             dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
+            dic load_jann(enlohmann::json &fj,std::vector<std::string>&files);
 
             void get_ann(std::back_insert_iterator<bytes> &offset, bool doimages);
             void get_mann(std::ostringstream &offset,std::vector<std::string>&files, bool doimages, bool full);
+            void get_jann(enlohmann::json &fj,std::vector<std::string>&files, bool doimages, bool full);
 
         protected:
 

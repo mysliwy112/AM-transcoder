@@ -47,12 +47,15 @@ namespace am{
 
             void load_ann(bytes::iterator &offset);
             dic load_mann(std::stringstream &offset);
+            void load_jann(nlohmann::json &fj);
 
             void load_img(bytes::iterator &offset);
             void load_img(bytes data);
 
             dic load_mimg(std::stringstream &offset);
+            void load_jimg(nlohmann::json &fj);
             void load_mimg(bytes data);
+            void load_jimg(bytes data);
 
             void load(bytes data);
             void load_png(bytes data);
@@ -65,8 +68,11 @@ namespace am{
             image_data get_am_data();
             image_data get_ann(bool doimages);
             void get_mann(std::ostringstream &offset,std::string &file, bool doimages, bool full);
+            void get_jann(nlohmann::json &fj,std::string &file, bool doimages, bool full);
             void get_mimg(std::ostringstream &offset,std::string &file, bool doimages=true, bool full=false);
+            void get_jimg(nlohmann::json &fj,std::string &file, bool doimages=true, bool full=false);
             bytes get_mimg(std::string file, bool doimages=true, bool full=false);
+            bytes get_jimg(std::string file, bool doimages=true, bool full=false);
 
             void load_data(bytes data);
             void load_rgba32(bytes data);
@@ -79,6 +85,7 @@ namespace am{
             void read_img(std::string filename);
             void write_img(std::string filename, bool doimages=true);
             void write_mimg(std::string filename, bool doimages=true, bool full=false);
+            void write_jimg(std::string filename, bool doimages=true, bool full=false);
             //void read_mimg(std::string filename);
 
             bytes decompress(bytes data, int type, int size);

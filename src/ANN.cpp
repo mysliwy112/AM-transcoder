@@ -164,6 +164,54 @@ namespace am{
         return dict;
     }
 
+    void ANN::load_jann(enlohmann::json &fj, vector<string>&files){
+
+//        dic dict;
+//        string check;
+//        offset>>check;
+//        if(LOG){
+//            if(check.compare("ANN")!=0){
+//                cout<<"Warning: Inappropriate check string"<<endl;
+//            }else{
+//                cout<<"It's meta ann file!"<<endl;
+//            }
+//        }
+        events.clear();
+        images.clear();
+        try{
+            transparency=fj.at("transparency");
+        }catch(...){}
+        try{
+            author=fj.at("author");
+        }catch(...){}
+        try{
+            bpp=fj.at("bpp");
+        }catch(...){}
+        try{
+            name=fj.at("name");
+        }catch(...){}
+        try{
+            name=fj.at("name");
+        }catch(...){}
+        log();
+        for(auto& elem : fj["event"]){
+            int index=get_event_index(elem.key());
+            if(index==-1){
+                events.push_back(Event());
+                events.back().name=elem.key();
+                index=events.size()-1;
+            }
+            events[index].load_jann(elem,files);
+        }
+        images.resize(files.size());
+        for(int im=0;im<images.size();im++){
+            images[im].read_png(mann_dir+files[im]);
+        }
+        for(auto& elem : j["image"]){
+            images[add_file(files, elem.key())].load_jann(fj);
+        }
+    }
+
 
     void ANN::load(bytes file){
         original=file;
@@ -183,6 +231,8 @@ namespace am{
             load_ann(file);
         }else if(mode==2){
             load_mann(file);
+        }else if(mode==3){
+            load_jann(file);
         }
     }
 
@@ -278,6 +328,64 @@ namespace am{
         }
     }
 
+    void ANN::get_jann(enlohmann::json &fj,vector<std::string>&files, bool doimages, bool full){
+        int log_n=0;
+        if(LOG){
+            cout<<"Writing jann"<<endl;
+        }
+
+
+        fj["author"]=author;
+        if(transparency!=255||full)
+            fj["transparency"]=transparency;
+        if(bpp!=16||full)
+             fj["bpp"]=bpp;
+        files.resize(images.size());
+
+        int pad_len;
+        if(PAD>-1)
+            pad_len=get_pad_len(images.size());
+
+        if(LOG){
+//            cout<<offset.str().substr(log_n)<<endl;
+//            log_n=offset.str().size();
+        }
+
+        for(int im=0;im<images.size();im++){
+
+            string number;
+            if(PAD>-1){
+                number=pad_int(im,pad_len);
+            }else{
+                number=to_string(im);
+            }
+
+            files[im]=name+"_"+number+".png";
+            if(doimages){
+                images[im].write_png(mann_dir+files[im]);
+            }
+        }
+
+        if(LOG){
+//            cout<<offset.str().substr(log_n)<<endl;
+//            log_n=offset.str().size();
+        }
+        fj["events"]={};
+        for(int ev=0;ev<events.size();ev++){
+            fj["events"].push_back({events[ev].name,events[ev].get_jann(fj,files,doimages,full)});
+        }
+
+        if(LOG){
+//            cout<<offset.str().substr(log_n)<<endl;
+//            log_n=offset.str().size();
+        }
+        fj["images"]={};
+        for(int im=0;im<images.size();im++){
+            fj["images"].push_back(files[im],images[im].get_jann(fj,files[im],doimages,full));
+        }
+    }
+
+
 
     void ANN::read_any(string filename){
         bytes data=read_file(filename);
@@ -290,6 +398,11 @@ namespace am{
         mann_dir=filename;
         bytes data=get_mann(doimages, full);
         write_file(filename+name+".mann",data);
+    }
+    void ANN::write_jann(string filename, bool doimages, bool full){
+        mann_dir=filename;
+        bytes data=get_jann(doimages, full);
+        write_file(filename+name+".jann",data);
     }
 
     void ANN::write_ann(string filename, bool doimages){

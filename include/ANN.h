@@ -42,14 +42,19 @@ namespace am{
             void load_ann(bytes::iterator &offset);
             using Graphics::load_mann;
             dic load_mann(std::stringstream &offset,std::vector<std::string>&files);
+            using Graphics::load_jann;
+            void load_jann(nlohmann::json &fj,std::vector<std::string>&files);
 
             using Graphics::get_ann;
             void get_ann(std::back_insert_iterator<bytes> &offset ,bool doimages=true);
             using Graphics::get_mann;
             void get_mann(std::ostringstream &offset,std::vector<std::string>&files ,bool doimages=true , bool full=false);
+            using Graphics::get_jann;
+            void get_jann(nlohmann::json &fj,std::vector<std::string>&files ,bool doimages=true , bool full=false);
 
             void read_any(std::string filename);
             void write_mann(std::string filename, bool doimages=true , bool full=false);
+            void write_jann(std::string filename, bool doimages=true , bool full=false);
             void write_ann(std::string filename, bool doimages=true);
 
             int get_event_index(std::string ev_name);

@@ -107,7 +107,7 @@
 
 1578165263 e:\cplusplus\ann-decoder\include\piklib8_shim.h
 
-1569705700 source:e:\aidemmedia\ann-decoder\icon.rc
+1569702100 source:e:\aidemmedia\ann-decoder\icon.rc
 
 1602964235 source:e:\aidemmedia\ann-decoder\main.cpp
 	<iostream>
@@ -120,7 +120,7 @@
 	"filesys.h"
 	"am_utils.h"
 
-1594656572 e:\aidemmedia\ann-decoder\include\pngformat.h
+1594652972 e:\aidemmedia\ann-decoder\include\pngformat.h
 	<vector>
 	<string>
 	"Image.h"
@@ -133,11 +133,11 @@
 	"Event.h"
 	"Image.h"
 
-1591906585 e:\aidemmedia\ann-decoder\include\filesys.h
+1591902985 e:\aidemmedia\ann-decoder\include\filesys.h
 	<string>
 	<vector>
 
-1591906812 source:e:\aidemmedia\ann-decoder\src\filesys.cpp
+1591903212 source:e:\aidemmedia\ann-decoder\src\filesys.cpp
 	"filesys.h"
 	"am_utils.h"
 	<windows.h>
@@ -145,7 +145,7 @@
 	<iostream>
 	<fstream>
 
-1594656058 source:e:\aidemmedia\ann-decoder\src\pngformat.cpp
+1594652458 source:e:\aidemmedia\ann-decoder\src\pngformat.cpp
 	"PNGformat.h"
 	<png.h>
 	<jpeglib.h>
@@ -195,11 +195,12 @@
 	<iostream>
 	<sstream>
 
-1594642417 e:\aidemmedia\ann-decoder\include\am_utils.h
+1607613322 e:\aidemmedia\ann-decoder\include\am_utils.h
 	<vector>
 	<string>
 	<sstream>
 	<iterator>
+	"json.hpp"
 
 1594677006 source:e:\aidemmedia\ann-decoder\src\event.cpp
 	"Event.h"
@@ -218,7 +219,7 @@
 	"Frame.h"
 	<iostream>
 
-1594744375 e:\aidemmedia\ann-decoder\include\image.h
+1607617826 e:\aidemmedia\ann-decoder\include\image.h
 	<vector>
 	<string>
 	"am_utils.h"
@@ -232,32 +233,195 @@
 	"CRLE.h"
 	"Image.h"
 
-1555265432 e:\lib\lpng\png.h
+1555261832 e:\lib\lpng\png.h
 	"pnglibconf.h"
 	"pngconf.h"
 
 1591378334 e:\lib\lpng\build\x64\pnglibconf.h
 
-1555265432 e:\lib\lpng\pngconf.h
+1555261832 e:\lib\lpng\pngconf.h
 	<limits.h>
 	<stddef.h>
 	<stdio.h>
 	<setjmp.h>
 	<time.h>
 
-1591380390 e:\lib\lpng\build\x32\pnglibconf.h
+1591376790 e:\lib\lpng\build\x32\pnglibconf.h
 
-1577779830 e:\lib\libjpeg-turbo\jpeglib.h
+1577776230 e:\lib\libjpeg-turbo\jpeglib.h
 	"jconfig.h"
 	"jmorecfg.h"
 	"jpegint.h"
 	"jerror.h"
 
-1591918553 e:\lib\libjpeg-turbo\build\x32\jconfig.h
+1591914953 e:\lib\libjpeg-turbo\build\x32\jconfig.h
 
-1577779830 e:\lib\libjpeg-turbo\jmorecfg.h
+1577776230 e:\lib\libjpeg-turbo\jmorecfg.h
 
-1577779830 e:\lib\libjpeg-turbo\jpegint.h
+1577776230 e:\lib\libjpeg-turbo\jpegint.h
 
-1577779830 e:\lib\libjpeg-turbo\jerror.h
+1577776230 e:\lib\libjpeg-turbo\jerror.h
+
+1607611171 e:\aidemmedia\ann-decoder\include\json.hpp
+	<algorithm>
+	<cstddef>
+	<functional>
+	<initializer_list>
+	<iosfwd>
+	<iterator>
+	<memory>
+	<numeric>
+	<string>
+	<utility>
+	<vector>
+	<utility>
+	<algorithm>
+	<array>
+	<forward_list>
+	<iterator>
+	<map>
+	<string>
+	<tuple>
+	<type_traits>
+	<unordered_map>
+	<utility>
+	<valarray>
+	<exception>
+	<stdexcept>
+	<string>
+	<cstddef>
+	<utility>
+	<stdint.h>
+	<stdint.h>
+	<cstdlib>
+	<cassert>
+	<cstddef>
+	<type_traits>
+	<limits>
+	<type_traits>
+	<utility>
+	<iterator>
+	<type_traits>
+	<cstdint>
+	<map>
+	<memory>
+	<string>
+	<vector>
+	<array>
+	<cstddef>
+	<cstdint>
+	<string>
+	<algorithm>
+	<iterator>
+	<string>
+	<tuple>
+	<type_traits>
+	<utility>
+	<valarray>
+	<vector>
+	<cstddef>
+	<iterator>
+	<string>
+	<tuple>
+	<cstdint>
+	<tuple>
+	<utility>
+	<cstddef>
+	<functional>
+	<algorithm>
+	<array>
+	<cmath>
+	<cstddef>
+	<cstdint>
+	<cstdio>
+	<cstring>
+	<iterator>
+	<limits>
+	<string>
+	<utility>
+	<array>
+	<cstddef>
+	<cstdio>
+	<cstring>
+	<istream>
+	<iterator>
+	<memory>
+	<numeric>
+	<string>
+	<type_traits>
+	<utility>
+	<cstddef>
+	<string>
+	<utility>
+	<vector>
+	<array>
+	<clocale>
+	<cstddef>
+	<cstdio>
+	<cstdlib>
+	<initializer_list>
+	<string>
+	<utility>
+	<vector>
+	<cstdint>
+	<utility>
+	<string>
+	<cmath>
+	<cstdint>
+	<functional>
+	<string>
+	<utility>
+	<vector>
+	<cstddef>
+	<limits>
+	<iterator>
+	<type_traits>
+	<cstddef>
+	<iterator>
+	<utility>
+	<algorithm>
+	<cctype>
+	<limits>
+	<numeric>
+	<string>
+	<utility>
+	<vector>
+	<initializer_list>
+	<utility>
+	<algorithm>
+	<array>
+	<cstdint>
+	<cstring>
+	<limits>
+	<string>
+	<cmath>
+	<algorithm>
+	<cstddef>
+	<ios>
+	<iterator>
+	<memory>
+	<ostream>
+	<string>
+	<vector>
+	<algorithm>
+	<array>
+	<clocale>
+	<cmath>
+	<cstddef>
+	<cstdint>
+	<cstdio>
+	<limits>
+	<string>
+	<type_traits>
+	<utility>
+	<array>
+	<cmath>
+	<cstdint>
+	<cstring>
+	<limits>
+	<type_traits>
+	<functional>
+	<memory>
+	<utility>
+	<vector>
 

@@ -79,6 +79,35 @@ namespace am{
         return dict;
     }
 
+    void Frame::load_jann(enlohmann::json &fj,vector<string>&files){
+        try{
+            position_x=fj.at("position_x");
+        }catch(...){}
+        try{
+            position_y=fj.at("position_y");
+        }catch(...){}
+        try{
+            sfx_switch=fj.at("sfx_seed");
+        }catch(...){}
+        try{
+            sounds=fj.at("sfx");
+            if(sfx_switch==0){
+                srand(sounds.size());
+                sfx_switch=rand();
+            }
+        }catch(...){}
+        try{
+            name=fj.at("name");
+        }catch(...){}
+        try{
+            transparency=fj.at("transparency");
+        }catch(...){}
+        try{
+            check=fj.at("check");
+        }catch(...){}
+        log();
+    }
+
     void Frame::get_ann(back_insert_iterator<bytes> &offset, bool doimages){
         set_str(offset,check,0x4);
         set_data(offset,bytes(0x4,0));
@@ -119,4 +148,23 @@ namespace am{
     }
 
 
+    void Frame::get_jann(enlohmann::json &fj,std::vector<std::string>& files, bool doimages, bool full){
+
+        //if(full)
+            fj["name"]=name;
+
+        if(position_x!=0||full)
+            fj["position_x"]=position_x;
+        if(position_y!=0||full)
+            fj["position_y"]=position_y;
+
+        if(sfx_switch!=0){
+            if(full)
+                fj["sfx_seed"]=sfx_switch;
+            fj["sfx"]=sounds;
+        }
+        if(full)
+            ofj["check"]=check;
+
+    }
 }

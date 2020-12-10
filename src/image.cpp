@@ -69,6 +69,23 @@ namespace am{
         return dict;
     }
 
+    void Image::load_mann(nlohmann::json &fj){
+        try{
+            name=fj.at("name");
+        }catch(...){}
+        try{
+            position_x=fj.at("position_x");
+        }catch(...){}
+        try{
+            position_y=fj.at("position_y");
+        }catch(...){}
+        try{
+            compression=fj.at("compression");
+        }catch(...){}
+        log();
+    }
+
+
     dic Image::load_mimg(stringstream &offset){
         dic dict;
         string check;
@@ -115,10 +132,56 @@ namespace am{
         return dict;
     }
 
+    void Image::load_mann(nlohmann::json &fj){
+        string image_name;
+        try{
+            name=fj.at("name");
+        }catch(...){}
+        try{
+            position_x=fj.at("position_x");
+        }catch(...){}
+        try{
+            position_y=fj.at("position_y");
+        }catch(...){}
+        try{
+            compression=fj.at("compression");
+        }catch(...){}
+        try{
+            image_name=fj.at("image");
+        }catch(...){}
+
+        if(name.size()==0)
+            name=get_file_name(image_name);
+        Image read=read_PNG(image_name);
+        if(width==0)
+            width=read.width;
+        if(height==0)
+            height=read.height;
+        rgba32=read.rgba32;
+
+
+        try{
+            width=fj.at("width");
+        }catch(...){}
+        try{
+            height=fj.at("height");
+        }catch(...){}
+
+
+
+        log();
+    }
+
     void Image::load_mimg(bytes data){
         stringstream offset(string((char*)data.data(),data.size()));
         vector<string>file;
         load_mimg(offset);
+    }
+
+    void Image::load_jimg(bytes data){
+        nlohmann::json fj=data;
+        vector<string>file;
+        load_jimg(fj);
     }
 
 
@@ -248,6 +311,22 @@ namespace am{
             offset<<"\tcompression="<<compression<<endl;
     }
 
+    void Image::get_jann(nlohmann::json &fs,string &file, bool doimages, bool full){
+//        fj["image"]=file;
+        //if(full)
+            fj["name"]=name;
+        if(position_x!=0)
+             fj["position_x"]=position_x;
+        if(position_y!=0)
+            fj["position_y"]=position_y;
+//        if(full)
+//            offset<<"\twidth="<<width<<endl;
+//        if(full)
+//            offset<<"\theight="<<height<<endl;
+        if(full)
+            fj["compression"]=compression;
+    }
+
     void Image::get_mimg(ostringstream &offset,string &file, bool doimages, bool full){
         offset<<"IMG"<<endl<<endl;
         if(doimages)
@@ -269,11 +348,38 @@ namespace am{
         if(doimages)
             write_png(file);
     }
+    void Image::get_jimg(nlohmann::json &fs,string &file, bool doimages, bool full){
+        if(doimages)
+            fj["image"]=file;
+        if(full)
+            fj["name"]=name;
+        if(full)
+            fj["bpp"]=bpp;
+        if(position_x!=0||full)
+            fj["position_x"]=position_x;
+        if(position_y!=0||full)
+            fj["position_y"]=position_y;
+        if(full)
+            fj["width"]=width;
+        if(full)
+            fj["height"]=height;
+        if(full)
+            fj["compression"]=compression;
+        if(doimages)
+            write_png(file);
+    }
 
     bytes Image::get_mimg(string file,bool doimages, bool full){
         ostringstream offset;
         get_mimg(offset,file,doimages,full);
         string data=offset.str();
+        return bytes(data.begin(),data.end());
+    }
+
+    bytes Image::get_jimg(string file,bool doimages, bool full){
+        nlohmann::json fs
+        get_jimg(fs,file,doimages,full);
+        string data=fs.dump();
         return bytes(data.begin(),data.end());
     }
 
@@ -312,6 +418,8 @@ namespace am{
             load_mimg(file);
         }else if(mode==3){
             load_img(file);
+        }else if(mode==4){
+            load_jimg(file);
         }
     }
 
@@ -360,6 +468,10 @@ namespace am{
 
     void Image::write_mimg(std::string filename, bool doimages, bool full){
         write_file(filename+".mimg",get_mimg(filename+".png",doimages,full));
+    }
+
+    void Image::write_jimg(std::string filename, bool doimages, bool full){
+        write_file(filename+".jimg",get_jimg(filename+".png",doimages,full));
     }
 
     bytes Image::decompress(bytes data, int type, int size){
