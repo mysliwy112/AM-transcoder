@@ -23,6 +23,14 @@ namespace am{
         bytes alpha;
     };
 
+    struct align_data{
+        int max_x=0;
+        int max_y=0;
+        int min_x=0;
+        int min_y=0;
+        bool set=false;
+    };
+
     class Image : public Graphics
     {
         public:
@@ -32,11 +40,11 @@ namespace am{
 
             std::string mann_dir;
 
-            unsigned int width=0;
-            unsigned int height=0;
+            int width=0;
+            int height=0;
 
-            short position_x=0;
-            short position_y=0;
+            int position_x=0;
+            int position_y=0;
 
             unsigned int image_size;
             unsigned int alpha_size;
@@ -44,6 +52,8 @@ namespace am{
             int bpp=16;
 
             bytes rgba32;
+
+            align_data al_dat;
 
             void load_ann(bytes::iterator &offset);
             dic load_mann(std::stringstream &offset);
@@ -98,7 +108,8 @@ namespace am{
             void add_alpha(image_data img=image_data());
             image_data split_rgba32();
 
-            void align(int max_x=0, int max_y=0, int min_x=0, int min_y=0);
+            void align();
+            void add_align(int max_x=0, int max_y=0, int min_x=0, int min_y=0);
             void dealign();
 
 
