@@ -540,7 +540,6 @@ namespace am{
 
     void Image::add_align(int max_x, int max_y, int min_x, int min_y){
         al_dat.max_x+=max_x;
-        cout<<"writ "<<al_dat.max_x<<endl;
         al_dat.max_y+=max_y;
         al_dat.min_x+=min_x;
         al_dat.min_y+=min_y;
@@ -554,7 +553,7 @@ namespace am{
         if(al_dat.set==false)
             return;
 
-       // if(LOG)
+       if(LOG)
             cout<<"Aligning... max>"<<max_x<<" "<<position_x+width<<"<sum max>"<<max_y<<" "<<position_y+height<<"<sum ";
         if(max_x==0)
             max_x=position_x+width;
@@ -589,7 +588,7 @@ namespace am{
         height=new_height;
 
         rgba32=data;
-        //if(LOG)
+        if(LOG)
             cout<<"completed"<<endl;
         al_dat.max_x=0;
         al_dat.max_y=0;
