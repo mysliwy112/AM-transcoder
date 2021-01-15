@@ -14,8 +14,8 @@ namespace am{
 
             unsigned short image_ref;
             std::string check="`}U.";
-            short position_x=0;
-            short position_y=0;
+            int position_x=0;
+            int position_y=0;
             unsigned int sfx_switch=0;
             int transparency=255;
             std::string name="none";
