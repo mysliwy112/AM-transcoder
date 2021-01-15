@@ -538,32 +538,8 @@ namespace am{
         return data;
     }
 
-<<<<<<< HEAD
-    void Image::add_align(int max_x, int max_y, int min_x, int min_y){
-        al_dat.max_x+=max_x;
-        cout<<"writ "<<al_dat.max_x<<endl;
-        al_dat.max_y+=max_y;
-        al_dat.min_x+=min_x;
-        al_dat.min_y+=min_y;
-        al_dat.set=true;
-    }
-    void Image::align(){
-        int max_x=al_dat.max_x;
-        int max_y=al_dat.max_y;
-        int min_x=al_dat.min_x;
-        int min_y=al_dat.min_y;
-        if(al_dat.set==false)
-            return;
-
-<<<<<<< HEAD
-       // if(LOG)
-=======
-       if(LOG)
-=======
     void Image::align(int max_x, int max_y, int min_x, int min_y){
         if(LOG)
->>>>>>> parent of a0269a0... Make -a more efficient. +Now it generates images in reversed order.
->>>>>>> 65f0dda... Revert "Make -a more efficient. +Now it generates images in reversed order."
             cout<<"Aligning... max>"<<max_x<<" "<<position_x+width<<"<sum max>"<<max_y<<" "<<position_y+height<<"<sum ";
         if(max_x==0)
             max_x=position_x+width;
@@ -598,7 +574,7 @@ namespace am{
         height=new_height;
 
         rgba32=data;
-        //if(LOG)
+        if(LOG)
             cout<<"completed"<<endl;
     }
 

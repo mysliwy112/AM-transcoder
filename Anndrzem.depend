@@ -156,15 +156,7 @@
 	<stdio.h>
 	<setjmp.h>
 
-<<<<<<< HEAD
-1610734600 source:e:\aidemmedia\ann-decoder\src\ann.cpp
-=======
-<<<<<<< HEAD
-1610735947 source:e:\aidemmedia\ann-decoder\src\ann.cpp
-=======
 1607633423 source:e:\aidemmedia\ann-decoder\src\ann.cpp
->>>>>>> parent of a0269a0... Make -a more efficient. +Now it generates images in reversed order.
->>>>>>> 65f0dda... Revert "Make -a more efficient. +Now it generates images in reversed order."
 	"ANN.h"
 	<iostream>
 	<fstream>
@@ -223,15 +215,7 @@
 	<string>
 	"am_utils.h"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-1610733683 source:e:\aidemmedia\ann-decoder\src\frame.cpp
-=======
-1607633532 source:e:\aidemmedia\ann-decoder\src\frame.cpp
->>>>>>> parent of e59c94d... Completed json support
-=======
 1607723103 source:e:\aidemmedia\ann-decoder\src\frame.cpp
->>>>>>> parent of a0269a0... Make -a more efficient. +Now it generates images in reversed order.
 	"Frame.h"
 	<iostream>
 
@@ -240,15 +224,7 @@
 	<string>
 	"am_utils.h"
 
-<<<<<<< HEAD
-1610735126 source:e:\aidemmedia\ann-decoder\src\image.cpp
-=======
-<<<<<<< HEAD
-1610735972 source:e:\aidemmedia\ann-decoder\src\image.cpp
-=======
 1607632103 source:e:\aidemmedia\ann-decoder\src\image.cpp
->>>>>>> parent of a0269a0... Make -a more efficient. +Now it generates images in reversed order.
->>>>>>> 65f0dda... Revert "Make -a more efficient. +Now it generates images in reversed order."
 	<iostream>
 	"am_utils.h"
 	"PNGformat.h"
