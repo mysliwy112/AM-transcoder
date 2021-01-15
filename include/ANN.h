@@ -62,7 +62,7 @@ namespace am{
             std::string mann_dir="";
 
             void align_images();
-            void align_sequence(std::vector<Image> &img, int event_id);
+            std::vector<Image> align_sequence(int event_id);
             std::vector<Image> align_sequences();
             void align(std::vector<Image> &img);
 
