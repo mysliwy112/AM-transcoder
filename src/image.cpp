@@ -19,10 +19,10 @@ namespace am{
 
     void Image::load_ann(bytes::iterator &offset)
     {
-        width=(unsigned short)get_int(offset,0x2);
-        height=(unsigned short)get_int(offset,0x2);
-        position_x=(short)get_int(offset,0x2);
-        position_y=(short)get_int(offset,0x2);
+        width=get_int(offset,0x2);
+        height=get_int(offset,0x2);
+        position_x=get_int(offset,0x2);
+        position_y=get_int(offset,0x2);
         compression=get_int(offset,0x2);
         image_size=get_int(offset,0x4);
 
@@ -538,6 +538,7 @@ namespace am{
         return data;
     }
 
+<<<<<<< HEAD
     void Image::add_align(int max_x, int max_y, int min_x, int min_y){
         al_dat.max_x+=max_x;
         cout<<"writ "<<al_dat.max_x<<endl;
@@ -554,7 +555,15 @@ namespace am{
         if(al_dat.set==false)
             return;
 
+<<<<<<< HEAD
        // if(LOG)
+=======
+       if(LOG)
+=======
+    void Image::align(int max_x, int max_y, int min_x, int min_y){
+        if(LOG)
+>>>>>>> parent of a0269a0... Make -a more efficient. +Now it generates images in reversed order.
+>>>>>>> 65f0dda... Revert "Make -a more efficient. +Now it generates images in reversed order."
             cout<<"Aligning... max>"<<max_x<<" "<<position_x+width<<"<sum max>"<<max_y<<" "<<position_y+height<<"<sum ";
         if(max_x==0)
             max_x=position_x+width;
@@ -591,11 +600,6 @@ namespace am{
         rgba32=data;
         //if(LOG)
             cout<<"completed"<<endl;
-        al_dat.max_x=0;
-        al_dat.max_y=0;
-        al_dat.min_x=0;
-        al_dat.min_y=0;
-        al_dat.set=false;
     }
 
     void Image::dealign(){

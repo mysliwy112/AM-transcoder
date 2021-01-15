@@ -13,8 +13,8 @@ namespace am{
         check=get_str(offset,0x4);
         advance(offset,0x4);
 
-        position_x=(short)get_int(offset,0x2);
-        position_y=(short)get_int(offset,0x2);
+        position_x=get_int(offset,0x2);
+        position_y=get_int(offset,0x2);
 
         advance(offset,0x4);
 

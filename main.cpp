@@ -292,17 +292,13 @@ int main(int argc, char *argv[])
 
                     if(flags.offset&&!flags.sequence){
                         for(am::Image&image:ann.images)
-                            image.add_align(image.position_x+image.width+flags.offset.arg,
+                            image.align(image.position_x+image.width+flags.offset.arg,
                                         image.position_y+image.height+flags.offset.arg,
                                         image.position_x-flags.offset.arg,
                                         image.position_y-flags.offset.arg);
-
                     }
 
-
                     if(flags.metafile||flags.json){
-                        for(am::Image&image:ann.images)
-                            image.align();
                         if(flags.metafile){
                             if(flags.metafile.arg.size()>0)
                                 ann.name=flags.metafile.arg;
@@ -314,58 +310,50 @@ int main(int argc, char *argv[])
                             ann.write_jann(out_dir,flags.images,flags.full);
                         }
                     }else if(flags.sequence){
-                        if(flags.images){
-                            vector<am::Image> images;
+                        vector<am::Image> images;
 
-                            int event_id=get_events_ids(ann);
+                        int event_id=get_events_ids(ann);
 
-
+                        if(flags.align){
+                            images=ann.align_sequence(event_id);
+                        }else{
                             for(int fr=0;fr<ann.events[event_id].frames.size();fr++){
                                 images.push_back(ann.images[ann.events[event_id].frames[fr].image_ref]);
                             }
+                        }
 
-                            if(flags.align){
-                                ann.align_sequence(images,event_id);
-                            }
+                        if(flags.offset.arg){
+                            for(am::Image&image:images)
+                                image.align(image.position_x+image.width+flags.offset.arg,
+                                            image.position_y+image.height+flags.offset.arg,
+                                            image.position_x-flags.offset.arg,
+                                            image.position_y-flags.offset.arg);
+                        }
 
-                            if(flags.offset.arg){
-                                for(am::Image&image:images)
-                                    image.add_align(image.position_x+image.width+flags.offset.arg,
-                                                image.position_y+image.height+flags.offset.arg,
-                                                image.position_x-flags.offset.arg,
-                                                image.position_y-flags.offset.arg);
-                            }
+                        int pad_len=get_pad_len(ann.events[event_id].frames.size());
 
+                        for(int fr=0;fr<ann.events[event_id].frames.size();fr++){
 
-                            int pad_len=get_pad_len(ann.images.size());
-                            for(int fr=ann.events[event_id].frames.size()-1;fr>=0;fr--){
-
-                                string number;
-                                if(flags.pad)
-                                    number=pad_int(fr,pad_len);
-                                else
-                                    number=to_string(fr);
-
-                                images[fr].align();
+                            string number;
+                            if(flags.pad)
+                                number=pad_int(fr,pad_len);
+                            else
+                                number=to_string(fr);
+                            if(flags.images)
                                 images[fr].write_png(out_dir+ann.events[event_id].name+"_"+number+".png");
-                                images.pop_back();
-                            }
                         }
                     }else{
-                        if(flags.images){
-                            int pad_len=get_pad_len(ann.images.size());
 
-                            for(int im=ann.images.size()-1;im>=0;im--){
-                                string number;
-                                if(flags.pad)
-                                    number=pad_int(im,pad_len);
-                                else
-                                    number=to_string(im);
+                        int pad_len=get_pad_len(ann.images.size());
 
-                                ann.images[im].align();
+                        for(int im=0;im<ann.images.size();im++){
+                            string number;
+                            if(flags.pad)
+                                number=pad_int(im,pad_len);
+                            else
+                                number=to_string(im);
+                            if(flags.images)
                                 ann.images[im].write_png(out_dir+ann.name+"_"+number+".png");
-                                ann.images.pop_back();
-                            }
                         }
                     }
                 }else if(what==code_ann){
@@ -405,16 +393,15 @@ int main(int argc, char *argv[])
                     }
 
                     if(flags.align){
-                        image.add_align();
+                        image.align();
                     }
                     if(flags.offset){
-                        image.add_align(image.position_x+image.width+flags.offset.arg,
+                        image.align(image.position_x+image.width+flags.offset.arg,
                                     image.position_y+image.height+flags.offset.arg,
                                     image.position_x-flags.offset.arg,
                                     image.position_y-flags.offset.arg);
                     }
 
-                    image.align();
 
 
                     if(flags.metafile||flags.json){
