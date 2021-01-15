@@ -104,9 +104,8 @@ namespace am{
             transparency=fj.at("transparency");
         }catch(...){}
         try{
-            bytes a(4);
-            a=fj.at("check").get<bytes>();
-            check=string(a.begin(),a.end());
+            cout<<fj.at("check")<<endl;;
+            check=fj.at("check");
         }catch(...){}
         log();
     }
@@ -167,8 +166,12 @@ namespace am{
                 fj["sfx_seed"]=sfx_switch;
             fj["sfx"]=sounds;
         }
-        if(full){
-            fj["check"]=vector<uint8_t>(check.begin(),check.end());
+        if(0&&full){
+            stringstream ss;
+            for(int i=0;i<check.size();i++){
+                ss<<"\\x"<<std::hex<<+(uint8_t)check[i];
+            }
+            fj["check"]=ss.str();
         }
 
 

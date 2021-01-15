@@ -11,12 +11,12 @@ or use console `anndrzem kretes.ann -m` to extract images and kretes.mann.
 
 ###### Supported formats:
 * .img => .png
-* .ann => multiple .png and .(j)mann if specified.
+* .ann => multiple .png and .mann if specified.
 * .png/.mimg => .img
-* .(j)mann and aditional .png => .ann
+* .mann and aditional .png => .ann
 
 
-To get around complexity and additional data stored by ann, special MetaANN file for encoding ann was created. It should be readable and editable config file. You can create it by hand, or just by extracting ann file with -m flag. To get additional information and specification of mann file look into [MANN_DOC.md](MANN_DOC.md). Now anndrzem supports saving mann as json file.
+To get around complexity and additional data stored by ann, special MetaANN file for encoding ann was created. It should be readable and editable config file. You can create it by hand, or just by extracting ann file with -m flag. To get additional information and specification of mann file look into [MANN_DOC.md](MANN_DOC.md).
 
 Because decoder is CLI application it can take additional arguments.
 (To open CMD in folder, one should, while holding Shift, click on empty space in folder and choose option "Open command window here") later after typing the name of the program, it is possible to add parameters.
@@ -50,10 +50,6 @@ Will create additional directory named kretes/ and decode there. While with -n i
 -m(etafile) Creates MetaANN file and additional images, used for encoding anns.
 `anndrzem -m kretes.ann`
 Will create kretes.mann and additional png files representing images from ann. For mann documentation look into MANN_DOC.md.
-
--j(son) Creates MetaANN file in json format.
-`anndrzem -j kretes.ann`
-Works the same as -m but uses json syntax. Refer to MANN_DOC.md for semi informations.
 
 -s(equence) Creates event sequence, can take one argument - event name:
 Extracts specific animation from ann file, name of event to extract can be specified on runtime, after program list events' names. You can type : to get event by id.
