@@ -303,10 +303,10 @@ namespace am{
             offset<<"\tposition_x="<<position_x<<endl;
         if(position_y!=0)
             offset<<"\tposition_y="<<position_y<<endl;
-//        if(full)
-//            offset<<"\twidth="<<width<<endl;
-//        if(full)
-//            offset<<"\theight="<<height<<endl;
+        if(full)
+            offset<<"\twidth="<<width<<endl;
+        if(full)
+            offset<<"\theight="<<height<<endl;
         if(full)
             offset<<"\tcompression="<<compression<<endl;
     }
@@ -445,6 +445,14 @@ namespace am{
     }
 
     void Image::write_png(string filename){
+        if(rgba32.size()==0){
+            width=1;
+            height=1;
+            rgba32.push_back(0);
+            rgba32.push_back(0);
+            rgba32.push_back(0);
+            rgba32.push_back(0);
+        }
         write_PNG(rgba32,width,height,8,filename);
     }
 
