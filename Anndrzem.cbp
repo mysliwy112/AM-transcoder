@@ -23,7 +23,7 @@
 				<Option compiler="gnu_gcc_32" />
 				<Option parameters='-directory &quot;bin/Release/reksio.ann&quot; -pl -o=40' />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-O3" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />

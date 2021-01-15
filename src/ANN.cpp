@@ -442,15 +442,15 @@ namespace am{
             if(LOG)
                 cout<<im<<" ";
             im++;
-            image.add_align(max_x,max_y,min_x,min_y);
+            image.align(max_x,max_y,min_x,min_y);
         }
-        if(LOG)
-            cout<<endl;
     }
 
 
-    void ANN::align_sequence(vector<Image> &img, int event_id){
+    vector<Image> ANN::align_sequence(int event_id){
         vector<Frame> &frames=events[event_id].frames;
+
+        vector<Image> img;
 
         for(int fr=0;fr<frames.size();fr++){
             img.push_back(images[frames[fr].image_ref]);
@@ -458,6 +458,7 @@ namespace am{
             img[fr].position_y+=frames[fr].position_y;
         }
         align(img);
+        return img;
     }
 
     vector<Image> ANN::align_sequences(){
