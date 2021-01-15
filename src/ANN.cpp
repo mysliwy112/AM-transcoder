@@ -427,6 +427,7 @@ namespace am{
 
         for(Image &image:img){
             x=image.position_x+image.width;
+            cout<<x<<" "<<max_x<<endl;
             if(x>max_x)
                 max_x=x;
             if(image.position_x<min_x)

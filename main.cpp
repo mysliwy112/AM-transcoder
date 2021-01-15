@@ -231,7 +231,7 @@ int main(int argc, char *argv[])
         am::LOG=flags.log;
 
         for(string &filename : filenames){
-            try{
+//            try{
                 string out_dir;
 
                 if(flags.file_dir){
@@ -435,20 +435,21 @@ int main(int argc, char *argv[])
                     }
                     image.write_img(out_dir+image.name+".img",flags.images);
                 }
-            }catch(...){
-                if(flags.ignore==false){
-                    cout<<"Can't process: "<<filename<<endl;
-                    cout<<"Please contact developer if you think it's program's error."<<endl;
-                    cout<<"Continue with further files? [y/n] ";
-                    char yes;
-                    cin>>yes;
-                    if(yes!='y')
-                        return -1;
-                }
-            }
+//            }catch(...){
+//                if(flags.ignore==false){
+//                    cout<<"Can't process: "<<filename<<endl;
+//                    cout<<"Please contact developer if you think it's program's error."<<endl;
+//                    cout<<"Continue with further files? [y/n] ";
+//                    char yes;
+//                    cin>>yes;
+//                    if(yes!='y')
+//                        return -1;
+//                }
+//            }
 
         }
         cout<<"No more files to process"<<endl;
+        system("pause");
     }else{
         cout<<"No files to process"<<endl;
         help_page();
